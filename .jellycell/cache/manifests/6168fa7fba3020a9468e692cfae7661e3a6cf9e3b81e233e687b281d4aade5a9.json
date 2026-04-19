@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "cache_key": "6168fa7fba3020a9468e692cfae7661e3a6cf9e3b81e233e687b281d4aade5a9",
+  "notebook": "notebooks/09_paper_figures.py",
+  "cell_id": "09_paper_figures:5",
+  "cell_name": "fit_event_study",
+  "source_hash": "8bea89f7209db17ba4bc4064b6c7e77bd92f7db01ed15619d08363f85fc5096a",
+  "dep_keys": [],
+  "env_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "executed_at": "2026-04-19T17:38:55.273632Z",
+  "duration_ms": 669,
+  "status": "ok",
+  "outputs": [
+    {
+      "type": "stream",
+      "name": "stdout",
+      "blob": "57f87b40a38ff35b64ccc938c07df56fd5338d64b2a128f2bcf50f442c166b71"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/paper_v2/event_study_coefs.parquet",
+      "sha256": "d2756f8b749d57118dae1e9da77472202c17b719f023695e5e42bb402f3fe3f7",
+      "size": 5218,
+      "mime": null,
+      "caption": "Event-study coefficients (TWFE with τ-dummies, ref τ=-1, clustered SE)",
+      "notes": null,
+      "tags": []
+    }
+  ]
+}

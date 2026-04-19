@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "cache_key": "22119b458f467c917ec9dd4da8ae1a7dbcf34ac5f7e0724d84b4cd15732631a0",
+  "notebook": "notebooks/09_paper_figures.py",
+  "cell_id": "09_paper_figures:6",
+  "cell_name": "compute_cd_deltas",
+  "source_hash": "3380c9a2b2a52f2ef6077c46f36e88df8fcb3df3ac7a87709d29a547ee4cdb0d",
+  "dep_keys": [],
+  "env_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "executed_at": "2026-04-19T17:38:55.291532Z",
+  "duration_ms": 15,
+  "status": "ok",
+  "outputs": [
+    {
+      "type": "stream",
+      "name": "stdout",
+      "blob": "3835c68e217257dd934f273a0a27f0fc27d5b9c1c6fe1f1785db63b5a904fcd1"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/paper_v2/cd_deltas.parquet",
+      "sha256": "425abab1e182a46619822d2edb2f1c485d49b1f25cd17c903aca2df84c8ad8fa",
+      "size": 5591,
+      "mime": null,
+      "caption": "Per-CD pre/post mean monthly complaint deltas (Jun 2024 cutoff)",
+      "notes": null,
+      "tags": []
+    }
+  ]
+}

@@ -144,3 +144,54 @@ Disable via `[journal] enabled = false` in `jellycell.toml`.
 - `artifacts/density_continuity.parquet` (4.4 KB) — Manual chi-square density continuity at the cutoff (rddensity unusable on pandas ≥ 2; no modern alternative as of 2026)
 - `artifacts/rdrobust_plot.png` (64.1 KB)
 - `artifacts/spatial_lag_did.json` (312 B) — Spatial-lag DiD: TWFE + spatial autoregressive residuals (3 km neighborhoods)
+
+## 2026-04-19T17:38:56+00:00 — `notebooks/09_paper_figures.py`
+
+> **Status:** ok · 10 ran · 0 cached · 0 errored · 17442ms
+
+**Artifacts:**
+- `artifacts/paper_v2/figures/F1_timeline.png` (29.6 KB) — Figure 1 — Treatment timeline
+- `artifacts/paper_v2/staggered_did_v2.json` (161 B) — Callaway & Sant'Anna staggered DiD (corrected signature)
+- `artifacts/paper_v2/scm_trajectory_v2.json` (1008 B) — Synthetic control trajectory (Manhattan 03 vs. weighted donor pool)
+- `artifacts/paper_v2/event_study_coefs.parquet` (5.1 KB) — Event-study coefficients (TWFE with τ-dummies, ref τ=-1, clustered SE)
+- `artifacts/paper_v2/cd_deltas.parquet` (5.5 KB) — Per-CD pre/post mean monthly complaint deltas (Jun 2024 cutoff)
+- `artifacts/paper_v2/figures/F2_choropleth.png` (106.0 KB) — Figure 2 — Per-CD Δ mean monthly complaints, pre vs. post Jun 2024 pilot
+- `artifacts/paper_v2/figures/F3_event_study.png` (37.9 KB) — Figure 3 — Event study with pre-treatment leads and post-treatment lags (TWFE, clustered SE)
+- `artifacts/paper_v2/figures/F4_scm_trajectory.png` (63.5 KB) — Figure 4 — Synthetic control trajectory for Manhattan 03
+- `artifacts/paper_v2/figures/F5_robustness.png` (28.7 KB) — Figure 5 — ATT point estimates across estimators and subsamples
+- `artifacts/paper_v2/robustness_bar.parquet` (3.4 KB) — Robustness bar — per-estimator ATT point estimates + (where available) 95% CIs
+
+## 2026-04-19T17:39:09+00:00 — `notebooks/10_paper_tables.py`
+
+> **Status:** ok · 6 ran · 0 cached · 0 errored · 1774ms
+
+**Artifacts:**
+- `artifacts/T1_descriptive.parquet` (6.3 KB) — Table 1 — Pre-treatment descriptive statistics (Jan–May 2024)
+- `artifacts/paper_v2/tables/T1_descriptive.parquet` (6.3 KB) — Table 1 data
+- `artifacts/T2_main_results.parquet` (4.3 KB) — Table 2 — Main results: ATT per estimator with SE, p, 95% CI, N
+- `artifacts/paper_v2/tables/T2_main_results.parquet` (4.3 KB) — Table 2 data
+- `artifacts/T3_hte.parquet` (4.7 KB) — Table 3 — Heterogeneous treatment effects by pre-treatment volume quartile
+- `artifacts/paper_v2/tables/T3_hte.parquet` (5.0 KB) — Table 3 data
+- `artifacts/T4_rdd_sensitivity.parquet` (7.4 KB) — Table 4 — RDD sensitivity (rdrobust: kernel × polynomial sweep)
+- `artifacts/paper_v2/tables/T4_rdd_sensitivity.parquet` (7.7 KB) — Table 4 data
+- `artifacts/T5_diagnostic_checklist.parquet` (6.5 KB) — Table 5 — Diagnostic checklist: assumption × test × value × status
+- `artifacts/paper_v2/tables/T5_diagnostic_checklist.parquet` (6.5 KB) — Table 5 data
+
+## 2026-04-19T17:39:30+00:00 — `notebooks/10_paper_tables.py`
+
+> **Status:** ok · 1 ran · 5 cached · 0 errored · 1348ms
+
+**Artifacts:**
+- `artifacts/T5_diagnostic_checklist.parquet` (6.6 KB) — Table 5 — Diagnostic checklist: assumption × test × value × status
+- `artifacts/paper_v2/tables/T5_diagnostic_checklist.parquet` (6.6 KB) — Table 5 data
+
+## 2026-04-19T17:44:42+00:00 — `notebooks/10_paper_tables.py`
+
+> **Status:** ok · 5 ran · 1 cached · 0 errored · 2125ms
+
+**Artifacts:**
+- `artifacts/paper_v2/tables/T1_descriptive.parquet` (6.3 KB) — Table 1 — Pre-treatment descriptive statistics (Jan–May 2024)
+- `artifacts/paper_v2/tables/T2_main_results.parquet` (4.3 KB) — Table 2 — Main results: ATT per estimator with SE, p, 95% CI, N
+- `artifacts/paper_v2/tables/T3_hte.parquet` (4.7 KB) — Table 3 — Heterogeneous treatment effects by pre-treatment volume quartile
+- `artifacts/paper_v2/tables/T4_rdd_sensitivity.parquet` (7.4 KB) — Table 4 — RDD sensitivity (rdrobust: kernel × polynomial sweep)
+- `artifacts/paper_v2/tables/T5_diagnostic_checklist.parquet` (6.6 KB) — Table 5 — Diagnostic checklist: assumption × test × value × status

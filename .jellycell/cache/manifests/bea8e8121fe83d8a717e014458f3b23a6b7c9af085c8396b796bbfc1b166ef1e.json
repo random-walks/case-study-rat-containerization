@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "cache_key": "bea8e8121fe83d8a717e014458f3b23a6b7c9af085c8396b796bbfc1b166ef1e",
+  "notebook": "notebooks/09_paper_figures.py",
+  "cell_id": "09_paper_figures:8",
+  "cell_name": "fig_event_study",
+  "source_hash": "7ebbab80c922156492878bdd19b119d28c1b02975f35a2b668bdfac9332cbbea",
+  "dep_keys": [
+    "6168fa7fba3020a9468e692cfae7661e3a6cf9e3b81e233e687b281d4aade5a9"
+  ],
+  "env_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "executed_at": "2026-04-19T17:38:56.463600Z",
+  "duration_ms": 98,
+  "status": "ok",
+  "outputs": [
+    {
+      "type": "display_data",
+      "mime": "text/plain",
+      "blob": "562740a320a769f03d3971bcb3ca5d0cb2229f6c88c7af1b501091689c8fe891",
+      "w": null,
+      "h": null
+    },
+    {
+      "type": "display_data",
+      "mime": "image/png",
+      "blob": "fe961f45e3a475bac6b2881e9cabdc055e5036e749dc6904775bc0a5daeb1eb0",
+      "w": null,
+      "h": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/paper_v2/figures/F3_event_study.png",
+      "sha256": "fe961f45e3a475bac6b2881e9cabdc055e5036e749dc6904775bc0a5daeb1eb0",
+      "size": 38839,
+      "mime": null,
+      "caption": "Figure 3 — Event study with pre-treatment leads and post-treatment lags (TWFE, clustered SE)",
+      "notes": "Reference period τ=-1 (May 2024). Whiskers: pointwise 95% analytic CI. Non-zero pre-treatment leads flag a parallel-trends concern; consistent with the multi-year pretrend test failure (p≈0.05).",
+      "tags": [
+        "paper_v2",
+        "figure",
+        "F3"
+      ]
+    }
+  ]
+}

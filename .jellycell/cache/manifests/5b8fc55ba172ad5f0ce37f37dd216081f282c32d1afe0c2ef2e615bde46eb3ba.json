@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "cache_key": "5b8fc55ba172ad5f0ce37f37dd216081f282c32d1afe0c2ef2e615bde46eb3ba",
+  "notebook": "notebooks/10_paper_tables.py",
+  "cell_id": "10_paper_tables:6",
+  "cell_name": "t5_diagnostic_checklist",
+  "source_hash": "d19778dc16c3af7a4248b00024f552b2ef4bcd2b60b412fe5bcc53b876624046",
+  "dep_keys": [],
+  "env_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "executed_at": "2026-04-19T17:39:30.268732Z",
+  "duration_ms": 582,
+  "status": "ok",
+  "outputs": [
+    {
+      "type": "stream",
+      "name": "stdout",
+      "blob": "b35d99e08a5c9e718893c0273faab220d2a817368114d256cb55bee43d330326"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/T5_diagnostic_checklist.parquet",
+      "sha256": "991ab4f6744c80ebd861aaa13ae7217b2c8c7d67bf74305cb1ea169fe1725825",
+      "size": 6710,
+      "mime": null,
+      "caption": "Table 5 — Diagnostic checklist: assumption × test × value × status",
+      "notes": "Consolidated pass/fail summary across all 12 assumption categories tested by notebooks 02–08. See MANUSCRIPT_v2.md §Limitations for the narrative reading.",
+      "tags": [
+        "paper_v2",
+        "table",
+        "T5"
+      ]
+    },
+    {
+      "path": "artifacts/paper_v2/tables/T5_diagnostic_checklist.parquet",
+      "sha256": "991ab4f6744c80ebd861aaa13ae7217b2c8c7d67bf74305cb1ea169fe1725825",
+      "size": 6710,
+      "mime": null,
+      "caption": "Table 5 data",
+      "notes": null,
+      "tags": []
+    }
+  ]
+}

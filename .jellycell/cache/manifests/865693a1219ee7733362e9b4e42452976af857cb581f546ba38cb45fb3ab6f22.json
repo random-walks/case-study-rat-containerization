@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "cache_key": "865693a1219ee7733362e9b4e42452976af857cb581f546ba38cb45fb3ab6f22",
+  "notebook": "notebooks/10_paper_tables.py",
+  "cell_id": "10_paper_tables:4",
+  "cell_name": "t3_hte",
+  "source_hash": "4a2a766ff6170066ddd401c393837e035faee88e3ae9e36f56d4047df3c0eb8a",
+  "dep_keys": [],
+  "env_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "executed_at": "2026-04-19T17:44:42.364072Z",
+  "duration_ms": 743,
+  "status": "ok",
+  "outputs": [
+    {
+      "type": "stream",
+      "name": "stdout",
+      "blob": "164dd6407256652f5e57d277d24b8b470e29bb797a62518a0c73ecbeb80c65c3"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/paper_v2/tables/T3_hte.parquet",
+      "sha256": "e9fc90a93d899d8e6039865152e8e63cd52ae271f20390c65db36d48bd4eebee",
+      "size": 4769,
+      "mime": null,
+      "caption": "Table 3 — Heterogeneous treatment effects by pre-treatment volume quartile",
+      "notes": "Quartiles of the Jan-May 2024 baseline mean. Each row is a TWFE with entity + time FE (clustered SE) on the subsample.",
+      "tags": [
+        "paper_v2",
+        "table",
+        "T3"
+      ]
+    }
+  ]
+}
