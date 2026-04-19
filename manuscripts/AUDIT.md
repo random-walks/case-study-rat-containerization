@@ -13,7 +13,7 @@ the "proper paper" version of this analysis.
 | Area | v1 | v2 |
 |---|---|---|
 | RDD engine | `nyc311.stats.regression_discontinuity` (homegrown) | `rdrobust 1.3.0` (Calonico-Cattaneo-Farrell-Titiunik, NSF-funded — SES-1357561, -1459931, -1947805, -2019432). MSE-optimal bandwidth, robust bias-corrected CIs, sweep over kernel × polynomial. |
-| McCrary density | hand-rolled chi-square | hand-rolled chi-square *across multiple windows* + flag for [`UPSTREAM_ISSUES.md` #008](../../UPSTREAM_ISSUES.md) (rddensity 2.4.6 broken on pandas 2.x — needs upstream PR before we can swap in canonical) |
+| McCrary density | hand-rolled chi-square | hand-rolled chi-square *across multiple windows* + honest note that the canonical `rddensity` package is unusable on pandas ≥ 2 and has no modern Python alternative as of 2026 |
 | Tearsheets | none | per-notebook tearsheet under `manuscripts/tearsheets/<stem>.md`, regenerable via `jellycell export tearsheet` |
 | Manuscripts | METHODOLOGY + DIAGNOSTICS_CHECKLIST + MANUSCRIPT | + this AUDIT.md (self-audit + roadmap) |
 | Issues tracking | implicit "future work" bullets in MANUSCRIPT | explicit, structured [`UPSTREAM_ISSUES.md`](../../UPSTREAM_ISSUES.md) at the showcase-package root |
@@ -68,9 +68,15 @@ into `06_synthesis_and_publication.py`.
 
 ### Tooling
 
-- **rddensity pandas 2.x compat** — see `UPSTREAM_ISSUES.md` #008.
-  Once upstream lands the patch, swap the manual chi-square in
-  notebook 07 for `rddensity(running_var, c=0)`.
+- **rddensity is unusable on pandas ≥ 2.** Two distinct breakages
+  (`pd.Series._append` removed + int-indexing on string-indexed
+  Series). No modern Python alternative exists as of 2026. We verified
+  by surveying PyPI (causalpy, linearmodels, statsmodels, econml,
+  doubleml — none implement local-poly density-discontinuity testing).
+  Manual chi-square stays. **Not filed upstream** — the package
+  maintainer's last commit was Jan 2025 and the pandas-2 compat issue
+  has been open across the ecosystem since 2023; we've opted out of
+  contributing that specific patch.
 - **rdlocrand for randomization inference at small N.** With only 9
   treated CDs, randomization-inference p-values via local-polynomial
   RD designs would be a credibility upgrade. Same `rdpackages` family

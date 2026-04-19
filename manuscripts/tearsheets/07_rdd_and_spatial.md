@@ -1,6 +1,6 @@
 # 07 — Proper RDD (rdrobust) + spatial-lag DiD
 
-> **Tearsheet** for [`notebooks/07_rdd_and_spatial.py`](../../notebooks/07_rdd_and_spatial.py) · [HTML report](../../site/07_rdd_and_spatial.html) · last run `2026-04-19T16:12:24+00:00`
+> **Tearsheet** for [`notebooks/07_rdd_and_spatial.py`](../../notebooks/07_rdd_and_spatial.py) · [HTML report](../../site/07_rdd_and_spatial.html) · last run `2026-04-19T16:39:01+00:00`
 
 Three diagnostics, now using **canonical industry-standard tooling**
 wherever it works:
@@ -9,9 +9,13 @@ wherever it works:
 >    SES-1459931, SES-1947805, SES-2019432) — MSE-optimal bandwidth
 >    selection (`bwselect='mserd'`), bias-corrected robust confidence
 >    intervals, sweeps across kernels and polynomial orders.
-> 2. **Manual chi-square density continuity test** at the cutoff (the
->    canonical `rddensity` package is broken on pandas ≥ 2.0 — see
->    [`UPSTREAM_ISSUES.md#008`](../../UPSTREAM_ISSUES.md)).
+> 2. **Manual chi-square density continuity test** at the cutoff. We
+>    surveyed the Python ecosystem for a replacement — `rddensity`
+>    itself is unusable on pandas ≥ 2 and no modern alternative exists
+>    as of 2026 (PyPI: causalpy, linearmodels, statsmodels, econml,
+>    doubleml — none implement local-poly density-discontinuity). We
+>    keep a hand-rolled window-sweep chi-square test — defensible at
+>    the small N (= number of CDs) we operate at.
 > 3. **Spatial-lag DiD** via `nyc311.stats.spatial_lag_model` —
 >    accounts for spillover from treated CDs to neighboring untreated.
 
@@ -48,7 +52,7 @@ Cattaneo & Titiunik 2015 *JASA*; Calonico, Cattaneo, Farrell & Titiunik
 | `p_value` | `0.0003` |
 | `density_continuous` | `false` |
 | `interpretation` | FAIL — density discontinuity flagged at window 15.0 km (p = 0.0003). In our s… |
-| `note` | Hand-rolled — see UPSTREAM_ISSUES.md #008 for the path to swapping in canonic… |
+| `note` | Hand-rolled — the canonical rddensity is unusable on pandas ≥ 2 and has no mo… |
 
 
 ![rdrobust_plot](../../artifacts/rdrobust_plot.png)

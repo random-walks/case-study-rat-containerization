@@ -13,9 +13,13 @@
 >    SES-1459931, SES-1947805, SES-2019432) — MSE-optimal bandwidth
 >    selection (`bwselect='mserd'`), bias-corrected robust confidence
 >    intervals, sweeps across kernels and polynomial orders.
-> 2. **Manual chi-square density continuity test** at the cutoff (the
->    canonical `rddensity` package is broken on pandas ≥ 2.0 — see
->    [`UPSTREAM_ISSUES.md#008`](../../UPSTREAM_ISSUES.md)).
+> 2. **Manual chi-square density continuity test** at the cutoff. We
+>    surveyed the Python ecosystem for a replacement — `rddensity`
+>    itself is unusable on pandas ≥ 2 and no modern alternative exists
+>    as of 2026 (PyPI: causalpy, linearmodels, statsmodels, econml,
+>    doubleml — none implement local-poly density-discontinuity). We
+>    keep a hand-rolled window-sweep chi-square test — defensible at
+>    the small N (= number of CDs) we operate at.
 > 3. **Spatial-lag DiD** via `nyc311.stats.spatial_lag_model` —
 >    accounts for spillover from treated CDs to neighboring untreated.
 #
@@ -182,11 +186,11 @@ sys.path.insert(0, str(Path.cwd() / "showcase-rat-containerization"))
 from _helpers import TREATED_UNITS
 from nyc311.geographies import load_nyc_boundaries
 
-# Manual density continuity test — substitute for rddensity
-# (which is broken on pandas 2.x, see UPSTREAM_ISSUES.md #008).
-# Chi-square test on density of CDs immediately above vs. below the
-# cutoff. Simpler than Cattaneo-Jansson-Ma 2018 but gives a defensible
-# pass/fail at our small N (= number of CDs).
+# Manual density continuity test — substitute for rddensity (broken on
+# pandas 2.x; no modern Python alternative as of 2026). Chi-square test
+# on density of CDs immediately above vs. below the cutoff. Simpler than
+# Cattaneo-Jansson-Ma 2018 but gives a defensible pass/fail at our small
+# N (= number of CDs). Sweeps across 4 window widths for transparency.
 collection = load_nyc_boundaries(layer="community_district")
 centroids = {}
 for f in collection.features:
@@ -234,7 +238,7 @@ density_df = pd.DataFrame(density_rows)
 jc.table(
     density_df,
     name="density_continuity",
-    caption="Manual chi-square density continuity at the cutoff (rddensity substitute pending UPSTREAM_ISSUES.md #008)",
+    caption="Manual chi-square density continuity at the cutoff (rddensity unusable on pandas ≥ 2; no modern alternative as of 2026)",
 )
 print(density_df.to_string(index=False))
 
@@ -251,7 +255,7 @@ jc.save(
             "not literal manipulation of the running variable. Treat the RDD as complementary to DiD evidence, "
             "not a standalone identification strategy."
         ),
-        "note": "Hand-rolled — see UPSTREAM_ISSUES.md #008 for the path to swapping in canonical rddensity once it supports pandas ≥ 2.",
+        "note": "Hand-rolled — the canonical rddensity is unusable on pandas ≥ 2 and has no modern Python alternative as of 2026.",
     },
     "artifacts/density_continuity.json",
     caption="Density continuity test summary",

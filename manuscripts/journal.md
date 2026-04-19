@@ -118,3 +118,29 @@ Disable via `[journal] enabled = false` in `jellycell.toml`.
 - `artifacts/density_continuity.parquet` (4.4 KB) — Manual chi-square density continuity at the cutoff (rddensity substitute pending UPSTREAM_ISSUES.md #008)
 - `artifacts/rdrobust_plot.png` (64.1 KB)
 - `artifacts/spatial_lag_did.json` (312 B) — Spatial-lag DiD: TWFE + spatial autoregressive residuals (3 km neighborhoods)
+
+## 2026-04-19T16:38:26+00:00 — `notebooks/07_rdd_and_spatial.py`
+
+> **Status:** ok · 5 ran · 0 cached · 0 errored · 3883ms
+
+**Artifacts:**
+- `artifacts/rdd_geometry.json` (111 B) — RDD geometry setup — centroids + treatment-zone center
+- `artifacts/rdrobust_setup.json` (128 B) — rdrobust setup summary
+- `artifacts/rdrobust_sweep.parquet` (8.5 KB) — rdrobust: kernel × polynomial-order sweep, MSE-optimal bandwidth, robust bias-corrected inference
+- `artifacts/density_continuity.json` (598 B) — Density continuity test summary
+- `artifacts/density_continuity.parquet` (4.4 KB) — Manual chi-square density continuity at the cutoff (rddensity substitute pending UPSTREAM_ISSUES.md #008)
+- `artifacts/rdrobust_plot.png` (64.1 KB)
+- `artifacts/spatial_lag_did.json` (312 B) — Spatial-lag DiD: TWFE + spatial autoregressive residuals (3 km neighborhoods)
+
+## 2026-04-19T16:39:01+00:00 — `notebooks/07_rdd_and_spatial.py`
+
+> **Status:** ok · 5 ran · 0 cached · 0 errored · 3718ms
+
+**Artifacts:**
+- `artifacts/rdd_geometry.json` (111 B) — RDD geometry setup — centroids + treatment-zone center
+- `artifacts/rdrobust_setup.json` (128 B) — rdrobust setup summary
+- `artifacts/rdrobust_sweep.parquet` (8.5 KB) — rdrobust: kernel × polynomial-order sweep, MSE-optimal bandwidth, robust bias-corrected inference
+- `artifacts/density_continuity.json` (598 B) — Density continuity test summary
+- `artifacts/density_continuity.parquet` (4.4 KB) — Manual chi-square density continuity at the cutoff (rddensity unusable on pandas ≥ 2; no modern alternative as of 2026)
+- `artifacts/rdrobust_plot.png` (64.1 KB)
+- `artifacts/spatial_lag_did.json` (312 B) — Spatial-lag DiD: TWFE + spatial autoregressive residuals (3 km neighborhoods)
