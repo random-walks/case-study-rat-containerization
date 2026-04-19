@@ -105,3 +105,16 @@ Disable via `[journal] enabled = false` in `jellycell.toml`.
 - `artifacts/mccrary_density.json` (262 B) — McCrary-style density continuity test (chi-square variant)
 - `artifacts/rdd_scatter.png` (53.4 KB)
 - `artifacts/spatial_lag_did.json` (255 B) — Spatial-lag DiD: TWFE + spatial autoregressive residuals
+
+## 2026-04-19T16:12:24+00:00 — `notebooks/07_rdd_and_spatial.py`
+
+> **Status:** ok · 5 ran · 0 cached · 0 errored · 3379ms
+
+**Artifacts:**
+- `artifacts/rdd_geometry.json` (111 B) — RDD geometry setup — centroids + treatment-zone center
+- `artifacts/rdrobust_setup.json` (128 B) — rdrobust setup summary
+- `artifacts/rdrobust_sweep.parquet` (8.5 KB) — rdrobust: kernel × polynomial-order sweep, MSE-optimal bandwidth, robust bias-corrected inference
+- `artifacts/density_continuity.json` (604 B) — Density continuity test summary
+- `artifacts/density_continuity.parquet` (4.4 KB) — Manual chi-square density continuity at the cutoff (rddensity substitute pending UPSTREAM_ISSUES.md #008)
+- `artifacts/rdrobust_plot.png` (64.1 KB)
+- `artifacts/spatial_lag_did.json` (312 B) — Spatial-lag DiD: TWFE + spatial autoregressive residuals (3 km neighborhoods)

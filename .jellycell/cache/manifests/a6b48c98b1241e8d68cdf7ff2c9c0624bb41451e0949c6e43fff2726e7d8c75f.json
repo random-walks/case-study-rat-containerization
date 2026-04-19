@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "cache_key": "a6b48c98b1241e8d68cdf7ff2c9c0624bb41451e0949c6e43fff2726e7d8c75f",
+  "notebook": "notebooks/07_rdd_and_spatial.py",
+  "cell_id": "07_rdd_and_spatial:1",
+  "cell_name": "geometry",
+  "source_hash": "235eb7c1500bf5e9c8c01ff21fc6192e94d19803d7598950e3a76bdf6561f52e",
+  "dep_keys": [],
+  "env_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "executed_at": "2026-04-19T16:12:22.768194Z",
+  "duration_ms": 532,
+  "status": "ok",
+  "outputs": [
+    {
+      "type": "stream",
+      "name": "stdout",
+      "blob": "4183a3eba03905ff977f394ac9b023568327ef2bc6dc0e4f85c81de5b5219b3c"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/rdd_geometry.json",
+      "sha256": "8caee8fc9c1fb19735a042ff4926060209c56f5da63fe43e5aaaca3ff712b9ec",
+      "size": 111,
+      "mime": null,
+      "caption": "RDD geometry setup — centroids + treatment-zone center",
+      "notes": null,
+      "tags": []
+    }
+  ]
+}
