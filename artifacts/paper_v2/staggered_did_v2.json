@@ -1,0 +1,10 @@
+{
+  "att": -0.444,
+  "se": 3.619,
+  "p_value": 0.9022,
+  "ci_lower": -7.537,
+  "ci_upper": 6.648,
+  "n_groups": 1,
+  "n_periods": 12,
+  "n_group_time_atts": 12
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "cache_key": "e99d8b467de0b5d966afc52958675c1c3db35a7c0d56fe9659de2d112e9ccf27",
+  "notebook": "notebooks/09_paper_figures.py",
+  "cell_id": "09_paper_figures:10",
+  "cell_name": "fig_robustness_bar",
+  "source_hash": "29a2b7478a9af09ceae513838952442e0e68c71276c812da5737326e583c35c4",
+  "dep_keys": [
+    "d652a647464551b6cc8d4fbf31b4275d07cbae8da21f594a73b329de8d0ad127"
+  ],
+  "env_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "executed_at": "2026-04-19T17:38:56.686660Z",
+  "duration_ms": 75,
+  "status": "ok",
+  "outputs": [
+    {
+      "type": "display_data",
+      "mime": "text/plain",
+      "blob": "562740a320a769f03d3971bcb3ca5d0cb2229f6c88c7af1b501091689c8fe891",
+      "w": null,
+      "h": null
+    },
+    {
+      "type": "display_data",
+      "mime": "image/png",
+      "blob": "2a73032cfd63e782b276b4a74df239b92f1eb6c13ba9dc5da60f20fa9f229bce",
+      "w": null,
+      "h": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/paper_v2/figures/F5_robustness.png",
+      "sha256": "2a73032cfd63e782b276b4a74df239b92f1eb6c13ba9dc5da60f20fa9f229bce",
+      "size": 29403,
+      "mime": null,
+      "caption": "Figure 5 — ATT point estimates across estimators and subsamples",
+      "notes": "Whiskers: 95% CI where available. Jackknife low/median/high are point estimates only. SCM's placebo p-value (not plotted) is in scm_trajectory_v2.json.",
+      "tags": [
+        "paper_v2",
+        "figure",
+        "F5"
+      ]
+    },
+    {
+      "path": "artifacts/paper_v2/robustness_bar.parquet",
+      "sha256": "b72c0d208c376abbf34b652707045edbbf3b144d3b347a73724210c280da6f06",
+      "size": 3532,
+      "mime": null,
+      "caption": "Robustness bar — per-estimator ATT point estimates + (where available) 95% CIs",
+      "notes": null,
+      "tags": []
+    }
+  ]
+}

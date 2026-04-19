@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "cache_key": "047f1aad597dd74d3a533f575e7a79f02a03408abe0c088eb95998e048791d98",
+  "notebook": "notebooks/10_paper_tables.py",
+  "cell_id": "10_paper_tables:2",
+  "cell_name": "t1_descriptive",
+  "source_hash": "52f65271396665cd0da34279d916abc1d97ae64fb67066a4d4db241aa0a8bead",
+  "dep_keys": [],
+  "env_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "executed_at": "2026-04-19T17:44:41.601561Z",
+  "duration_ms": 497,
+  "status": "ok",
+  "outputs": [
+    {
+      "type": "stream",
+      "name": "stdout",
+      "blob": "1f312f76e0b912e826972e5431864374f6001af02d12459e7209f0b9e638593a"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/paper_v2/tables/T1_descriptive.parquet",
+      "sha256": "7d33e2aa0ecf542155c3778424d24426a0f4f22ed90b94f3c51202aeb0370f00",
+      "size": 6448,
+      "mime": null,
+      "caption": "Table 1 — Pre-treatment descriptive statistics (Jan–May 2024)",
+      "notes": "Treated = Manhattan CDs 01–09; control = remaining CDs with ACS matches. |SMD|>0.1 = *; |SMD|>0.5 = ***. Severe imbalance on race, income, and renter share.",
+      "tags": [
+        "paper_v2",
+        "table",
+        "T1"
+      ]
+    }
+  ]
+}

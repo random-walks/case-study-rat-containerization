@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "cache_key": "42cc9bf95d6358a73e1f1b5d0fa268eb2bdb02eff778724d9d2f0944af757e00",
+  "notebook": "notebooks/10_paper_tables.py",
+  "cell_id": "10_paper_tables:3",
+  "cell_name": "t2_main_results",
+  "source_hash": "4e28a4a76e5d2a4999074e849b0e57d0f4a30e65c0be5bbb47f4dab60a3d895b",
+  "dep_keys": [],
+  "env_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "executed_at": "2026-04-19T17:39:09.202970Z",
+  "duration_ms": 12,
+  "status": "ok",
+  "outputs": [
+    {
+      "type": "stream",
+      "name": "stdout",
+      "blob": "536bf1157ef5dece26a5ef5de1665b00c8ca16c022e31596ee52d9fb7095919b"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/T2_main_results.parquet",
+      "sha256": "2ca985f3972827f39c28e51181bd46cbd5831f24f6b543b8b2537155e0bfb19b",
+      "size": 4381,
+      "mime": null,
+      "caption": "Table 2 — Main results: ATT per estimator with SE, p, 95% CI, N",
+      "notes": "ATT is in complaints / district / month. SE clustered by district where applicable. Spatial-lag treatment coefficient reported from SAR model (rho > 0 = neighbor effects present).",
+      "tags": [
+        "paper_v2",
+        "table",
+        "T2"
+      ]
+    },
+    {
+      "path": "artifacts/paper_v2/tables/T2_main_results.parquet",
+      "sha256": "2ca985f3972827f39c28e51181bd46cbd5831f24f6b543b8b2537155e0bfb19b",
+      "size": 4381,
+      "mime": null,
+      "caption": "Table 2 data",
+      "notes": null,
+      "tags": []
+    }
+  ]
+}

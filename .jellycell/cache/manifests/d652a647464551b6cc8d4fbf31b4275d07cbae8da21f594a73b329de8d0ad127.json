@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "cache_key": "d652a647464551b6cc8d4fbf31b4275d07cbae8da21f594a73b329de8d0ad127",
+  "notebook": "notebooks/09_paper_figures.py",
+  "cell_id": "09_paper_figures:4",
+  "cell_name": "fit_scm_v2",
+  "source_hash": "700aa6e97e50591a0f10a17554b9decd0fda9609950f0b53cdb3410efb90cbcc",
+  "dep_keys": [],
+  "env_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "executed_at": "2026-04-19T17:38:54.600781Z",
+  "duration_ms": 461,
+  "status": "ok",
+  "outputs": [
+    {
+      "type": "stream",
+      "name": "stdout",
+      "blob": "96fdca5172f992811098495d5e40554667034479ee692ca6e913000005f01151"
+    },
+    {
+      "type": "stream",
+      "name": "stdout",
+      "blob": "56afe19cfa30c8f335ab2872dfe8e44af611b7153ed4f88642ed80a83af5e082"
+    },
+    {
+      "type": "execute_result",
+      "mime": "text/plain",
+      "blob": "8b955e81dcb91adfc4147fe198cf89d2c9d4d2c2eb2cb901f887de354d0c49cd",
+      "execution_count": 0
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/paper_v2/scm_trajectory_v2.json",
+      "sha256": "c9b5c09d4120b5661d9a7cbe1cdf67143a637c55c8ce5c585ed91a9e52a42ffb",
+      "size": 1008,
+      "mime": null,
+      "caption": "Synthetic control trajectory (Manhattan 03 vs. weighted donor pool)",
+      "notes": null,
+      "tags": []
+    }
+  ]
+}

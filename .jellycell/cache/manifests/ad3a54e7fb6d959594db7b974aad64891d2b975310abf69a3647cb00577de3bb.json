@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "cache_key": "ad3a54e7fb6d959594db7b974aad64891d2b975310abf69a3647cb00577de3bb",
+  "notebook": "notebooks/09_paper_figures.py",
+  "cell_id": "09_paper_figures:9",
+  "cell_name": "fig_scm_trajectory",
+  "source_hash": "6b3cc7279e2ad0da87f93d270f7761ce2de1b459e4fb6fa001e7b45f5e79d3d6",
+  "dep_keys": [
+    "d652a647464551b6cc8d4fbf31b4275d07cbae8da21f594a73b329de8d0ad127"
+  ],
+  "env_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "executed_at": "2026-04-19T17:38:56.607411Z",
+  "duration_ms": 140,
+  "status": "ok",
+  "outputs": [
+    {
+      "type": "display_data",
+      "mime": "text/plain",
+      "blob": "562740a320a769f03d3971bcb3ca5d0cb2229f6c88c7af1b501091689c8fe891",
+      "w": null,
+      "h": null
+    },
+    {
+      "type": "display_data",
+      "mime": "image/png",
+      "blob": "58ef08de5a255d56595fe010bee75d9809ab05afb78b163abe0b095f988f5537",
+      "w": null,
+      "h": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/paper_v2/figures/F4_scm_trajectory.png",
+      "sha256": "58ef08de5a255d56595fe010bee75d9809ab05afb78b163abe0b095f988f5537",
+      "size": 65058,
+      "mime": null,
+      "caption": "Figure 4 — Synthetic control trajectory for Manhattan 03",
+      "notes": "Observed complaint counts (red) vs. the weighted donor counterfactual (blue). Shaded region marks the post-treatment gap.",
+      "tags": [
+        "paper_v2",
+        "figure",
+        "F4"
+      ]
+    }
+  ]
+}

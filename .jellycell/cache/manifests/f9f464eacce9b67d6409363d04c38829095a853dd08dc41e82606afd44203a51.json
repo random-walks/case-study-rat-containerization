@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "cache_key": "f9f464eacce9b67d6409363d04c38829095a853dd08dc41e82606afd44203a51",
+  "notebook": "notebooks/10_paper_tables.py",
+  "cell_id": "10_paper_tables:5",
+  "cell_name": "t4_rdd_sensitivity",
+  "source_hash": "26cdcd80deb8a1510d1009c5fc3b41b583e1d52ad364988b0d6b4045e2198087",
+  "dep_keys": [],
+  "env_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "executed_at": "2026-04-19T17:44:42.381256Z",
+  "duration_ms": 14,
+  "status": "ok",
+  "outputs": [
+    {
+      "type": "stream",
+      "name": "stdout",
+      "blob": "86da43071a835dce94c53284b3f6e3c33d7aef88f59bcd879506f4b120c15c74"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/paper_v2/tables/T4_rdd_sensitivity.parquet",
+      "sha256": "471495fba71acc560487544027219cd5b3ec706f3af291e142a6527f0c15532a",
+      "size": 7563,
+      "mime": null,
+      "caption": "Table 4 — RDD sensitivity (rdrobust: kernel × polynomial sweep)",
+      "notes": "MSE-optimal bandwidth (bwselect='mserd'), robust bias-corrected inference (Calonico-Cattaneo-Titiunik). Non-converged rows report LinAlgError (not positive definite) — expected at small N (≤68 CDs).",
+      "tags": [
+        "paper_v2",
+        "table",
+        "T4"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "cache_key": "f7d376769ef4dc0ca909e328b31f69ea074feff3d5cbb510364543cae7b6f352",
+  "notebook": "notebooks/09_paper_figures.py",
+  "cell_id": "09_paper_figures:2",
+  "cell_name": "fig_timeline",
+  "source_hash": "623c93457ce05c29dd6e7b2eff0b8e930b5b8cd962414b64c5f53d737db881b4",
+  "dep_keys": [],
+  "env_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "executed_at": "2026-04-19T17:38:43.548018Z",
+  "duration_ms": 2569,
+  "status": "ok",
+  "outputs": [
+    {
+      "type": "display_data",
+      "mime": "text/plain",
+      "blob": "78282e760c55ef82d54a0c248b55d611a8297a3f0971fe573725205646d3fc44",
+      "w": null,
+      "h": null
+    },
+    {
+      "type": "display_data",
+      "mime": "image/png",
+      "blob": "2b713194956280ade7efc0a8424654af20aa39dc4e5c28c805568a8ea5164469",
+      "w": null,
+      "h": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/paper_v2/figures/F1_timeline.png",
+      "sha256": "2b713194956280ade7efc0a8424654af20aa39dc4e5c28c805568a8ea5164469",
+      "size": 30334,
+      "mime": null,
+      "caption": "Figure 1 — Treatment timeline",
+      "notes": "Pilot enforcement (Manhattan CDs 01–09, Jun 2024) + citywide enforcement (all CDs, Nov 12 2024), with the 2022–2024 data window overlaid.",
+      "tags": [
+        "paper_v2",
+        "figure",
+        "F1"
+      ]
+    }
+  ]
+}
