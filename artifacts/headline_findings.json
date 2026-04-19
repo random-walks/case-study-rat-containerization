@@ -1,0 +1,18 @@
+{
+  "panel": "68 districts \u00d7 12 months (39,725 complaints)",
+  "treatment": "9 treated units from 2024-06-01",
+  "twfe_att": 1.414,
+  "twfe_ci": [
+    -1.798,
+    4.625
+  ],
+  "twfe_p": 0.3878,
+  "staggered_did_att": "n/a",
+  "synthetic_control_att": "n/a",
+  "bootstrap_ci_95": [
+    -1.725,
+    4.243
+  ],
+  "placebo_passes": "n/a",
+  "interpretation": "TWFE ATT = 1.414 per district-month (95% CI -1.798, 4.625). Reconcile with synthetic control + staggered DiD via the diagnostic checklist; if estimators diverge but pass diagnostics, treat as evidence of estimator-sensitive effect (not zero, not robust)."
+}

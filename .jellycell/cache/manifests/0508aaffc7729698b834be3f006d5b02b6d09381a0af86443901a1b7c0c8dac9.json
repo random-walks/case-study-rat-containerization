@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "cache_key": "0508aaffc7729698b834be3f006d5b02b6d09381a0af86443901a1b7c0c8dac9",
+  "notebook": "notebooks/03_main_effects.py",
+  "cell_id": "03_main_effects:2",
+  "cell_name": "twfe",
+  "source_hash": "d4bf8b643d432bea311ea0b78272e666a6b93a4a91dcd94594cd0a7981c99adb",
+  "dep_keys": [
+    "2c86f5fb8c755c82f12a37fb5689cc98d991165b905764532f6ad8a0b7134961"
+  ],
+  "env_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "executed_at": "2026-04-19T07:59:16.211730Z",
+  "duration_ms": 436,
+  "status": "ok",
+  "outputs": [
+    {
+      "type": "stream",
+      "name": "stdout",
+      "blob": "c71d46cc431d298f1ee8ea250b3384d12b24af791ca7c4acdbb45ad6cc559159"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/twfe_result.json",
+      "sha256": "533066b26cf164190be841527cd4da16c9c4944bcfa0262eaa8ecde3c88c4f63",
+      "size": 146,
+      "mime": null,
+      "caption": "Two-way FE: complaint_count ~ treatment + district FE + month FE (clustered SE)",
+      "notes": null,
+      "tags": []
+    }
+  ]
+}

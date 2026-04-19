@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "cache_key": "362ea8e2224bf114a4120296e2e8064983424bec609200714035f8cb9fbf3685",
+  "notebook": "notebooks/04_diagnostics.py",
+  "cell_id": "04_diagnostics:4",
+  "cell_name": "bootstrap",
+  "source_hash": "53c7429db96f8790e215c5efe04e2d0a8aa4fd309ff7db17b53d0052458d818a",
+  "dep_keys": [
+    "d850348f32103222da1c3b71df488cd4b6abd50b2cfaa58027ab7fa8c71c5476"
+  ],
+  "env_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "executed_at": "2026-04-19T07:59:27.248970Z",
+  "duration_ms": 8582,
+  "status": "ok",
+  "outputs": [
+    {
+      "type": "stream",
+      "name": "stdout",
+      "blob": "796e00ae12869f52ef7293775424af075c0d8e17fe1b1c9445bb65cefa84bf19"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/bootstrap_ci.json",
+      "sha256": "7f771e78d9d652c3b38df48d744daf574df6106f730f683d59d43c2d4aab9078",
+      "size": 108,
+      "mime": null,
+      "caption": "Block bootstrap (B=200, resampling districts)",
+      "notes": null,
+      "tags": []
+    }
+  ]
+}

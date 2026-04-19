@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "cache_key": "ccf2e27e440f0302373270550e69a5068a48949e3f24ca63c7d8996a49d5f768",
+  "notebook": "notebooks/01_load_and_preprocess.py",
+  "cell_id": "01_load_and_preprocess:2",
+  "cell_name": "monthly_volume",
+  "source_hash": "356351b269e3d32a8f5e5379e0dc7ee4d99c9e699b243f842e9b60686221c80c",
+  "dep_keys": [
+    "d24e125341189ad1966101ca4c37e22a1ca09b31547fdedbe3fb681219a2bc19"
+  ],
+  "env_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "executed_at": "2026-04-19T07:59:12.491230Z",
+  "duration_ms": 16,
+  "status": "ok",
+  "outputs": [
+    {
+      "type": "stream",
+      "name": "stdout",
+      "blob": "65413ca48177a0577d133133e46d9f4f5695cf05793761fb7b2251ea08c82188"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/monthly_means_by_group.parquet",
+      "sha256": "96474d4ce3fb7265bd9ae8ca8f7b637817635936bc13328bfa3dc7d61b0280e9",
+      "size": 3024,
+      "mime": null,
+      "caption": "Mean monthly complaints — treated vs. control districts (2024)",
+      "notes": null,
+      "tags": []
+    }
+  ]
+}

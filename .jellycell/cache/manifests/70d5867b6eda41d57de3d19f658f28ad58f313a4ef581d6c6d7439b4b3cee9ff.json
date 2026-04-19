@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "cache_key": "70d5867b6eda41d57de3d19f658f28ad58f313a4ef581d6c6d7439b4b3cee9ff",
+  "notebook": "notebooks/03_main_effects.py",
+  "cell_id": "03_main_effects:5",
+  "cell_name": "results_table",
+  "source_hash": "88ead0357ed8bdb882b9e1563ede8c99a1c714ae559e7d9d0bfba2989e5b4855",
+  "dep_keys": [
+    "0508aaffc7729698b834be3f006d5b02b6d09381a0af86443901a1b7c0c8dac9"
+  ],
+  "env_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "executed_at": "2026-04-19T07:59:16.256060Z",
+  "duration_ms": 8,
+  "status": "ok",
+  "outputs": [
+    {
+      "type": "stream",
+      "name": "stdout",
+      "blob": "625b1bbe870898bddacc25b481092209022763517eae978552e199c793fdb4d4"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/multi_estimator_results.parquet",
+      "sha256": "3295f8beee76192d270cc75fe4d148a4ee9226aaa1b89b5a02bfbb969c195b02",
+      "size": 3600,
+      "mime": null,
+      "caption": "DiD estimators side-by-side",
+      "notes": null,
+      "tags": []
+    }
+  ]
+}

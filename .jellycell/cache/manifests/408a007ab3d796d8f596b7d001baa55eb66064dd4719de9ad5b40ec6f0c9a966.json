@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "cache_key": "408a007ab3d796d8f596b7d001baa55eb66064dd4719de9ad5b40ec6f0c9a966",
+  "notebook": "notebooks/06_synthesis_and_publication.py",
+  "cell_id": "06_synthesis_and_publication:4",
+  "cell_name": "headline_findings",
+  "source_hash": "2919b426393783d50d76bca641193b4aaa36321a1041ca1cd0f3d99f2ef84c98",
+  "dep_keys": [
+    "f2074df065941700701e3614ba1b676baf5be2386b8deb53ea79d6b008f81e2f"
+  ],
+  "env_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "executed_at": "2026-04-19T07:59:30.708661Z",
+  "duration_ms": 7,
+  "status": "ok",
+  "outputs": [
+    {
+      "type": "stream",
+      "name": "stdout",
+      "blob": "1af838b2ff2b8d2bf6e01e5f1300d5367fc8553ec82eca98e8aefa707be9c5f7"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/headline_findings.json",
+      "sha256": "ec7adf4a579b7b7df0f150c61c13d9591cad79e521ec90d50c8f614e98090920",
+      "size": 618,
+      "mime": null,
+      "caption": "Headline findings — full pipeline",
+      "notes": null,
+      "tags": []
+    }
+  ]
+}

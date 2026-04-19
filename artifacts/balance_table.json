@@ -1,0 +1,41 @@
+{
+  "n_treated": 5,
+  "n_control": 46,
+  "covariates": [
+    {
+      "covariate": "pre_complaints_mean",
+      "treated_mean": 67.28,
+      "control_mean": 58.778,
+      "smd": 0.243,
+      "imbalanced": "*"
+    },
+    {
+      "covariate": "population",
+      "treated_mean": 163609.0,
+      "control_mean": 154670.239,
+      "smd": 0.2,
+      "imbalanced": "*"
+    },
+    {
+      "covariate": "pct_nonwhite",
+      "treated_mean": 0.442,
+      "control_mean": 0.649,
+      "smd": -1.049,
+      "imbalanced": "***"
+    },
+    {
+      "covariate": "log_median_income",
+      "treated_mean": 11.451,
+      "control_mean": 11.191,
+      "smd": 0.668,
+      "imbalanced": "***"
+    },
+    {
+      "covariate": "pct_renter",
+      "treated_mean": 0.753,
+      "control_mean": 0.65,
+      "smd": 0.673,
+      "imbalanced": "***"
+    }
+  ]
+}

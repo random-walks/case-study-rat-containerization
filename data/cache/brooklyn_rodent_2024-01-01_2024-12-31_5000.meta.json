@@ -1,0 +1,12 @@
+{
+  "record_count": 15099,
+  "sha256": "37b5767b05d5dac77b016ec07c873fbf14b4490fecfc9045ea04d85b8f37847b",
+  "fetched_at": "2026-04-19T07:55:28.746737+00:00",
+  "start_date": "2024-01-01",
+  "end_date": "2024-12-31",
+  "borough": "BROOKLYN",
+  "complaint_types": [
+    "Rodent"
+  ],
+  "page_size": 5000
+}

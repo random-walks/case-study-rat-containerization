@@ -1,0 +1,10 @@
+{
+  "n": 816,
+  "mean": 0.0,
+  "std": 14.886,
+  "jarque_bera_stat": 1643.812,
+  "jarque_bera_p": 0.0,
+  "shapiro_wilk_stat": 0.9182,
+  "shapiro_wilk_p": 0.0,
+  "normality_passes": false
+}

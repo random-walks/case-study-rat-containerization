@@ -1,0 +1,12 @@
+*.png !text !filter !merge !diff
+*.jpg !text !filter !merge !diff
+*.jpeg !text !filter !merge !diff
+*.pdf !text !filter !merge !diff
+*.parquet !text !filter !merge !diff
+*.feather !text !filter !merge !diff
+*.arrow !text !filter !merge !diff
+*.geojson !text !filter !merge !diff
+*.gpkg !text !filter !merge !diff
+*.shp !text !filter !merge !diff
+*.shx !text !filter !merge !diff
+*.dbf !text !filter !merge !diff

@@ -1,0 +1,3 @@
+{
+  "error": "TypeError: synthetic_control() got an unexpected keyword argument 'unit_col'"
+}

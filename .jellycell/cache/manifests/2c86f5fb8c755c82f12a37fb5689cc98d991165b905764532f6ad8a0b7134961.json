@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "cache_key": "2c86f5fb8c755c82f12a37fb5689cc98d991165b905764532f6ad8a0b7134961",
+  "notebook": "notebooks/03_main_effects.py",
+  "cell_id": "03_main_effects:1",
+  "cell_name": "panel",
+  "source_hash": "6491bdc6ac7f83a25ce44358d7e333420c4ddfb3efc92bd1da5f2a76b0fa8d6f",
+  "dep_keys": [],
+  "env_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "executed_at": "2026-04-19T07:59:15.772706Z",
+  "duration_ms": 288,
+  "status": "ok",
+  "outputs": [
+    {
+      "type": "stream",
+      "name": "stdout",
+      "blob": "c8075e98fbbb196fc5406bbf81db17ba38bef3163905bcfa2e704ad4c32fd84e"
+    }
+  ],
+  "artifacts": []
+}

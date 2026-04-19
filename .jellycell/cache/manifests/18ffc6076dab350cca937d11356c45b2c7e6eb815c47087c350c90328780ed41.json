@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "cache_key": "18ffc6076dab350cca937d11356c45b2c7e6eb815c47087c350c90328780ed41",
+  "notebook": "notebooks/02_balance_and_pretrends.py",
+  "cell_id": "02_balance_and_pretrends:1",
+  "cell_name": "balance",
+  "source_hash": "da531658adc432b93297299c2afe2e5ecd62fc6e80a6f1eb2064e41e8f281bba",
+  "dep_keys": [],
+  "env_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "executed_at": "2026-04-19T07:59:13.987828Z",
+  "duration_ms": 298,
+  "status": "ok",
+  "outputs": [
+    {
+      "type": "stream",
+      "name": "stdout",
+      "blob": "e4ce40557c7fc4446e400dada8bcab7b44d5bd0a1a1447bc83289853c170a718"
+    },
+    {
+      "type": "execute_result",
+      "mime": "text/plain",
+      "blob": "d30ad1a5aefecdf6465f06fb0f6c80cbf4b25468de360b5a864aa1743c527353",
+      "execution_count": 0
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/balance_table.json",
+      "sha256": "58916a626deee9aa25bfa54da1fa4f9a2f0e81a70e5602ada0100bb35330f7da",
+      "size": 834,
+      "mime": null,
+      "caption": "Pre-treatment SMD balance",
+      "notes": null,
+      "tags": []
+    },
+    {
+      "path": "artifacts/pretreatment_balance.parquet",
+      "sha256": "8e4cc80b6fc0c99fd7cf8cc36c5a925e5f1b0e57dcb596c7c15102e0f1c03692",
+      "size": 4068,
+      "mime": null,
+      "caption": "Pre-treatment covariate balance (treated 9 Manhattan CDs vs. control)",
+      "notes": "|SMD|>0.1 typically flagged as imbalance; |SMD|>0.5 is severe.",
+      "tags": []
+    }
+  ]
+}

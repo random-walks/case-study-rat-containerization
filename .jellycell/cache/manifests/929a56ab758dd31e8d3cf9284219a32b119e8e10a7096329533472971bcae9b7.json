@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "cache_key": "929a56ab758dd31e8d3cf9284219a32b119e8e10a7096329533472971bcae9b7",
+  "notebook": "notebooks/06_synthesis_and_publication.py",
+  "cell_id": "06_synthesis_and_publication:2",
+  "cell_name": "results_table",
+  "source_hash": "c534f52e0d6d9eec28bd994ff4c87971917088cb5118c3cc4e94bbf071c197e3",
+  "dep_keys": [
+    "8e49aabb9eb20cd4814ea8937862e01ddb0e81383dfda8247d5f2559ff1a85fd"
+  ],
+  "env_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "executed_at": "2026-04-19T07:59:30.687529Z",
+  "duration_ms": 168,
+  "status": "ok",
+  "outputs": [
+    {
+      "type": "stream",
+      "name": "stdout",
+      "blob": "6f41e6c27203b765c50085b49c4f7a4b44c9f15c4b8a496e66e448d1d96da165"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/main_results_summary.parquet",
+      "sha256": "d44df94bf55992db977712c1f85daeafaf974e0bcd3a18de704f8128eea0a0d5",
+      "size": 4215,
+      "mime": null,
+      "caption": "Main results: ATT estimates across three estimators",
+      "notes": null,
+      "tags": []
+    }
+  ]
+}
