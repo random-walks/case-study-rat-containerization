@@ -1,0 +1,10 @@
+{
+  "converged": true,
+  "n_iterations": 2,
+  "n_units": 51,
+  "rho_min": 0.5,
+  "rho_max": 0.5,
+  "rho_mean": 0.5,
+  "rho_std": 0.0,
+  "interpretation": "Reporting probabilities collapse to ~uniform \u2014 model is underdetermined even with 36 months and demographic covariates."
+}

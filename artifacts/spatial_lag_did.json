@@ -1,0 +1,8 @@
+{
+  "rho": 0.5152,
+  "rho_p": 0.0,
+  "treatment_coef": -25.509,
+  "treatment_p": 0.1987,
+  "n_observations": 68,
+  "interpretation": "Spatial lag rho = 0.515 (p = 0.0000). Significant spatial autocorrelation in residuals \u2014 neighbor effects matter."
+}

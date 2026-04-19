@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "cache_key": "bb2ebf4511e949d1990dc8e041146d04ec3fac45e351a72ba6a03d9e34605873",
+  "notebook": "notebooks/07_rdd_and_spatial.py",
+  "cell_id": "07_rdd_and_spatial:1",
+  "cell_name": "centroids",
+  "source_hash": "3f10c137a03ef0ee6acd4ae1479fb11224be43d2938b7598b7c917f7cc59ec13",
+  "dep_keys": [],
+  "env_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "executed_at": "2026-04-19T15:42:16.064052Z",
+  "duration_ms": 555,
+  "status": "ok",
+  "outputs": [
+    {
+      "type": "stream",
+      "name": "stdout",
+      "blob": "4b6b6358d09436fa6820d0303f9b12b4c6948a34735fd894a25e217911760d72"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/rdd_geometry.json",
+      "sha256": "8caee8fc9c1fb19735a042ff4926060209c56f5da63fe43e5aaaca3ff712b9ec",
+      "size": 111,
+      "mime": null,
+      "caption": "RDD geometry setup",
+      "notes": null,
+      "tags": []
+    }
+  ]
+}

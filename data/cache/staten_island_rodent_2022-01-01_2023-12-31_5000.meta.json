@@ -1,0 +1,12 @@
+{
+  "record_count": 2617,
+  "sha256": "83e8ebacec3d9eca65c4b02355f0f5290023c42b37fc45dd329de59d2b8f9bd5",
+  "fetched_at": "2026-04-19T15:37:34.144406+00:00",
+  "start_date": "2022-01-01",
+  "end_date": "2023-12-31",
+  "borough": "STATEN ISLAND",
+  "complaint_types": [
+    "Rodent"
+  ],
+  "page_size": 5000
+}

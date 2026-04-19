@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "cache_key": "0495ff69d1d5af6add89c2ece27e324fa638869e2c9e1064a1b3b5757c18232b",
+  "notebook": "notebooks/08_extended_robustness.py",
+  "cell_id": "08_extended_robustness:3",
+  "cell_name": "multi_year_pretrends",
+  "source_hash": "98cae6fcda3c0973a7e99214c4ae72306488cffbddb86ad04581b8ee5540d756",
+  "dep_keys": [
+    "21c28fe7c8b9b95756929784d1f6ba1b669981c32e119dabb5f7dac71f2775bf"
+  ],
+  "env_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "executed_at": "2026-04-19T15:42:19.397279Z",
+  "duration_ms": 134,
+  "status": "ok",
+  "outputs": [
+    {
+      "type": "stream",
+      "name": "stdout",
+      "blob": "c43962bf54417c068feba32fe2f222161e5bded607cece29ec8d4b315f58b55b"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/multi_year_pretrends.json",
+      "sha256": "29dc690050be628e3e31757c0a5e34c1d92d099f7e6f59203e94c1c4b43ea31a",
+      "size": 238,
+      "mime": null,
+      "caption": "Multi-year parallel-trends test (2022-May 2024 pre-window)",
+      "notes": null,
+      "tags": []
+    }
+  ]
+}

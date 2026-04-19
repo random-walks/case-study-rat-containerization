@@ -28,48 +28,94 @@ def load_demographics() -> pd.DataFrame:
     return pd.read_csv(DATA_DIR / "demographics.csv", index_col="unit_id")
 
 
-def load_or_build_panel() -> pd.DataFrame:
-    """Build the panel from vendored 2024 Rodent CSVs; cache as parquet."""
-    panel_path = DATA_DIR / "panel.parquet"
-    if panel_path.exists():
-        return pd.read_parquet(panel_path)
+def _load_records(start_year: int | None = None, end_year: int | None = None):
+    """Load vendored Rodent records, optionally filtered by start year of file.
 
+    Filename pattern: `<borough>_rodent_<YYYY-MM-DD>_<YYYY-MM-DD>_<chunk>.csv`
+    where the borough may contain underscores (e.g. `staten_island`).
+    """
+    import re
     from nyc311.io import load_service_requests
-    from nyc311.temporal import build_complaint_panel
-    from nyc311.temporal._models import TreatmentEvent
 
     csv_files = sorted(vendored_cache_dir().glob("*.csv"))
     if not csv_files:
-        raise FileNotFoundError(
-            "No vendored Rodent CSVs. Re-fetch via:\n"
-            "  uv run python -c 'from nyc311.pipeline import bulk_fetch; "
-            "bulk_fetch(complaint_types=(\"Rodent\",), start_date=\"2024-01-01\", "
-            "end_date=\"2024-12-31\", cache_dir=\"data/cache\")'"
-        )
-
-    print(f"  loading {len(csv_files)} cached CSVs...")
+        raise FileNotFoundError("No vendored Rodent CSVs in data/cache/.")
+    date_re = re.compile(r"_(\d{4})-\d{2}-\d{2}_(\d{4})-\d{2}-\d{2}_")
     records = []
     for p in csv_files:
+        m = date_re.search(p.name)
+        if not m:
+            continue  # skip files whose date range we can't parse
+        file_start, file_end = int(m.group(1)), int(m.group(2))
+        if start_year is not None and file_end < start_year:
+            continue
+        if end_year is not None and file_start > end_year:
+            continue
         records.extend(load_service_requests(p))
-    print(f"  {len(records):,} records loaded")
+    return records
+
+
+def _build_panel_dataset(records, label: str):
+    """Wrap build_complaint_panel + treatment event in one call."""
+    from nyc311.temporal import build_complaint_panel
+    from nyc311.temporal._models import TreatmentEvent
 
     treatment = TreatmentEvent(
-        name="rat_containerization_pilot",
+        name=f"rat_containerization_{label}",
         description="Manhattan CDs 01-09 pilot, June 2024",
         treated_units=TREATED_UNITS,
         treatment_date=TREATMENT_DATE,
         geography="community_district",
     )
-
-    panel = build_complaint_panel(
+    return build_complaint_panel(
         records,
         geography="community_district",
         freq="ME",
         treatment_events=(treatment,),
     )
+
+
+def load_or_build_panel() -> pd.DataFrame:
+    """Build the 2024 panel from vendored Rodent CSVs; cache as parquet."""
+    panel_path = DATA_DIR / "panel.parquet"
+    if panel_path.exists():
+        return pd.read_parquet(panel_path)
+
+    print("  building 2024 panel from vendored CSVs...")
+    records = _load_records(start_year=2024, end_year=2024)
+    print(f"  {len(records):,} records loaded")
+    panel = _build_panel_dataset(records, "2024")
     df = panel.to_dataframe()
     df.to_parquet(panel_path)
     print(f"  panel cached: {panel_path}")
+    return df
+
+
+def load_or_build_panel_dataset(*, multi_year: bool = False):
+    """Return the raw PanelDataset (needed by spatial_lag_model + others)."""
+    label = "multi_year" if multi_year else "2024"
+    print(f"  building PanelDataset ({label})...")
+    if multi_year:
+        records = _load_records(start_year=2022, end_year=2024)
+    else:
+        records = _load_records(start_year=2024, end_year=2024)
+    print(f"  {len(records):,} records loaded")
+    return _build_panel_dataset(records, label)
+
+
+def load_or_build_multi_year_panel() -> pd.DataFrame:
+    """Build the 2022-2024 panel (for multi-year parallel-trends test)."""
+    panel_path = DATA_DIR / "panel_multi_year.parquet"
+    if panel_path.exists():
+        return pd.read_parquet(panel_path)
+
+    print("  building 2022-2024 panel from vendored CSVs...")
+    records = _load_records(start_year=2022, end_year=2024)
+    print(f"  {len(records):,} records loaded across 2022-2024")
+    panel = _build_panel_dataset(records, "multi_year")
+    df = panel.to_dataframe()
+    df.to_parquet(panel_path)
+    print(f"  multi-year panel cached: {panel_path}")
     return df
 
 

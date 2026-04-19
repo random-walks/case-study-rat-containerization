@@ -1,0 +1,9 @@
+{
+  "icc": 0.05,
+  "r_squared": 0.0,
+  "mde": 20.75,
+  "n_units": 68,
+  "n_periods": 12,
+  "outcome_variance": 1911.18,
+  "proportion_treated": 0.1324
+}

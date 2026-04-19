@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "cache_key": "3e1e46ef8b454d15fa7c57663f3bba269193a9065ec38111167d6db1f5c93a2c",
+  "notebook": "notebooks/08_extended_robustness.py",
+  "cell_id": "08_extended_robustness:1",
+  "cell_name": "mde_power",
+  "source_hash": "ce77448db2abe626ebd021b8740545853ff98d88fae1448648cca8105178cba1",
+  "dep_keys": [],
+  "env_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "executed_at": "2026-04-19T15:42:19.246808Z",
+  "duration_ms": 636,
+  "status": "ok",
+  "outputs": [
+    {
+      "type": "stream",
+      "name": "stdout",
+      "blob": "ce554bf6c0b705c642a15a111c64e6dc1065c8fa4bb1571b366112a4b5b00234"
+    },
+    {
+      "type": "execute_result",
+      "mime": "text/plain",
+      "blob": "ec199dd5d31994a2cf3ebbb8a3d6e80b942c160d758b51c865ac06ae6d6eadb4",
+      "execution_count": 0
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/mde_default.json",
+      "sha256": "5a33b41a662cd916f0ae1922b3e341efd458474933d3e8ae1f6e685336fd9178",
+      "size": 152,
+      "mime": null,
+      "caption": "MDE at default settings: 20.75 complaints (compare to observed ATT)",
+      "notes": null,
+      "tags": []
+    },
+    {
+      "path": "artifacts/mde_sweep.parquet",
+      "sha256": "400fd7852898f0e6a2a201e2bfc9c41e5b0fa367ace3a132387bb719fedcb12b",
+      "size": 3609,
+      "mime": null,
+      "caption": "Minimum Detectable Effect — sensitivity to ICC and covariate R²",
+      "notes": "MDE = smallest effect detectable at 80% power, alpha=0.05.",
+      "tags": []
+    }
+  ]
+}

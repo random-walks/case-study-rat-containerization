@@ -82,23 +82,34 @@ for the per-test interpretation guide.
    policy effects requires longer follow-up. Citywide enforcement
    began only 7 weeks before the data window closes (Nov 12 → Dec 31,
    2024) — citywide effects are essentially undetectable here.
-2. **Reporting-awareness confounder is not formally separated** from
-   true rat-population change. The HTE analysis by baseline volume
-   provides indirect evidence (if the effect is uniform across
-   subgroups it's likely behavioral; if concentrated where baseline
-   was high it's likely real), but a formal IV approach using media
-   coverage as instrument is future work.
-3. **CD-level aggregation discards within-district heterogeneity.**
+2. **Underpowered design.** The MDE at default settings (ICC=0.05,
+   no covariates) is ~21 complaints; the observed TWFE |ATT| ≈ 7 is
+   well below detection threshold. See `artifacts/mde_default.json`.
+3. **Reporting-awareness confounder is not separated** from true
+   rat-population change. The latent EM model (`07_reporting_bias.py`)
+   collapses to uniform reporting probabilities even with 36 months +
+   ACS covariates — a formal IV using media-coverage timing or
+   DOH-inspection counts is the next-iteration fix.
+4. **Pre-treatment trends are NOT parallel** (formal test:
+   `artifacts/multi_year_pretrends.json`). Treated CDs had a slight
+   downward trend over 2022–May 2024 relative to controls; the
+   post-treatment ATT is biased upward by this differential. The
+   within-2024 placebo passes (artifacts/placebo_test.json), but the
+   longer pre-window flags a problem the placebo missed.
+5. **Spatial spillover is real and substantial.** Spatial-lag DiD
+   (`artifacts/spatial_lag_did.json`) reports ρ ≈ 0.52, p < 0.001 — the
+   naive TWFE ATT is contaminated by neighbor-effect leakage.
+6. **CD-level aggregation discards within-district heterogeneity.**
    Boundary effects and within-CD spatial gradients are invisible in
-   this panel.
-4. **Single-year data.** No real parallel-trends test (no 2022/2023
-   pre-period); the placebo restricted to Jan–May 2024 is a weak
-   substitute. Adding `start_date='2022-01-01'` to the data fetch
-   closes this gap on the next iteration.
-5. **No spatial spillover test.** The +ATT could partly reflect rats
-   relocating from treated CDs to neighboring untreated CDs. Spatial
-   weights + spatial-lag DiD are the next-iteration fix; flagged in
-   [`DIAGNOSTICS_CHECKLIST.md`](DIAGNOSTICS_CHECKLIST.md).
+   this panel; a record-level RDD via `rdrobust` would tighten the
+   geographic identification (flagged as next-iteration in
+   [`DIAGNOSTICS_CHECKLIST.md`](DIAGNOSTICS_CHECKLIST.md)).
+7. **McCrary density discontinuity at the RDD cutoff.** The diagnostic
+   correctly flags that the geographic distribution of CDs is
+   asymmetric across the treatment-zone boundary (the treated CDs sit
+   on a peninsula). This is not literal "manipulation" but it does
+   limit the RDD's identifying assumption — interpret the RDD result
+   as a complement to, not a replacement for, the DiD evidence.
 
 ## Interpretation
 
@@ -116,12 +127,12 @@ The synthesis notebook produces the consolidated narrative reading; see
 
 ```bash
 # from blaise-website root:
-pnpm showcase:run showcase-rat-containerization/notebooks/01_load_and_preprocess.py
-pnpm showcase:run showcase-rat-containerization/notebooks/02_balance_and_pretrends.py
-pnpm showcase:run showcase-rat-containerization/notebooks/03_main_effects.py
-pnpm showcase:run showcase-rat-containerization/notebooks/04_diagnostics.py
-pnpm showcase:run showcase-rat-containerization/notebooks/05_robustness_and_mechanism.py
-pnpm showcase:run showcase-rat-containerization/notebooks/06_synthesis_and_publication.py
+for nb in 01_load_and_preprocess 02_balance_and_pretrends 03_main_effects \
+          04_diagnostics 05_robustness_and_mechanism \
+          06_synthesis_and_publication 07_rdd_and_spatial \
+          08_extended_robustness; do
+  pnpm showcase:run "showcase-rat-containerization/notebooks/${nb}.py"
+done
 pnpm showcase:render showcase-rat-containerization
 pnpm showcase:view showcase-rat-containerization   # live HTML on :5179
 ```
