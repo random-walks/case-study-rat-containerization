@@ -1,0 +1,43 @@
+{
+  "outcome_cols": [
+    "complaint_count"
+  ],
+  "period_kind": "timestamp",
+  "freq": "MS",
+  "dimension": "community_district",
+  "treatment_events": [
+    {
+      "name": "nyc_rat_containerization_2023_pilot",
+      "description": "NYC Department of Sanitation mandatory-containerization rollout. Pilot phase launched in lower Manhattan (community districts MN 01-09) on 2023-07-01; citywide commercial-corridor enforcement began 2024-03-01 and expanded to residential buildings >30 units on 2024-07-01.",
+      "treated_units": [
+        "MANHATTAN 01",
+        "MANHATTAN 02",
+        "MANHATTAN 03",
+        "MANHATTAN 04",
+        "MANHATTAN 05",
+        "MANHATTAN 06",
+        "MANHATTAN 07",
+        "MANHATTAN 08",
+        "MANHATTAN 09"
+      ],
+      "treatment_date": "2023-07-01",
+      "period_value": null,
+      "dimension": "community_district",
+      "kind": "binary",
+      "intensity": null,
+      "arm": null,
+      "metadata": null
+    }
+  ],
+  "weights_col": null,
+  "record_count": 4440,
+  "provenance": {
+    "data_source": "NYC Open Data \u2014 311 Service Requests (Socrata erm2-nwe9)",
+    "license": "CC0-1.0",
+    "ethics_note": null,
+    "citation": "https://opendata.cityofnewyork.us/",
+    "creator": "nyc311.temporal.PanelDataset",
+    "dataset_version": null,
+    "created_at": null
+  }
+}

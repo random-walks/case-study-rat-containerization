@@ -1,0 +1,37 @@
+{
+  "running_variable": "pre_mean_complaint_rate",
+  "cutoff": 70.28571428571428,
+  "design": "sharp",
+  "optimal_bandwidth_mserd": 26.973459245183022,
+  "att_conventional": 7.608706961556294,
+  "se": 7.102475117382901,
+  "p_value": 0.28404561188061406,
+  "ci_95_low": -6.311888469606085,
+  "ci_95_high": 21.529302392718673,
+  "n_effective_left": 17,
+  "n_effective_right": 13,
+  "bandwidth_sensitivity": [
+    {
+      "bandwidth_label": "h/2",
+      "bandwidth": 13.486729622591511,
+      "att": 6.475945424374856,
+      "se": 9.793289510565424,
+      "p_value": 0.508443310263354
+    },
+    {
+      "bandwidth_label": "h",
+      "bandwidth": 26.973459245183022,
+      "att": 7.608706961556294,
+      "se": 7.102363071131863,
+      "p_value": 0.2840380151483527
+    },
+    {
+      "bandwidth_label": "2h",
+      "bandwidth": 53.946918490366045,
+      "att": 2.5431966374827226,
+      "se": 6.7722955171491295,
+      "p_value": 0.7072667235110948
+    }
+  ],
+  "caveat": "No policy-assigned running variable exists. This RDD is a discontinuity-based sensitivity check \u2014 not a primary identification. Interpret magnitude with caution."
+}

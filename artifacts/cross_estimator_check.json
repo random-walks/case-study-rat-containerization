@@ -1,0 +1,23 @@
+{
+  "atts": {
+    "twfe": -15.292768959435215,
+    "cs": -12.199240265906935,
+    "sa": -12.199240265906932,
+    "bjs": -15.292768959434426
+  },
+  "signs": {
+    "twfe": false,
+    "cs": false,
+    "sa": false,
+    "bjs": false
+  },
+  "same_sign": true,
+  "spread_pct_vs_twfe": {
+    "twfe": 0.0,
+    "cs": 20.228702216936703,
+    "sa": 20.22870221693673,
+    "bjs": 5.1573553408528e-12
+  },
+  "invariant_sign_agreement": true,
+  "invariant_magnitude_within_20pct_of_twfe": false
+}

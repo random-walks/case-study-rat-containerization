@@ -1,0 +1,24 @@
+{
+  "twfe_coef_treatment": -15.29276895943561,
+  "twfe_se_treatment": 7.419774812464181,
+  "twfe_p_treatment": 0.03929515797976632,
+  "r_squared": 0.8116828756953536,
+  "n_obs": 4440,
+  "breusch_pagan": {
+    "stat": 1443.892173831252,
+    "p_value": 8.143679213997383e-219,
+    "interpretation": "heteroskedastic"
+  },
+  "shapiro_wilk_on_sampled_residuals": {
+    "stat": 0.898774608015677,
+    "p_value": 2.6346451012930547e-47,
+    "sample_size": 4440,
+    "interpretation": "non_normal"
+  },
+  "residuals_summary": {
+    "mean": -3.615766344991825e-14,
+    "std": 35.12742169245373,
+    "min": -170.60463320463492,
+    "max": 376.3462462462453
+  }
+}

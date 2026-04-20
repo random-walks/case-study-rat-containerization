@@ -1,0 +1,23 @@
+{
+  "geography": "community_district",
+  "frequency": "ME",
+  "n_units": 74,
+  "n_periods": 60,
+  "n_observations": 4440,
+  "total_complaints": 377950,
+  "treated_units": [
+    "MANHATTAN 01",
+    "MANHATTAN 02",
+    "MANHATTAN 03",
+    "MANHATTAN 04",
+    "MANHATTAN 05",
+    "MANHATTAN 06",
+    "MANHATTAN 07",
+    "MANHATTAN 08",
+    "MANHATTAN 09"
+  ],
+  "n_treated_units": 9,
+  "treatment_date": "2023-07-01",
+  "window_start": "2020-01",
+  "window_end": "2024-12"
+}
