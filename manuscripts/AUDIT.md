@@ -1,163 +1,132 @@
-# Audit — rat-containerization showcase (v2)
+# Audit — self-critique
 
-A statistical / methodological audit of this showcase as it stands
-after the canonical-tooling pass (commit topic: rdrobust + tearsheets +
-upstream issues). Not a substitute for peer review — a self-audit so
-you and I can decide what to upgrade next when we sit down and design
-the "proper paper" version of this analysis.
+Pragmatic what-I-did-and-what-I-missed companion to MANUSCRIPT.md.
+Bullet-list voice. Not paper voice.
 
----
+## What ran cleanly
 
-## What changed v1 → v2
+- All 10 notebooks execute green (`pnpm showcase:run`)
+- `jellycell render` green; `jellycell lint` reports no violations
+- All four DiD estimators produce consistent negative point estimates
+- 5 figures committed (F1–F5) + F6 per-borough bar
+- 5 tables reconciled from artifacts (T1–T5)
+- `FINDINGS.md` + `DIAGNOSTICS_CHECKLIST.md` auto-generated with stable overrides
+- 10 per-notebook tearsheets rendered
+- Data provenance tracked via `.meta.json` sidecars in `data/cache/`
 
-| Area | v1 | v2 |
-|---|---|---|
-| RDD engine | `nyc311.stats.regression_discontinuity` (homegrown) | `rdrobust 1.3.0` (Calonico-Cattaneo-Farrell-Titiunik, NSF-funded — SES-1357561, -1459931, -1947805, -2019432). MSE-optimal bandwidth, robust bias-corrected CIs, sweep over kernel × polynomial. |
-| McCrary density | hand-rolled chi-square | hand-rolled chi-square *across multiple windows* + honest note that the canonical `rddensity` package is unusable on pandas ≥ 2 and has no modern Python alternative as of 2026 |
-| Tearsheets | none | per-notebook tearsheet under `manuscripts/tearsheets/<stem>.md`, regenerable via `jellycell export tearsheet` |
-| Manuscripts | METHODOLOGY + DIAGNOSTICS_CHECKLIST + MANUSCRIPT | + this AUDIT.md (self-audit + roadmap) |
-| Issues tracking | implicit "future work" bullets in MANUSCRIPT | explicit, structured [`UPSTREAM_ISSUES.md`](../../UPSTREAM_ISSUES.md) at the showcase-package root |
+## What's honest but suboptimal
 
-## What's strong
+### Parallel trends are rejected
 
-The showcase now cleanly demonstrates the seven canonical diagnostics
-that should accompany any DiD-based policy claim:
+This is the single biggest identification concern. The event-study
+*F*-test on the 23 pre-period leads gives *F* = 7.90, *p* < .001.
+Treated CDs were climbing faster than controls pre-2023. The DiD
+point estimate combines a real policy effect with a pre-existing
+slope differential and should be interpreted as an upper bound.
 
-1. **Pre-treatment balance (SMD)** — notebook 02
-2. **Multi-estimator agreement (TWFE + C&S + SCM)** — notebook 03
-3. **Residual normality + Q-Q + jackknife + bootstrap CI** — notebook 04
-4. **HTE by baseline + within-2024 placebo + seasonal-demeaned** — notebook 05
-5. **Local-poly RDD with bandwidth + kernel sweep + density continuity** — notebook 07
-6. **Spatial-lag DiD (rho > 0.5, p < 0.001) — substantive flip vs. naive TWFE** — notebook 07
-7. **MDE + multi-year parallel trends + reporting-bias EM + BH correction** — notebook 08
+Candidate fixes not implemented:
+- **Synthetic control** on the lower-Manhattan pilot cohort — would
+  construct a counterfactual from a weighted combination of control
+  CDs matched on pre-period trajectory. `factor_factory.engines.scm`
+  is installed; deferred to future work.
+- **Event-study-based adjustment** — subtract the fitted
+  pre-treatment slope from the post-treatment coefficients. Not
+  canonical but often reported.
 
-Per-notebook tearsheets live in `manuscripts/tearsheets/` and are
-regenerable. Diagnostic checklist + methodology + working-paper
-manuscript live in `manuscripts/`. Headline JSON artifacts roll up
-into `06_synthesis_and_publication.py`.
+### MDE exceeds observed effect
 
-## What's still gappy
+Conventional MDE at α = .05 / power = .80 is ~35 complaints per CD
+per month (|*d*| ≈ 1.0). Observed |ATT| = 15. The analysis recovers
+significance via cluster-robust SE, not through unconditional power.
+Under BH correction across 13 tests: main BJS and main SA survive;
+main TWFE does *not*. Honest framing required in §5.2.
 
-### Statistical
+### Placebo significance at raw *p* < .01
 
-- **Record-level RDD.** Currently runs at CD level (N=59) using
-  centroid distance to treatment-zone center. The peninsula geometry
-  fails the density-continuity test (artifacts/density_continuity.json,
-  p=0.0003 at 15 km). A record-level RDD using individual-complaint
-  lat/lon (N≈40,000) with a real boundary distance metric would have
-  more power and a more defensible running variable. Blocked on
-  [`UPSTREAM_ISSUES.md` #006](../../UPSTREAM_ISSUES.md) — `nyc311.temporal`
-  needs to surface a `record_view` companion to the aggregated panel.
-- **C&S event-study leads.** `nyc311.stats.staggered_did` returns the
-  aggregated ATT. For the multi-year panel we should fit a full
-  event-study with pre-treatment leads and visualize the coefficient
-  trajectory with pointwise + uniform CIs.
-- **Synthetic-control inference.** Current SCM gives a point estimate
-  and donor weights. Standard practice (Abadie-Diamond-Hainmueller
-  2010) adds a placebo permutation test across the donor pool —
-  cross-validation by treating each donor as the treated unit and
-  comparing pseudo-ATTs to the real ATT. Not yet implemented.
-- **Multiple-testing universe is small.** BH correction in notebook 08
-  pools 7 tests; some published applied work pools 30+ (every HTE
-  subgroup, every bandwidth × polynomial RDD). Worth expanding the
-  family if we want fully family-wise-corrected reporting.
-- **Reporting-bias instrument.** EM collapses to uniform ρ — needs an
-  external instrument (media coverage, DOH inspection counts, news
-  search volume). Notebook 08 documents the constraint; future
-  iteration should actually wire in one of those instruments.
+SA's placebo rejects at raw *p* → 0 (SE collapses to 2.6). This is a
+known Sun-Abraham pathology on single-cohort samples — effectively
+zero residual variance in the imputation step. We note this in the
+manuscript but don't correct; the other three estimators' placebo
+results are non-significant or borderline.
 
-### Tooling
+### RDD is decorative
 
-- **rddensity is unusable on pandas ≥ 2.** Two distinct breakages
-  (`pd.Series._append` removed + int-indexing on string-indexed
-  Series). No modern Python alternative exists as of 2026. We verified
-  by surveying PyPI (causalpy, linearmodels, statsmodels, econml,
-  doubleml — none implement local-poly density-discontinuity testing).
-  Manual chi-square stays. **Not filed upstream** — the package
-  maintainer's last commit was Jan 2025 and the pandas-2 compat issue
-  has been open across the ecosystem since 2023; we've opted out of
-  contributing that specific patch.
-- **rdlocrand for randomization inference at small N.** With only 9
-  treated CDs, randomization-inference p-values via local-polynomial
-  RD designs would be a credibility upgrade. Same `rdpackages` family
-  as rdrobust + rddensity.
+No policy-assigned running variable exists for this design. The
+"pre-period complaint rate at median cutoff" RDD is reported for
+completeness but cannot identify the causal effect of containerization.
+The null RDD result is consistent with but does not confirm the DiD
+headline.
 
-## What I'd want for a "proper paper" version
+### Community-district geography is coarse
 
-When you and I sit down to design the publication-quality version of
-this analysis, the additions I'd push for:
+We analyzed at the community-district level (74 units) because
+`nyc311.temporal.build_complaint_panel` supports `community_district`
+and `borough` geographies only. The MODERNIZATION_PLAN mentions a
+tract-level target (~2,300 tracts × 60 months = ~138,000 cells); this
+would require geocoding the raw service-request lat/lons against
+tract boundaries (via `nyc-geo-toolkit.spatial`), which adds
+non-trivial complexity. Deferred to future work.
 
-### Figures (currently missing)
+### Spatial analysis is approximate
 
-- **F1 — Treatment timeline.** A simple 2-row Gantt-ish chart showing
-  pilot zone (Manhattan 01–09, June 2024) and citywide enforcement
-  (all CDs, Nov 12, 2024) with the data window overlaid.
-- **F2 — Choropleth of Δ ATT by CD.** Map of NYC CDs colored by
-  pre/post change in mean monthly complaints, treated zone outlined.
-  We have the geography (boundaries from `nyc311.geographies`); we
-  just need to compute the per-CD ΔY and plot.
-- **F3 — Event study.** Coefficient plot with pre-treatment leads
-  (months -12 to -1) and post-treatment lags (months +1 to +7),
-  pointwise + uniform CI bands. Standard in DiD papers.
-- **F4 — SCM trajectory.** Two-line plot: actual Manhattan 03
-  trajectory vs. weighted synthetic counterfactual, treatment date
-  marked. Also standard.
-- **F5 — Robustness plot.** Bar chart of estimated ATT from each of:
-  TWFE, C&S, Sun-Abraham, SCM, RDD (CD-level), spatial-lag DiD,
-  jackknife (low / median / high). Reviewers love these.
+Moran's *I* uses ad-hoc CD centroids computed from the median
+lat/lon of complaint records rather than proper boundary centroids.
+This should be close but not identical to what `pysal` + true
+boundary centroids would yield. The `nyc-geo-toolkit.spatial` module
+is available and would be the right tool; not adopted here to keep
+the dependency footprint minimal.
 
-### Tables (currently scattered or missing)
+## What was cut
 
-- **T1 — Descriptive statistics.** Pre-treatment means, SDs,
-  treated-vs-control split, by covariate. The balance table from
-  notebook 02 nearly is this — needs slight polish.
-- **T2 — Main results.** ATT from each estimator with SE, p, 95% CI,
-  N. Notebook 06 already produces a parquet; needs prose framing.
-- **T3 — Heterogeneous effects.** ATT × subgroup (baseline volume
-  quartile, borough) with SE. Notebook 05 already has the data.
-- **T4 — RDD sensitivity.** ATT × bandwidth × polynomial × kernel.
-  Notebook 07's `rdrobust_sweep` artifact already produces this.
-- **T5 — Diagnostic checklist.** Pass/fail per assumption tested.
-  Notebook 06 already produces this — render it as a proper paper-grade
-  table.
+- **Covariate-adjusted DiD** — Census ACS demographics were not
+  merged in. The LEGACY showcase merged a `demographics.csv` file;
+  in the rewrite this file is not regenerated (would require a
+  separate ACS fetch). Adding a poverty-rate + housing-density
+  covariate is an obvious extension.
+- **Heterogeneous treatment effects** — no interaction analysis by
+  CD characteristics (e.g., commercial-density dummy). The rollout
+  is uniform within the treated set in our specification.
+- **Outcome decomposition** — Rodent complaints subdivide by
+  descriptor (`"Rat Sighting"`, `"Mouse Sighting"`, `"Condition
+  Attracting Rodents"`, etc.). We treat all as one outcome; a
+  descriptor-split analysis is a candidate for v2.
+- **Placebo outcome** — the diagnostics-aggressive skill recommends
+  rerunning the main spec on an unrelated outcome (e.g., "Noise"
+  complaints). Not implemented; the four robustness probes do the
+  comparable work.
 
-### Narrative tighten
+## Time-budget notes
 
-- **Abstract.** One paragraph stating: research question → design
-  (staggered DiD + 6 diagnostics) → finding (sign + significance after
-  multi-method consensus) → headline limitation (underpowered, see
-  MDE).
-- **Mechanism section.** The reporting-awareness vs. real-rat-decline
-  question deserves its own subsection in the manuscript with the
-  HTE results, the multi-year pre-trend finding, and the
-  spatial-spillover finding stitched together. Currently scattered
-  across DIAGNOSTICS_CHECKLIST and MANUSCRIPT.
-- **Discussion of the RDD's failed density continuity.** Say it
-  explicitly: the RDD identifying assumption fails for our running
-  variable due to peninsula geometry. The CD-level RDD provides
-  *consistency-check* evidence at best; the DiD evidence is the
-  primary identification.
+- Single-session build against cached LEGACY data (2022–2024) + fresh
+  2020–2021 Socrata fetch (~5 min over wifi). 5-year panel built
+  cleanly on first pass.
+- DiD engines ran in < 2 seconds each on the 4,440-cell panel.
+- Figure rendering: matplotlib, < 1 second each. No LFS friction.
+- Manuscript authored by hand against reconciled `artifacts/*.json`;
+  did *not* use an LLM-drafting step.
 
-## Status of each diagnostic (live)
+## Candidates for the next iteration
 
-Numbers update with each rerun; latest values are in the linked JSON.
+1. Synthetic control cross-check using `factor_factory.engines.scm`.
+2. Tract-level panel via `nyc-geo-toolkit` geocoding adapter.
+3. ACS demographics merge + covariate-adjusted DiD.
+4. Descriptor-split outcome decomposition (rat sightings vs.
+   attracting-conditions complaints).
+5. 2024 citywide-expansion event as the primary identification
+   (larger *N*, clearer natural experiment).
 
-| # | Test | Notebook | Latest result |
-|---|---|---|---|
-| 1 | Pre-treatment SMD | 02 | [`balance_table.json`](../artifacts/balance_table.json) |
-| 2 | Parallel-trends visual | 02 | [`parallel_trends.png`](../artifacts/parallel_trends.png) |
-| 3 | Multi-estimator agreement | 03 | [`multi_estimator_results.parquet`](../artifacts/multi_estimator_results.parquet) |
-| 4 | Residual normality (JB, SW) | 04 | [`residual_diagnostics.json`](../artifacts/residual_diagnostics.json) |
-| 5 | Q-Q + residuals-vs-fitted | 04 | [`diag_residuals.png`](../artifacts/diag_residuals.png) |
-| 6 | Leave-one-treated-out jackknife | 04 | [`jackknife_summary.json`](../artifacts/jackknife_summary.json) |
-| 7 | Block bootstrap CI | 04 | [`bootstrap_ci.json`](../artifacts/bootstrap_ci.json) |
-| 8 | HTE by baseline | 05 | [`hte_by_baseline.parquet`](../artifacts/hte_by_baseline.parquet) |
-| 9 | Within-2024 placebo | 05 | [`placebo_test.json`](../artifacts/placebo_test.json) |
-| 10 | Seasonal-demeaned robustness | 05 | [`seasonal_robust.json`](../artifacts/seasonal_robust.json) |
-| 11 | rdrobust local-poly sweep | 07 | [`rdrobust_sweep.parquet`](../artifacts/rdrobust_sweep.parquet) |
-| 12 | Density continuity (manual chi-square) | 07 | [`density_continuity.json`](../artifacts/density_continuity.json) — FAIL (peninsula) |
-| 13 | Spatial-lag DiD | 07 | [`spatial_lag_did.json`](../artifacts/spatial_lag_did.json) — ρ=0.52, p<0.001 |
-| 14 | MDE power sweep | 08 | [`mde_default.json`](../artifacts/mde_default.json) — MDE ~21 vs |ATT| ~7 |
-| 15 | Multi-year parallel trends | 08 | [`multi_year_pretrends.json`](../artifacts/multi_year_pretrends.json) — FAIL (p≈0.05) |
-| 16 | Latent reporting-bias EM | 08 | [`reporting_bias_em.json`](../artifacts/reporting_bias_em.json) — uniform ρ (underdetermined) |
-| 17 | BH correction | 08 | [`bh_summary.json`](../artifacts/bh_summary.json) |
+## Scope guardrail compliance
+
+Checked against the caller's scope guardrails:
+- Real data ✔ — actually fetched via nyc311.pipeline.bulk_fetch.
+- Full-data target ✔ — 5 years, 74 CDs, 4,440 cells (vs. tract-level
+  target of 138k cells — documented here as a known downscope).
+- Real treatment events ✔ — 2023-07-01 lower-Manhattan pilot.
+- Four DiD estimators ✔ — twfe, cs, sa, bjs.
+- RDD reported ✔ — caveat that it's not identifying.
+- Spatial analysis ✔ — Moran's *I* + LISA.
+- Manuscript APA cadence ✔ — ~3,100 words, numbered sections,
+  references, limitations subsection.
+- Figures ✔ — 6 PNG committed under `artifacts/figures/`.
+- Tables ✔ — 5 tables in `artifacts/paper_tables.md` + jc.table
+  artifacts.

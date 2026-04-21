@@ -1,10 +1,23 @@
 {
-  "n_districts": 68,
-  "n_periods": 12,
-  "n_observations": 816,
-  "total_complaints": 39725,
-  "treated_units": 9,
-  "treatment_date": "2024-06-01",
-  "post_treatment_obs": 63,
-  "demographics_matched": 51
+  "geography": "community_district",
+  "frequency": "ME",
+  "n_units": 74,
+  "n_periods": 60,
+  "n_observations": 4440,
+  "total_complaints": 377950,
+  "treated_units": [
+    "MANHATTAN 01",
+    "MANHATTAN 02",
+    "MANHATTAN 03",
+    "MANHATTAN 04",
+    "MANHATTAN 05",
+    "MANHATTAN 06",
+    "MANHATTAN 07",
+    "MANHATTAN 08",
+    "MANHATTAN 09"
+  ],
+  "n_treated_units": 9,
+  "treatment_date": "2023-07-01",
+  "window_start": "2020-01",
+  "window_end": "2024-12"
 }

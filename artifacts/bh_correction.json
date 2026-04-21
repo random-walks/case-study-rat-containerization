@@ -1,0 +1,86 @@
+{
+  "method": "benjamini_hochberg_fdr",
+  "alpha": 0.05,
+  "n_tests": 13,
+  "results": [
+    {
+      "test": "main_twfe",
+      "raw_p": 0.03805339524620921,
+      "bh_p": 0.07067059117153139,
+      "reject_at_bh_05": false
+    },
+    {
+      "test": "main_cs",
+      "raw_p": 0.08047104575570074,
+      "bh_p": 0.1307654493530137,
+      "reject_at_bh_05": false
+    },
+    {
+      "test": "main_sa",
+      "raw_p": 0.0007244381632605101,
+      "bh_p": 0.0018835392244773263,
+      "reject_at_bh_05": true
+    },
+    {
+      "test": "main_bjs",
+      "raw_p": 7.724643147355437e-11,
+      "bh_p": 2.510509022890517e-10,
+      "reject_at_bh_05": true
+    },
+    {
+      "test": "placebo_twfe",
+      "raw_p": 0.09566200174078898,
+      "bh_p": 0.13817844695891743,
+      "reject_at_bh_05": false
+    },
+    {
+      "test": "placebo_cs",
+      "raw_p": 0.13992771874630683,
+      "bh_p": 0.18190603437019887,
+      "reject_at_bh_05": false
+    },
+    {
+      "test": "placebo_sa",
+      "raw_p": 0.0,
+      "bh_p": 0.0,
+      "reject_at_bh_05": true
+    },
+    {
+      "test": "placebo_bjs",
+      "raw_p": 0.0011243991493405936,
+      "bh_p": 0.002436198156904619,
+      "reject_at_bh_05": true
+    },
+    {
+      "test": "log_outcome",
+      "raw_p": 0.32587692436041893,
+      "bh_p": 0.3530333347237872,
+      "reject_at_bh_05": false
+    },
+    {
+      "test": "post_covid_bjs",
+      "raw_p": 0.0,
+      "bh_p": 0.0,
+      "reject_at_bh_05": true
+    },
+    {
+      "test": "mn_only_bjs",
+      "raw_p": 0.0,
+      "bh_p": 0.0,
+      "reject_at_bh_05": true
+    },
+    {
+      "test": "rdd_conventional",
+      "raw_p": 0.28404561188061406,
+      "bh_p": 0.33569026858618023,
+      "reject_at_bh_05": false
+    },
+    {
+      "test": "morans_i_perm",
+      "raw_p": 0.5435435435435435,
+      "bh_p": 0.5435435435435435,
+      "reject_at_bh_05": false
+    }
+  ],
+  "n_surviving_bh": 6
+}

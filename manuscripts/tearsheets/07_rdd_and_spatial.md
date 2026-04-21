@@ -1,77 +1,73 @@
-# 07 — Proper RDD (rdrobust) + spatial-lag DiD
+# 07 — RDD and spatial
 
-> **Tearsheet** for [`notebooks/07_rdd_and_spatial.py`](../../notebooks/07_rdd_and_spatial.py) · [HTML report](../../site/07_rdd_and_spatial.html) · last run `2026-04-19T16:39:01+00:00`
+> **Tearsheet** for [`notebooks/07_rdd_and_spatial.py`](../../notebooks/07_rdd_and_spatial.py) · [HTML report](../../site/07_rdd_and_spatial.html) · last run `2026-04-20T16:28:59+00:00`
 
-Three diagnostics, now using **canonical industry-standard tooling**
-wherever it works:
+Two auxiliary analyses:
 
-1. **`rdrobust`** (Calonico-Cattaneo-Farrell-Titiunik, NSF SES-1357561,
->    SES-1459931, SES-1947805, SES-2019432) — MSE-optimal bandwidth
->    selection (`bwselect='mserd'`), bias-corrected robust confidence
->    intervals, sweeps across kernels and polynomial orders.
-> 2. **Manual chi-square density continuity test** at the cutoff. We
->    surveyed the Python ecosystem for a replacement — `rddensity`
->    itself is unusable on pandas ≥ 2 and no modern alternative exists
->    as of 2026 (PyPI: causalpy, linearmodels, statsmodels, econml,
->    doubleml — none implement local-poly density-discontinuity). We
->    keep a hand-rolled window-sweep chi-square test — defensible at
->    the small N (= number of CDs) we operate at.
-> 3. **Spatial-lag DiD** via `nyc311.stats.spatial_lag_model` —
->    accounts for spillover from treated CDs to neighboring untreated.
+1. **Sharp RDD on pre-period complaint rate** — a cross-sectional
+   probe of whether CDs clustered just above the median pre-period
+   complaint rate among Manhattan CDs responded differently from
+   those just below. We do *not* claim this is the primary
+   identification (there is no policy-assigned running variable); it
+   is a discontinuity-based sensitivity check reported alongside the
+   DiD headline.
+2. **Moran's I on the treatment effect** — per-CD post-minus-pre
+   change in complaint rate, mapped onto community-district
+   centroids (derived from the latitude/longitude columns on the
+   underlying service-request records). Tests whether the treatment
+   effect is spatially clustered, i.e., whether neighboring
+   treated-area CDs experienced correlated outcomes.
 
-Citations: Calonico, Cattaneo & Titiunik 2014 *Econometrica*; Calonico,
-Cattaneo & Titiunik 2015 *JASA*; Calonico, Cattaneo, Farrell & Titiunik
-2019 *Review of Economics and Statistics*.
-
-**RDD geometry setup — centroids + treatment-zone center**
+**Cross-sectional sharp RDD on pre-period complaint rate; sensitivity check only.**
 
 | field | value |
 | --- | --- |
-| `n_centroids` | `59` |
+| `running_variable` | pre_mean_complaint_rate |
+| `cutoff` | `70.29` |
+| `design` | sharp |
+| `optimal_bandwidth_mserd` | `26.97` |
+| `att_conventional` | `7.609` |
+| `se` | `7.102` |
+| `p_value` | `0.284` |
+| `ci_95_low` | `-6.312` |
+| `ci_95_high` | `21.53` |
+| `n_effective_left` | `17` |
+| `n_effective_right` | `13` |
+| `bandwidth_sensitivity` | `[{'bandwidth_label': 'h/2', 'bandwidth': 13.486729622591511, 'att': 6.475945424374856, 'se': 9.793289510565424, 'p_value': 0.508443310263354}, {'bandwidth_label': 'h', 'bandwidth': 26.973459245183022, 'att': 7.608706961556294, 'se': 7.102363071131863, 'p_value': 0.2840380151483527}, {'bandwidth_label': '2h', 'bandwidth': 53.946918490366045, 'att': 2.5431966374827226, 'se': 6.7722955171491295, 'p_value': 0.7072667235110948}]` |
+| `caveat` | No policy-assigned running variable exists. This RDD is a discontinuity-based… |
+
+
+**Moran's I on the per-CD post-minus-pre complaint-rate change.**
+
+| field | value |
+| --- | --- |
+| `morans_I` | `-0.005348` |
+| `expectation_under_null` | `-0.01389` |
+| `permutation_p_value` | `0.5435` |
+| `n_permutations` | `999` |
+| `n_units` | `73` |
+| `distance_cutoff_km` | `10` |
+| `weight_scheme` | inverse_distance_row_standardized |
+| `interpretation` | Moran's *I* measures spatial autocorrelation of the post-minus-pre complaint-… |
+
+
+**LISA cluster classification on treatment-effect surface (10km distance band).**
+
+| field | value |
+| --- | --- |
+| `cluster_counts_all.ns` | `70` |
+| `cluster_counts_all.LH` | `2` |
+| `cluster_counts_all.HH` | `1` |
+| `cluster_counts_treated.ns` | `9` |
+| `n_units` | `73` |
 | `n_treated` | `9` |
-| `zone_center` | `[-73.98245913956417, 40.75399623662904]` |
 
 
-**rdrobust setup summary**
-
-| field | value |
-| --- | --- |
-| `n_units` | `59` |
-| `running_var_km_range` | `[-7.487896372014907, 29.44696031430995]` |
-| `package` | rdrobust>=1.3 |
+![fig4_spatial_effect](../../artifacts/figures/figure-4-spatial-clusters.png)
 
 
-**Density continuity test summary**
-
-| field | value |
-| --- | --- |
-| `window_km` | `15` |
-| `left_count` | `9` |
-| `right_count` | `32` |
-| `chi2` | `12.9` |
-| `p_value` | `0.0003` |
-| `density_continuous` | `false` |
-| `interpretation` | FAIL — density discontinuity flagged at window 15.0 km (p = 0.0003). In our s… |
-| `note` | Hand-rolled — the canonical rddensity is unusable on pandas ≥ 2 and has no mo… |
-
-
-![rdrobust_plot](../../artifacts/rdrobust_plot.png)
-
-
-**Spatial-lag DiD: TWFE + spatial autoregressive residuals (3 km neighborhoods)**
-
-| field | value |
-| --- | --- |
-| `rho` | `0.5152` |
-| `rho_p` | `0` |
-| `treatment_coef` | `-25.51` |
-| `treatment_p` | `0.1987` |
-| `n_observations` | `68` |
-| `interpretation` | Spatial lag rho = 0.515 (p = 0.0000). Significant residual spatial autocorrel… |
-
-
-**Continue to** [`08_extended_robustness.py`](08_extended_robustness.py)
-— power analysis, multi-year parallel-trends, reporting-bias EM, BH correction.
+**Next:** `08_extended_robustness.py` — MDE + Benjamini-Hochberg on
+the full robustness matrix.
 
 ---
 

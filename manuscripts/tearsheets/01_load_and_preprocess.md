@@ -1,27 +1,80 @@
-# 01 — Load + preprocess
+# 01 — Load and preprocess
 
-> **Tearsheet** for [`notebooks/01_load_and_preprocess.py`](../../notebooks/01_load_and_preprocess.py) · [HTML report](../../site/01_load_and_preprocess.html) · last run `2026-04-19T07:59:12+00:00`
+> **Tearsheet** for [`notebooks/01_load_and_preprocess.py`](../../notebooks/01_load_and_preprocess.py) · [HTML report](../../site/01_load_and_preprocess.html) · last run `2026-04-20T16:21:15+00:00`
 
-Builds the 12-month rodent-complaint panel (Jan–Dec 2024, 68 districts)
-from the vendored Socrata pull. Treatment: Manhattan CDs 01–09 from
-June 2024 (matches upstream `random-walks/nyc311` analysis).
+Fetches (or re-reads from cache) NYC 311 **Rodent** complaints for the
+2020-01-01 → 2024-12-31 window, aggregates them into a balanced
+community-district × month panel, and emits a
+`factor_factory.tidy.Panel` ready for DiD estimation.
 
-**2024 rat-complaint panel summary**
+**Treatment**: NYC Department of Sanitation mandatory-containerization
+pilot launched 2023-07-01 in lower Manhattan community districts MN 01-09.
+Control: the remaining ~50 community districts across the five boroughs.
+
+First-run fetch takes ~10–15 minutes; subsequent runs hit the local CSV
+cache under `data/cache/`. See `data/README.md` for provenance.
+
+**Loaded 377,950 NYC 311 Rodent records, 2020-01-01 → 2024-12-31**
 
 | field | value |
 | --- | --- |
-| `n_districts` | `68` |
-| `n_periods` | `12` |
-| `n_observations` | `816` |
-| `total_complaints` | `39725` |
-| `treated_units` | `9` |
-| `treatment_date` | 2024-06-01 |
-| `post_treatment_obs` | `63` |
-| `demographics_matched` | `51` |
+| `window_start` | 2020-01-01 |
+| `window_end` | 2024-12-31 |
+| `n_records` | `377950` |
+| `n_borough_files` | `5` |
 
 
-**Continue to** [`02_balance_and_pretrends.py`](02_balance_and_pretrends.py)
-— pre-treatment covariate balance + parallel-trends visual.
+**Balanced panel: 74 districts × 60 months (9 treated, t_0=2023-07-01)**
+
+| field | value |
+| --- | --- |
+| `geography` | community_district |
+| `frequency` | ME |
+| `n_units` | `74` |
+| `n_periods` | `60` |
+| `n_observations` | `4440` |
+| `total_complaints` | `377950` |
+| `treated_units` | `[9 items]` |
+| `n_treated_units` | `9` |
+| `treatment_date` | 2023-07-01 |
+| `window_start` | 2020-01 |
+| `window_end` | 2024-12 |
+
+
+**Ff panel.parquet.meta**
+
+| field | value |
+| --- | --- |
+| `outcome_cols` | `['complaint_count']` |
+| `period_kind` | timestamp |
+| `freq` | MS |
+| `dimension` | community_district |
+| `treatment_events` | `[{'name': 'nyc_rat_containerization_2023_pilot', 'description': 'NYC Department of Sanitation mandatory-containerization rollout. Pilot phase launched in lower Manhattan (community districts MN 01-09) on 2023-07-01; citywide commercial-corridor enforcement began 2024-03-01 and expanded to residential buildings >30 units on 2024-07-01.', 'treated_units': ['MANHATTAN 01', 'MANHATTAN 02', 'MANHATTAN 03', 'MANHATTAN 04', 'MANHATTAN 05', 'MANHATTAN 06', 'MANHATTAN 07', 'MANHATTAN 08', 'MANHATTAN 09'], 'treatment_date': '2023-07-01', 'period_value': None, 'dimension': 'community_district', 'kind': 'binary', 'intensity': None, 'arm': None, 'metadata': None}]` |
+| `weights_col` | `null` |
+| `record_count` | `4440` |
+| `provenance.data_source` | NYC Open Data — 311 Service Requests (Socrata erm2-nwe9) |
+| `provenance.license` | CC0-1.0 |
+| `provenance.ethics_note` | `null` |
+| `provenance.citation` | https://opendata.cityofnewyork.us/ |
+| `provenance.creator` | nyc311.temporal.PanelDataset |
+| `provenance.dataset_version` | `null` |
+| `provenance.created_at` | `null` |
+
+**factor_factory.tidy.Panel — input to DiD engines in notebook 03**
+
+| field | value |
+| --- | --- |
+| `dimension` | community_district |
+| `geography` | community_district |
+| `freq` | MS |
+| `n_units` | `74` |
+| `n_periods` | `60` |
+| `outcome_col` | complaint_count |
+| `treatment_events` | `['nyc_rat_containerization_2023_pilot']` |
+
+
+**Next:** `02_balance_and_pretrends.py` — covariate balance + the
+parallel-trends visual.
 
 ---
 

@@ -1,53 +1,55 @@
-# 04 — Diagnostics (NEW vs. upstream)
+# 04 — Diagnostics
 
-> **Tearsheet** for [`notebooks/04_diagnostics.py`](../../notebooks/04_diagnostics.py) · [HTML report](../../site/04_diagnostics.html) · last run `2026-04-19T07:59:27+00:00`
+> **Tearsheet** for [`notebooks/04_diagnostics.py`](../../notebooks/04_diagnostics.py) · [HTML report](../../site/04_diagnostics.html) · last run `2026-04-20T16:24:03+00:00`
 
-Upstream reports point estimates with no diagnostic accompaniment.
-This notebook adds: (a) residual normality + heteroskedasticity tests,
-(b) Cook's distance / DFBETAS for influence, (c) leave-one-treated-out
-jackknife of the TWFE ATT, (d) block-bootstrap 95% CIs.
+Event-study (leads + lags), pre-trend F-test, TWFE residual
+normality + heteroskedasticity checks. The event study is the
+single most important diagnostic for a DiD; flat pre-period leads
+are the parallel-trends "smell test" on top of the visual in §02.
 
-**TWFE residual normality tests**
-
-| field | value |
-| --- | --- |
-| `n` | `816` |
-| `mean` | `0` |
-| `std` | `14.89` |
-| `jarque_bera_stat` | `1644` |
-| `jarque_bera_p` | `0` |
-| `shapiro_wilk_stat` | `0.9182` |
-| `shapiro_wilk_p` | `0` |
-| `normality_passes` | `false` |
-
-
-![qq_residuals](../../artifacts/diag_residuals.png)
-
-
-**Jackknife range across treated districts**
+**Event-study leads/lags + joint F-test that pre-period leads are zero.**
 
 | field | value |
 | --- | --- |
-| `n_jackknife` | `9` |
-| `min_att` | `0.942` |
-| `max_att` | `2.042` |
-| `median_att` | `1.203` |
-| `range` | `1.1` |
+| `n_leads` | `23` |
+| `n_lags` | `19` |
+| `pre_trends_F_test.F_stat` | `7.903` |
+| `pre_trends_F_test.p_value` | `4.811e-12` |
+| `pre_trends_F_test.df_num` | `23` |
+| `pre_trends_F_test.df_denom` | `73` |
+| `pre_trends_F_test.interpretation` | reject_flat_pretrends |
+| `event_study_coefs_preview` | `[8 items]` |
 
 
-**Block bootstrap (B=200, resampling districts)**
+![fig2_event_study](../../artifacts/figures/figure-2-event-study.png)
+
+
+**TWFE residual diagnostics — BP + SW + variance summary.**
 
 | field | value |
 | --- | --- |
-| `n_replications` | `200` |
-| `att_mean` | `1.332` |
-| `att_std` | `1.575` |
-| `ci_2.5` | `-1.725` |
-| `ci_97.5` | `4.243` |
+| `twfe_coef_treatment` | `-15.29` |
+| `twfe_se_treatment` | `7.42` |
+| `twfe_p_treatment` | `0.0393` |
+| `r_squared` | `0.8117` |
+| `n_obs` | `4440` |
+| `breusch_pagan.stat` | `1444` |
+| `breusch_pagan.p_value` | `8.144e-219` |
+| `breusch_pagan.interpretation` | heteroskedastic |
+| `shapiro_wilk_on_sampled_residuals.stat` | `0.8988` |
+| `shapiro_wilk_on_sampled_residuals.p_value` | `2.635e-47` |
+| `shapiro_wilk_on_sampled_residuals.sample_size` | `4440` |
+| `shapiro_wilk_on_sampled_residuals.interpretation` | non_normal |
+| `residuals_summary.mean` | `-3.616e-14` |
+| `residuals_summary.std` | `35.13` |
+| `residuals_summary.min` | `-170.6` |
+| `residuals_summary.max` | `376.3` |
 
 
-**Continue to** [`05_robustness_and_mechanism.py`](05_robustness_and_mechanism.py)
-— heterogeneous treatment effects, placebo test, seasonal-differenced check.
+![fig3_residual_qq](../../artifacts/figures/figure-3-residual-diagnostics.png)
+
+
+**Next:** `05_robustness.py` — placebo, subsample, alternative functional form.
 
 ---
 

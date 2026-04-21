@@ -4,97 +4,161 @@
 # ///
 
 # %% [markdown]
-# # 02 — Balance + parallel-trends (NEW vs. upstream)
+# # 02 — Balance and parallel trends
 #
-# Upstream's analysis reports a pre-trend F-test (F=0.48, p=0.78) but
-# **no covariate balance table** between treated and control districts.
-# This notebook fills that gap: pre-treatment standardized mean
-# differences (SMD) on baseline complaint volume + ACS demographics,
-# plus a visual parallel-trends check.
+# Pre-treatment covariate balance (treated vs. control community
+# districts) and a parallel-trends visual for the headline monthly
+# complaint series. A parallel-trends visual that diverges
+# pre-treatment would undermine the identification strategy; a stable
+# common slope up to 2023-07-01 is the precondition for the DiD
+# headline in notebook 03.
 
-# %% tags=["jc.load", "name=balance"]
-import sys
+# %% tags=["jc.step", "name=group_means"]
+import json
+from datetime import date
 from pathlib import Path
+
 import jellycell.api as jc
 import pandas as pd
-sys.path.insert(0, str(Path.cwd() / "showcase-rat-containerization"))
-from _helpers import load_or_build_panel, add_treatment_indicator, load_demographics
 
-panel = add_treatment_indicator(load_or_build_panel())
-demo = load_demographics()
+panel_df = pd.read_parquet("artifacts/panel_long.parquet")
+panel_df = panel_df.reset_index()
 
-# Pre-treatment slice (Jan–May 2024, before June 2024 pilot)
-periods = pd.to_datetime(panel.index.get_level_values("period").astype(str))
-pre_mask = periods < pd.Timestamp("2024-06-01")
-pre = panel[pre_mask].reset_index()
-unit_means = pre.groupby("unit_id")["complaint_count"].mean().rename("pre_complaints_mean")
+# Pull treated-unit list from the hand-curated event file.
+events = json.loads(Path("data/rat_mitigation_events_2023.json").read_text())
+TREATED = sorted({e["unit"] for e in events["events"]})
+TREATMENT_DATE = pd.Timestamp("2023-07-01")
 
-# Join demographics
-combined = unit_means.to_frame().join(demo, how="inner")
-combined["treated"] = combined.index.isin([f"MANHATTAN 0{i}" for i in range(1, 10)]).astype(int)
+panel_df["period"] = pd.to_datetime(panel_df["period"].astype(str))
+panel_df["treated_unit"] = panel_df["unit_id"].isin(TREATED).astype(int)
+panel_df["post"] = (panel_df["period"] >= TREATMENT_DATE).astype(int)
 
-# Standardized mean difference per covariate
-def smd(treated_vals, control_vals):
-    import numpy as np
-    pooled_sd = ((treated_vals.var() + control_vals.var()) / 2) ** 0.5
-    if pooled_sd == 0:
-        return 0.0
-    return (treated_vals.mean() - control_vals.mean()) / pooled_sd
+pre = panel_df[panel_df["period"] < TREATMENT_DATE]
 
-t = combined[combined["treated"] == 1]
-c = combined[combined["treated"] == 0]
-covariates = ["pre_complaints_mean", "population", "pct_nonwhite", "log_median_income", "pct_renter"]
-balance_rows = []
-for cov in covariates:
-    if cov in combined.columns and t[cov].notna().any() and c[cov].notna().any():
-        balance_rows.append({
-            "covariate": cov,
-            "treated_mean": round(float(t[cov].mean()), 3),
-            "control_mean": round(float(c[cov].mean()), 3),
-            "smd": round(float(smd(t[cov].dropna(), c[cov].dropna())), 3),
-            "imbalanced": "***" if abs(smd(t[cov].dropna(), c[cov].dropna())) > 0.5 else ("*" if abs(smd(t[cov].dropna(), c[cov].dropna())) > 0.1 else ""),
-        })
-
-balance_df = pd.DataFrame(balance_rows)
-jc.table(
-    balance_df,
-    name="pretreatment_balance",
-    caption="Pre-treatment covariate balance (treated 9 Manhattan CDs vs. control)",
-    notes="|SMD|>0.1 typically flagged as imbalance; |SMD|>0.5 is severe.",
+group_means = (
+    pre.groupby("treated_unit")["complaint_count"]
+    .agg(["count", "mean", "std", "median"])
+    .round(3)
+    .reset_index()
+    .rename(columns={
+        "treated_unit": "group",
+        "count": "n_cells",
+        "mean": "mean_complaints",
+        "std": "sd_complaints",
+        "median": "median_complaints",
+    })
 )
-print(balance_df.to_string(index=False))
-jc.save(
-    {"n_treated": int(len(t)), "n_control": int(len(c)), "covariates": balance_rows},
-    "artifacts/balance_table.json",
-    caption="Pre-treatment SMD balance",
-)
+group_means["group"] = group_means["group"].map({0: "control", 1: "treated"})
 
-# %% tags=["jc.figure", "name=parallel_trends"]
-import sys
+# Welch t-test on pre-period monthly complaint counts.
+from scipy import stats as sps
+import numpy as np
+pre_t = pre.loc[pre["treated_unit"] == 1, "complaint_count"].to_numpy()
+pre_c = pre.loc[pre["treated_unit"] == 0, "complaint_count"].to_numpy()
+t_stat, p_val = sps.ttest_ind(pre_t, pre_c, equal_var=False)
+pooled_sd = float(np.sqrt((pre_t.var(ddof=1) + pre_c.var(ddof=1)) / 2))
+cohens_d = float((pre_t.mean() - pre_c.mean()) / pooled_sd) if pooled_sd > 0 else 0.0
+
+balance = {
+    "group_means": group_means.to_dict(orient="records"),
+    "welch_t": {
+        "t_stat": float(t_stat),
+        "p_value": float(p_val),
+        "df_welch_approx": int(len(pre_t) + len(pre_c) - 2),
+        "cohens_d": cohens_d,
+        "n_treated_cells": int(len(pre_t)),
+        "n_control_cells": int(len(pre_c)),
+    },
+}
+jc.save(balance, "artifacts/balance_pretreatment.json",
+        caption="Pre-treatment balance: treated vs. control monthly rodent-complaint counts (2020-01 → 2023-06)")
+
+# %% tags=["jc.table", "name=balance_table"]
+import jellycell.api as jc
+import pandas as pd
+
+import json
+balance_raw = json.loads(open("artifacts/balance_pretreatment.json").read())
+rows = balance_raw["group_means"]
+df = pd.DataFrame(rows)[["group", "n_cells", "mean_complaints", "sd_complaints", "median_complaints"]]
+# Append Welch row.
+w = balance_raw["welch_t"]
+summary_rows = [
+    {"group": "control",  "n_cells": rows[0]["n_cells"],
+     "mean_complaints": rows[0]["mean_complaints"],
+     "sd_complaints": rows[0]["sd_complaints"],
+     "median_complaints": rows[0]["median_complaints"]},
+    {"group": "treated",  "n_cells": rows[1]["n_cells"],
+     "mean_complaints": rows[1]["mean_complaints"],
+     "sd_complaints": rows[1]["sd_complaints"],
+     "median_complaints": rows[1]["median_complaints"]},
+    {"group": "Welch t-test", "n_cells": "",
+     "mean_complaints": f"t = {w['t_stat']:.2f}",
+     "sd_complaints": f"p = {w['p_value']:.4f}",
+     "median_complaints": f"Cohen's d = {w['cohens_d']:.3f}"},
+]
+out = pd.DataFrame(summary_rows)
+out = out.astype(str)  # #13 workaround
+jc.table(out, name="balance_table",
+         caption="Pre-treatment monthly complaint counts, treated vs. control CDs (2020-01 → 2023-06).")
+
+# %% tags=["jc.step", "name=pretrends_series"]
+import json
 from pathlib import Path
+
+import jellycell.api as jc
+import pandas as pd
+
+panel_df = pd.read_parquet("artifacts/panel_long.parquet").reset_index()
+events = json.loads(Path("data/rat_mitigation_events_2023.json").read_text())
+TREATED = sorted({e["unit"] for e in events["events"]})
+panel_df["period"] = pd.to_datetime(panel_df["period"].astype(str))
+panel_df["treated_unit"] = panel_df["unit_id"].isin(TREATED).astype(int)
+
+monthly = (
+    panel_df.groupby(["treated_unit", "period"])["complaint_count"]
+    .mean().unstack(level=0)
+    .rename(columns={0: "control_mean", 1: "treated_mean"})
+)
+monthly.index = monthly.index.astype(str)
+jc.save(monthly.reset_index().to_dict(orient="records"),
+        "artifacts/monthly_means_by_group.json",
+        caption="Mean monthly rodent complaints — treated vs. control CDs, 2020-01 → 2024-12")
+
+# %% tags=["jc.figure", "name=fig1_pretrends"]
+import json
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 import pandas as pd
-sys.path.insert(0, str(Path.cwd() / "showcase-rat-containerization"))
-from _helpers import load_or_build_panel, add_treatment_indicator
 
-panel = add_treatment_indicator(load_or_build_panel())
-panel_r = panel.reset_index()
-panel_r["period_dt"] = pd.to_datetime(panel_r["period"].astype(str))
-group_means = panel_r.groupby(["period_dt", "treated_unit"])["complaint_count"].mean().unstack("treated_unit")
+panel_df = pd.read_parquet("artifacts/panel_long.parquet").reset_index()
+events = json.loads(Path("data/rat_mitigation_events_2023.json").read_text())
+TREATED = sorted({e["unit"] for e in events["events"]})
+panel_df["period"] = pd.to_datetime(panel_df["period"].astype(str))
+panel_df["treated_unit"] = panel_df["unit_id"].isin(TREATED).astype(int)
 
-fig, ax = plt.subplots(figsize=(10, 5))
-ax.plot(group_means.index, group_means[0], label="Control mean", marker="o", color="#1f77b4")
-ax.plot(group_means.index, group_means[1], label="Treated mean", marker="s", color="#d62728")
-ax.axvline(pd.Timestamp("2024-06-01"), color="grey", linestyle="--", alpha=0.7, label="Pilot start")
-ax.set_xlabel("Period")
-ax.set_ylabel("Mean complaints / district / month")
-ax.set_title("Parallel-trends visual: treated (Manhattan 01–09) vs. control")
-ax.legend()
-ax.grid(alpha=0.3)
+monthly = (
+    panel_df.groupby(["treated_unit", "period"])["complaint_count"]
+    .mean().unstack(level=0)
+)
+
+fig, ax = plt.subplots(figsize=(9, 5))
+ax.plot(monthly.index, monthly[0], label="Control (65 CDs)", color="#444", linewidth=1.5)
+ax.plot(monthly.index, monthly[1], label="Treated (9 lower-Manhattan CDs)", color="#c84", linewidth=1.8)
+ax.axvline(pd.Timestamp("2023-07-01"), color="red", linestyle="--", alpha=0.8,
+           label="Containerization pilot (2023-07-01)")
+ax.set_xlabel("Month")
+ax.set_ylabel("Mean Rodent complaints per CD")
+ax.set_title("Figure 1. Mean monthly rodent-complaint volume by group, 2020–2024")
+ax.legend(loc="upper left", frameon=False)
 fig.tight_layout()
-fig.savefig("artifacts/parallel_trends.png", dpi=110, bbox_inches="tight")
-plt.show()
+Path("artifacts/figures").mkdir(parents=True, exist_ok=True)
+fig.savefig("artifacts/figures/figure-1-pretrends.png", dpi=150)
+plt.close(fig)
+
+from IPython.display import Image
+Image("artifacts/figures/figure-1-pretrends.png")
 
 # %% [markdown]
-# **Continue to** [`03_main_effects.py`](03_main_effects.py)
-# — multi-estimator DiD: TWFE + Callaway & Sant'Anna + synthetic control.
+# **Next:** `03_main_effects.py` — four-estimator DiD on the containerization pilot.

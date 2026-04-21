@@ -1,0 +1,26 @@
+{
+  "group_means": [
+    {
+      "group": "control",
+      "n_cells": 2730,
+      "mean_complaints": 78.473,
+      "sd_complaints": 75.334,
+      "median_complaints": 64.0
+    },
+    {
+      "group": "treated",
+      "n_cells": 378,
+      "mean_complaints": 108.619,
+      "sd_complaints": 82.15,
+      "median_complaints": 90.0
+    }
+  ],
+  "welch_t": {
+    "t_stat": 6.752413699133144,
+    "p_value": 4.312128825414393e-11,
+    "df_welch_approx": 3106,
+    "cohens_d": 0.3824942963171858,
+    "n_treated_cells": 378,
+    "n_control_cells": 2730
+  }
+}

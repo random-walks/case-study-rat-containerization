@@ -1,27 +1,31 @@
-# 02 — Balance + parallel-trends (NEW vs. upstream)
+# 02 — Balance and parallel trends
 
-> **Tearsheet** for [`notebooks/02_balance_and_pretrends.py`](../../notebooks/02_balance_and_pretrends.py) · [HTML report](../../site/02_balance_and_pretrends.html) · last run `2026-04-19T07:59:14+00:00`
+> **Tearsheet** for [`notebooks/02_balance_and_pretrends.py`](../../notebooks/02_balance_and_pretrends.py) · [HTML report](../../site/02_balance_and_pretrends.html) · last run `2026-04-20T16:22:18+00:00`
 
-Upstream's analysis reports a pre-trend F-test (F=0.48, p=0.78) but
-**no covariate balance table** between treated and control districts.
-This notebook fills that gap: pre-treatment standardized mean
-differences (SMD) on baseline complaint volume + ACS demographics,
-plus a visual parallel-trends check.
+Pre-treatment covariate balance (treated vs. control community
+districts) and a parallel-trends visual for the headline monthly
+complaint series. A parallel-trends visual that diverges
+pre-treatment would undermine the identification strategy; a stable
+common slope up to 2023-07-01 is the precondition for the DiD
+headline in notebook 03.
 
-**Pre-treatment SMD balance**
+**Pre-treatment balance: treated vs. control monthly rodent-complaint counts (2020-01 → 2023-06)**
 
 | field | value |
 | --- | --- |
-| `n_treated` | `5` |
-| `n_control` | `46` |
-| `covariates` | `[{'covariate': 'pre_complaints_mean', 'treated_mean': 67.28, 'control_mean': 58.778, 'smd': 0.243, 'imbalanced': '*'}, {'covariate': 'population', 'treated_mean': 163609.0, 'control_mean': 154670.239, 'smd': 0.2, 'imbalanced': '*'}, {'covariate': 'pct_nonwhite', 'treated_mean': 0.442, 'control_mean': 0.649, 'smd': -1.049, 'imbalanced': '***'}, {'covariate': 'log_median_income', 'treated_mean': 11.451, 'control_mean': 11.191, 'smd': 0.668, 'imbalanced': '***'}, {'covariate': 'pct_renter', 'treated_mean': 0.753, 'control_mean': 0.65, 'smd': 0.673, 'imbalanced': '***'}]` |
+| `group_means` | `[{'group': 'control', 'n_cells': 2730, 'mean_complaints': 78.473, 'sd_complaints': 75.334, 'median_complaints': 64.0}, {'group': 'treated', 'n_cells': 378, 'mean_complaints': 108.619, 'sd_complaints': 82.15, 'median_complaints': 90.0}]` |
+| `welch_t.t_stat` | `6.752` |
+| `welch_t.p_value` | `4.312e-11` |
+| `welch_t.df_welch_approx` | `3106` |
+| `welch_t.cohens_d` | `0.3825` |
+| `welch_t.n_treated_cells` | `378` |
+| `welch_t.n_control_cells` | `2730` |
 
 
-![parallel_trends](../../artifacts/parallel_trends.png)
+![fig1_pretrends](../../artifacts/figures/figure-1-pretrends.png)
 
 
-**Continue to** [`03_main_effects.py`](03_main_effects.py)
-— multi-estimator DiD: TWFE + Callaway & Sant'Anna + synthetic control.
+**Next:** `03_main_effects.py` — four-estimator DiD on the containerization pilot.
 
 ---
 

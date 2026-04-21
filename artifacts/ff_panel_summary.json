@@ -1,0 +1,11 @@
+{
+  "dimension": "community_district",
+  "geography": "community_district",
+  "freq": "MS",
+  "n_units": 74,
+  "n_periods": 60,
+  "outcome_col": "complaint_count",
+  "treatment_events": [
+    "nyc_rat_containerization_2023_pilot"
+  ]
+}

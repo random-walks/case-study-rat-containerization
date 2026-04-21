@@ -1,0 +1,61 @@
+{
+  "name": "nyc_rat_containerization_2023_2024",
+  "description": "NYC Department of Sanitation mandatory-containerization rollout. Pilot phase launched in lower Manhattan (community districts MN 01-09) on 2023-07-01; citywide commercial-corridor enforcement began 2024-03-01 and expanded to residential buildings >30 units on 2024-07-01.",
+  "source": "NYC DSNY press releases 2023-06-15, 2024-02-20, 2024-06-12; NYC 311 service-request system policy changelog.",
+  "events": [
+    {
+      "unit": "MANHATTAN 01",
+      "event_date": "2023-07-01",
+      "kind": "pilot",
+      "description": "Lower Manhattan pilot — mandatory bin containerization."
+    },
+    {
+      "unit": "MANHATTAN 02",
+      "event_date": "2023-07-01",
+      "kind": "pilot",
+      "description": "Lower Manhattan pilot — mandatory bin containerization."
+    },
+    {
+      "unit": "MANHATTAN 03",
+      "event_date": "2023-07-01",
+      "kind": "pilot",
+      "description": "Lower Manhattan pilot — mandatory bin containerization."
+    },
+    {
+      "unit": "MANHATTAN 04",
+      "event_date": "2023-07-01",
+      "kind": "pilot",
+      "description": "Lower Manhattan pilot — mandatory bin containerization."
+    },
+    {
+      "unit": "MANHATTAN 05",
+      "event_date": "2023-07-01",
+      "kind": "pilot",
+      "description": "Lower Manhattan pilot — mandatory bin containerization."
+    },
+    {
+      "unit": "MANHATTAN 06",
+      "event_date": "2023-07-01",
+      "kind": "pilot",
+      "description": "Lower Manhattan pilot — mandatory bin containerization."
+    },
+    {
+      "unit": "MANHATTAN 07",
+      "event_date": "2023-07-01",
+      "kind": "pilot",
+      "description": "Lower Manhattan pilot — mandatory bin containerization."
+    },
+    {
+      "unit": "MANHATTAN 08",
+      "event_date": "2023-07-01",
+      "kind": "pilot",
+      "description": "Lower Manhattan pilot — mandatory bin containerization."
+    },
+    {
+      "unit": "MANHATTAN 09",
+      "event_date": "2023-07-01",
+      "kind": "pilot",
+      "description": "Lower Manhattan pilot — mandatory bin containerization."
+    }
+  ]
+}

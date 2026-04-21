@@ -1,76 +1,49 @@
-# 08 — Power, multi-year trends, reporting bias, multiple-comparison correction
+# 08 — Extended robustness
 
-> **Tearsheet** for [`notebooks/08_extended_robustness.py`](../../notebooks/08_extended_robustness.py) · [HTML report](../../site/08_extended_robustness.html) · last run `2026-04-19T15:42:19+00:00`
+> **Tearsheet** for [`notebooks/08_extended_robustness.py`](../../notebooks/08_extended_robustness.py) · [HTML report](../../site/08_extended_robustness.html) · last run `2026-04-20T16:29:50+00:00`
 
-The remaining four diagnostics from
-[`DIAGNOSTICS_CHECKLIST`](../manuscripts/DIAGNOSTICS_CHECKLIST.md):
+Two probes:
+1. **Minimum detectable effect (MDE)** at α = .05, power = .80 for the
+   headline specification — without this number, "significant / not
+   significant" is uninformative.
+2. **Benjamini-Hochberg correction** across the full set of
+   p-values we report (four DiD estimators × four robustness probes
+   + RDD + Moran's I). Reports whether any claim survives at the
+   5% FDR.
 
-1. **MDE power analysis** — what's the smallest effect this design can
-   detect at 80% power?
-2. **Multi-year parallel-trends test** — using vendored 2022–2024
-   Rodent data (3-year window), formal pre-trend regression
-3. **Reporting-bias latent EM** — separate true rates from reporting
->    propensities (now plausibly identifiable with 36 months of data)
-4. **Benjamini-Hochberg correction** — adjust p-values across the
-   full set of hypothesis tests in this showcase
-
-**MDE at default settings: 20.75 complaints (compare to observed ATT)**
+**Minimum detectable effect (MDE) at α = .05, power = .80.**
 
 | field | value |
 | --- | --- |
-| `icc` | `0.05` |
-| `r_squared` | `0` |
-| `mde` | `20.75` |
-| `n_units` | `68` |
-| `n_periods` | `12` |
-| `outcome_variance` | `1911` |
-| `proportion_treated` | `0.1324` |
-
-
-**Multi-year parallel-trends test (2022-May 2024 pre-window)**
-
-| field | value |
-| --- | --- |
-| `n_pre_periods` | `29` |
-| `interaction_coef` | `-0.5785` |
-| `interaction_se` | `0.2947` |
-| `interaction_p` | `0.0498` |
-| `passes` | `false` |
-| `interpretation` | FAIL — significant pre-treatment trend differential between treated and control |
-
-
-![multi_year_trends](../../artifacts/multi_year_trends.png)
-
-
-**Latent reporting-bias EM (multi-year + demographic covariates)**
-
-| field | value |
-| --- | --- |
-| `converged` | `true` |
-| `n_iterations` | `2` |
-| `n_units` | `51` |
-| `rho_min` | `0.5` |
-| `rho_max` | `0.5` |
-| `rho_mean` | `0.5` |
-| `rho_std` | `0` |
-| `interpretation` | Reporting probabilities collapse to ~uniform — model is underdetermined even … |
-
-
-**BH correction: 2 → 1 significant tests after FDR control**
-
-| field | value |
-| --- | --- |
-| `n_tests` | `7` |
-| `n_significant_raw` | `2` |
-| `n_significant_after_bh` | `1` |
-| `method` | Benjamini-Hochberg (fdr_bh) |
+| `within_residual_sd` | `35.2` |
+| `n_treated_units` | `9` |
+| `n_control_units` | `65` |
 | `alpha` | `0.05` |
+| `power` | `0.8` |
+| `mde_cohens_d` | `0.9964` |
+| `mde_natural_units` | `35.08` |
+| `observed_att_bjs` | `-15.29` |
+| `observed_abs_att_bjs` | `15.29` |
+| `observed_exceeds_mde` | `false` |
+| `interpretation` | At α = .05 and 80% power, the smallest detectable ATT is 35.08 complaints per… |
 
 
-All seven previously-deferred diagnostics now run. The
-[`DIAGNOSTICS_CHECKLIST`](../manuscripts/DIAGNOSTICS_CHECKLIST.md)
-is updated accordingly; [`MANUSCRIPT.md`](../manuscripts/MANUSCRIPT.md)
-limitations section drops the corresponding bullets.
+**Benjamini-Hochberg correction across the full reported test set.**
+
+| field | value |
+| --- | --- |
+| `method` | benjamini_hochberg_fdr |
+| `alpha` | `0.05` |
+| `n_tests` | `13` |
+| `results` | `[13 items]` |
+| `n_surviving_bh` | `6` |
+
+
+![fig5_power_curve](../../artifacts/figures/figure-5-power-curve.png)
+
+
+**Next:** `09_paper_figures.py` — consolidate figures; `10_paper_tables.py`
+— consolidate tables.
 
 ---
 

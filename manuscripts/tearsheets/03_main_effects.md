@@ -1,44 +1,72 @@
-# 03 — Main effects: multi-estimator
+# 03 — Main effects (four-estimator DiD)
 
-> **Tearsheet** for [`notebooks/03_main_effects.py`](../../notebooks/03_main_effects.py) · [HTML report](../../site/03_main_effects.html) · last run `2026-04-19T07:59:16+00:00`
+> **Tearsheet** for [`notebooks/03_main_effects.py`](../../notebooks/03_main_effects.py) · [HTML report](../../site/03_main_effects.html) · last run `2026-04-20T16:22:54+00:00`
 
-Three estimators on the same panel — robustness to specification
-choice (which upstream lacks):
+Runs TWFE, Callaway-Sant'Anna (CS), Sun-Abraham (SA), and
+Borusyak-Jaravel-Spiess (BJS) on the community-district × month panel.
+Staggered-robust estimators (CS / SA / BJS) should agree with TWFE when
+adoption is a single cohort (which ours is: all nine treated CDs flip
+on 2023-07-01). Cross-estimator sign agreement is the primary
+invariant; magnitude within ±20% across methods is the secondary
+invariant.
 
-1. **Two-way fixed effects** — district + month FE, clustered SE
-2. **Callaway & Sant'Anna staggered DiD** — heterogeneity-robust
-3. **Synthetic control** — Manhattan 03 vs. weighted donor pool
-
-**Two-way FE: complaint_count ~ treatment + district FE + month FE (clustered SE)**
-
-| field | value |
-| --- | --- |
-| `att` | `1.414` |
-| `se` | `1.636` |
-| `t` | `0.864` |
-| `p_value` | `0.3878` |
-| `ci_lower` | `-1.798` |
-| `ci_upper` | `4.625` |
-| `n` | `816` |
-| `r_squared` | `0.0003` |
-
-
-**Staggered DiD — failed**
+**Four-estimator DiD on NYC rat-containerization pilot (2023-07-01, 9 treated CDs).**
 
 | field | value |
 | --- | --- |
-| `error` | TypeError: staggered_did() got an unexpected keyword argument 'unit_col' |
+| `twfe.att` | `-15.29` |
+| `twfe.se` | `7.37` |
+| `twfe.p_value` | `0.03805` |
+| `twfe.ci_95_low` | `-29.74` |
+| `twfe.ci_95_high` | `-0.8432` |
+| `twfe.n` | `4440` |
+| `twfe.method` | twfe |
+| `cs.att` | `-12.2` |
+| `cs.se` | `6.979` |
+| `cs.p_value` | `0.08047` |
+| `cs.ci_95_low` | `-25.88` |
+| `cs.ci_95_high` | `1.48` |
+| `cs.n` | `4440` |
+| `cs.method` | cs |
+| `sa.att` | `-12.2` |
+| `sa.se` | `3.609` |
+| `sa.p_value` | `0.0007244` |
+| `sa.ci_95_low` | `-19.27` |
+| `sa.ci_95_high` | `-5.125` |
+| `sa.n` | `4440` |
+| `sa.method` | sa |
+| `bjs.att` | `-15.29` |
+| `bjs.se` | `2.351` |
+| `bjs.p_value` | `7.725e-11` |
+| `bjs.ci_95_low` | `-19.9` |
+| `bjs.ci_95_high` | `-10.69` |
+| `bjs.n` | `4440` |
+| `bjs.method` | bjs |
 
 
-**SCM — failed**
+**Sign + magnitude agreement check across four DiD estimators.**
 
 | field | value |
 | --- | --- |
-| `error` | TypeError: synthetic_control() got an unexpected keyword argument 'unit_col' |
+| `atts.twfe` | `-15.29` |
+| `atts.cs` | `-12.2` |
+| `atts.sa` | `-12.2` |
+| `atts.bjs` | `-15.29` |
+| `signs.twfe` | `false` |
+| `signs.cs` | `false` |
+| `signs.sa` | `false` |
+| `signs.bjs` | `false` |
+| `same_sign` | `true` |
+| `spread_pct_vs_twfe.twfe` | `0` |
+| `spread_pct_vs_twfe.cs` | `20.23` |
+| `spread_pct_vs_twfe.sa` | `20.23` |
+| `spread_pct_vs_twfe.bjs` | `5.157e-12` |
+| `invariant_sign_agreement` | `true` |
+| `invariant_magnitude_within_20pct_of_twfe` | `false` |
 
 
-**Continue to** [`04_diagnostics.py`](04_diagnostics.py)
-— residual diagnostics, Cook's distance, jackknife, bootstrap CIs.
+**Next:** `04_diagnostics.py` — event study, parallel-trends F-test,
+residual checks, cluster-SE sensitivity.
 
 ---
 

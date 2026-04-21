@@ -1,101 +1,138 @@
-# Methodology — rat-containerization
+# Methodology
 
-## Research question
+Hand-authored companion to `MANUSCRIPT.md`. Covers identification,
+data pipeline, and specification choices at the level of detail that
+would otherwise clutter the paper body.
 
-Did the **2024 NYC rat containerization mandate** (pilot June 2024 in
-Manhattan CDs 01–09; citywide enforcement Nov 12, 2024) reduce 311
-rodent complaints in treated districts relative to controls?
+## 1. Data pipeline
 
-## Identification
+### 1.1 Source
 
-The natural experiment is staggered-but-clean: nine adjacent Manhattan
-community districts received the pilot mandate in June 2024 while the
-remaining 59 districts continued as control through Dec 2024. The
-short post-treatment window (7 months) limits dynamic-effect detection,
-which we treat as a known constraint rather than ignore.
+NYC Open Data Socrata dataset `erm2-nwe9` (311 Service Requests from
+2010 to Present), filtered to `complaint_type = "Rodent"`. All
+records are retrieved via the `nyc311` v1.0 `bulk_fetch` helper,
+which splits downloads by borough to keep per-file sizes below 300
+MB. Each borough-year CSV pairs with a `.meta.json` sidecar
+recording row count, SHA-256 checksum, fetch timestamp, and filter
+parameters.
 
-### Assumptions
+### 1.2 Panel construction
 
-1. **Parallel trends.** Treated and control districts would have moved
-   in parallel absent the mandate. Tested via the placebo regression
-   in `05_robustness_and_mechanism.py` (treatment shifted to Jan 2024,
-   restricted to the pre-true-treatment window). PASS = ATT ≈ 0.
-2. **SUTVA / no spillovers.** One district's treatment doesn't affect
-   another's outcome. Spatial spillovers across CD boundaries (e.g.,
-   rats relocating from treated to neighboring untreated zones) would
-   bias the ATT downward. Not formally tested in this showcase — flagged
-   as a limitation in the diagnostic checklist.
-3. **No anticipation.** Districts didn't change behavior pre-June 2024
-   in anticipation of the mandate. The November citywide enforcement
-   announcement complicates this — control districts learning of
-   imminent rules might shift reporting behavior.
+`nyc311.temporal.build_complaint_panel` aggregates records to the
+community-district × month level with balanced filling: any
+(CD, month) cell without a complaint is filled with zero rather than
+dropped. This produces a rectangular 74 × 60 panel with 4,440 cells,
+which the `factor_factory.tidy.Panel.to_factor_factory_panel`
+adapter casts into the canonical `factor_factory.tidy.Panel`
+contract for consumption by the DiD engines.
 
-## Estimation strategy
+### 1.3 Treatment specification
 
-Three estimators side-by-side (notebook 03), explicitly chosen for
-their differing assumptions:
+Treatment is a single-cohort staggered-DiD design: all nine treated
+community districts (MN 01–09) flip from 0 to 1 on 2023-07-01 and
+remain treated for the duration of the post-period. The treatment
+event file is `data/rat_mitigation_events_2023.json`, hand-curated
+from DSNY press releases dated 2023-06-15, 2024-02-20, and 2024-06-12.
 
-1. **Two-way fixed effects** — district + month FE, clustered SE at
-   district level. Transparent baseline; sensitive to staggered
-   treatment heterogeneity.
-2. **Callaway & Sant'Anna staggered DiD** — heterogeneity-robust;
-   aggregates group-time ATTs via inverse-variance weighting.
-3. **Synthetic control** (Manhattan CD 03 only) — donor-weighted
-   counterfactual; useful when you don't trust pooled DiD.
+## 2. Identification
 
-If the three converge, that's strong evidence. If they diverge, the
-direction and magnitude of divergence is itself a finding.
+### 2.1 DiD specification
 
-## Diagnostics (notebook 04)
+    Y_it = α_i + γ_t + β · (TREATED_i × Post_t) + ε_it
 
-Each report below is a JSON artifact under `artifacts/`:
+- α_i: CD fixed effects (74 dummies)
+- γ_t: period fixed effects (60 dummies)
+- TREATED_i × Post_t: the interaction whose coefficient β is the ATT
+- SE: cluster-robust at `unit_id` (community district)
 
-- **Residual normality** — Jarque-Bera + Shapiro-Wilk on TWFE residuals
-- **Q-Q plot + residuals-vs-fitted** — visual heteroskedasticity check
-- **Leave-one-treated-out jackknife** — drop each treated district,
-  refit; report ATT range
-- **Block bootstrap CI** — resample districts with replacement (B=200
-  default), refit TWFE on each replicate, percentile CI
+### 2.2 Why four estimators
 
-## Robustness (notebook 05)
+TWFE is known to produce biased point estimates in staggered-adoption
+settings when treatment effects are heterogeneous across cohorts or
+time (Goodman-Bacon, 2021; de Chaisemartin & D'Haultfœuille, 2020).
+Our design has a single cohort, which rescues TWFE from the
+"contamination" problem in most settings — but we report all four
+heterogeneity-robust estimators (CS, SA, BJS) regardless, so readers
+can form their own interpretation.
 
-- **HTE by baseline volume** — stratify districts by pre-treatment
-  median; refit ATT separately. Tests whether the pooled ATT masks
-  divergent subgroup effects.
-- **Placebo test** — pretend treatment was Jan 2024; restrict to
-  pre-true-treatment data; ATT should be ≈ 0.
-- **Seasonal-adjusted outcome** — refit on district-demeaned
-  complaints. (Full year-over-year differencing requires multi-year
-  data; this showcase uses 2024 only.)
+Expected behavior under single-cohort adoption with homogeneous
+ATT:
+- TWFE ≈ BJS (both use full panel; BJS has tighter SE via imputation).
+- CS and SA use different weighting schemes but recover the same point
+  estimate in the one-cohort case.
+- Sign disagreement across the four would indicate model
+  misspecification or violations of common-trend assumptions.
 
-## Data
+### 2.3 Cluster-robust inference
 
-Real Socrata pull, fetched via `nyc311.pipeline.bulk_fetch`:
+All four estimators use cluster-robust standard errors at the
+community-district level. This allows within-CD serial correlation
+across months without bias in the SE, but assumes independence
+across CDs. Spatial proximity could plausibly violate this
+assumption (adjacent CDs might share shocks); however, Moran's *I*
+on the residuals is near zero (§4.5 of MANUSCRIPT.md), which makes
+the single-level cluster adequate.
 
-- **Complaint type:** Rodent (all subtypes)
-- **Window:** 2024-01-01 through 2024-12-31
-- **Geography:** community district
-- **Total records:** 39,725 across 5 boroughs
-- **Demographics:** ACS 2022 5-year estimates for 51 community
-  districts (vendored from upstream; small file, real values)
+### 2.4 Parallel-trends check
 
-## Differences from upstream
+The event study in §4.3 of MANUSCRIPT.md rejects flat pre-period
+leads at *F*(23, 73) = 7.90, *p* < .001. This is the identification
+concern; the magnitude of the treatment effect should be interpreted
+as an upper bound (see §5.3 limitation 1).
 
-The upstream `random-walks/nyc311` analysis (`examples/case_studies/rat_containerization/`)
-reports four point estimates (DiD, SCM, RDD, power) but lacks
-**covariate balance checks**, **spec-robustness comparisons**,
-**leave-one-out / bootstrap diagnostics**, **HTE analysis**, and
-**placebo / seasonal-robustness checks**. This showcase fills those
-gaps. The exact list of additions vs. upstream is in
-[`DIAGNOSTICS_CHECKLIST.md`](DIAGNOSTICS_CHECKLIST.md).
+## 3. Robustness strategy
 
-## References
+Four probes, each changing a single specification choice:
 
-- Callaway, B., & Sant'Anna, P. H. C. (2021). Difference-in-differences
-  with multiple time periods. *J. Econometrics*, 225(2), 200–230.
-- Abadie, A., Diamond, A., & Hainmueller, J. (2010). Synthetic control
-  methods for comparative case studies. *JASA*, 105(490), 493–505.
-- Goodman-Bacon, A. (2021). Difference-in-differences with variation
-  in treatment timing. *J. Econometrics*, 225(2), 254–277.
-- Cameron, A. C., & Miller, D. L. (2015). A practitioner's guide to
-  cluster-robust inference. *J. Human Resources*, 50(2), 317–372.
+| Probe | Changes | Rationale |
+| :--- | :--- | :--- |
+| Placebo t₀ | 2023-07-01 → 2022-07-01; drop post-pilot data | Check for anticipation or pre-existing trend. |
+| Log outcome | Y → log(1 + Y) | Address right-skewed count variance; multiplicative specification. |
+| Post-COVID | Drop 2020-01 → 2021-12 | Check whether COVID lockdown effects drive the headline. |
+| MN-only controls | Control pool → 6 non-pilot MN CDs | Eliminate borough-level confounding at cost of N. |
+
+Each probe produces its own four-estimator result set in
+`artifacts/placebo_did.json`, `log_outcome_did.json`,
+`post_covid_did.json`, `manhattan_only_did.json`.
+
+## 4. Auxiliary analyses
+
+### 4.1 Cross-sectional RDD
+
+Sharp design with running variable = pre-period mean complaint rate,
+cutoff = median rate. Not an identifying strategy; reported as
+sensitivity. See `artifacts/rdd_density_sensitivity.json` for
+conventional, bias-corrected, and robust estimates at three
+bandwidths (h/2, h, 2h).
+
+### 4.2 Moran's I + LISA
+
+Computed on the per-CD post-minus-pre complaint change using an
+inverse-distance weight matrix with 10 km cutoff. Community-district
+centroids derived from the median latitude / longitude of service
+requests attributed to each CD in the raw data. Permutation *p*-value
+from 999 random permutations. LISA cluster labels ("HH", "LL", "HL",
+"LH", "ns") follow the Anselin (1995) convention.
+
+## 5. Reporting conventions
+
+All reported *p*-values are two-sided. Significance thresholds are
+reported as raw *p* < .05 alongside Benjamini-Hochberg-corrected
+*p*_BH < .05 across the 13 reported tests. Confidence intervals are
+95% normal-theory from the engine's reported point estimate and
+standard error.
+
+Effect sizes for the DiD ATT are reported in natural units
+(complaints per CD per month); a Cohen's *d*-style dimensionless
+version can be recovered by dividing the ATT by the within-residual
+SD (~35 complaints, see `artifacts/mde_analysis.json`).
+
+## 6. Reproducibility
+
+The full pipeline runs in <5 minutes on cache-hit; first run with
+live Socrata fetch takes ~10–15 minutes. All artifacts are
+deterministic (`np.random.seed(42)` fixed in every notebook that
+uses RNG), and the committed `manuscripts/FINDINGS.md` +
+`manuscripts/DIAGNOSTICS_CHECKLIST.md` regenerate byte-identically
+under the stable-overrides pattern (see
+`.claude/skills/committed-tearsheets.md`).

@@ -1,0 +1,12 @@
+{
+  "cluster_counts_all": {
+    "ns": 70,
+    "LH": 2,
+    "HH": 1
+  },
+  "cluster_counts_treated": {
+    "ns": 9
+  },
+  "n_units": 73,
+  "n_treated": 9
+}

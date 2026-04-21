@@ -12,11 +12,11 @@ cache = ".jellycell/cache"
 [run]
 kernel = "python3"
 subprocess = true
-timeout_seconds = 600
+timeout_seconds = 1800
 
 [viewer]
 host = "127.0.0.1"
-port = 5179
+port = 5180
 watch = [
     "notebooks",
     "manuscripts",

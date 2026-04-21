@@ -1,0 +1,7 @@
+site/
+.jellycell/
+journal.md
+data/cache/
+data/raw/
+__pycache__/
+*.pyc

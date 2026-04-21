@@ -4,424 +4,343 @@
 # ///
 
 # %% [markdown]
-# # 07 — Proper RDD (rdrobust) + spatial-lag DiD
+# # 07 — RDD and spatial
 #
-# Three diagnostics, now using **canonical industry-standard tooling**
-# wherever it works:
+# Two auxiliary analyses:
 #
-# 1. **`rdrobust`** (Calonico-Cattaneo-Farrell-Titiunik, NSF SES-1357561,
->    SES-1459931, SES-1947805, SES-2019432) — MSE-optimal bandwidth
->    selection (`bwselect='mserd'`), bias-corrected robust confidence
->    intervals, sweeps across kernels and polynomial orders.
-> 2. **Manual chi-square density continuity test** at the cutoff. We
->    surveyed the Python ecosystem for a replacement — `rddensity`
->    itself is unusable on pandas ≥ 2 and no modern alternative exists
->    as of 2026 (PyPI: causalpy, linearmodels, statsmodels, econml,
->    doubleml — none implement local-poly density-discontinuity). We
->    keep a hand-rolled window-sweep chi-square test — defensible at
->    the small N (= number of CDs) we operate at.
-> 3. **Spatial-lag DiD** via `nyc311.stats.spatial_lag_model` —
->    accounts for spillover from treated CDs to neighboring untreated.
-#
-# Citations: Calonico, Cattaneo & Titiunik 2014 *Econometrica*; Calonico,
-# Cattaneo & Titiunik 2015 *JASA*; Calonico, Cattaneo, Farrell & Titiunik
-# 2019 *Review of Economics and Statistics*.
+# 1. **Sharp RDD on pre-period complaint rate** — a cross-sectional
+#    probe of whether CDs clustered just above the median pre-period
+#    complaint rate among Manhattan CDs responded differently from
+#    those just below. We do *not* claim this is the primary
+#    identification (there is no policy-assigned running variable); it
+#    is a discontinuity-based sensitivity check reported alongside the
+#    DiD headline.
+# 2. **Moran's I on the treatment effect** — per-CD post-minus-pre
+#    change in complaint rate, mapped onto community-district
+#    centroids (derived from the latitude/longitude columns on the
+#    underlying service-request records). Tests whether the treatment
+#    effect is spatially clustered, i.e., whether neighboring
+#    treated-area CDs experienced correlated outcomes.
 
-# %% tags=["jc.load", "name=geometry"]
-import sys
-import math
+# %% tags=["jc.step", "name=rdd_density_sensitivity"]
+import json
 from pathlib import Path
-import jellycell.api as jc
-from shapely.geometry import shape
-sys.path.insert(0, str(Path.cwd() / "showcase-rat-containerization"))
-from _helpers import TREATED_UNITS
-from nyc311.geographies import load_nyc_boundaries
 
-collection = load_nyc_boundaries(layer="community_district")
-centroids: dict[str, tuple[float, float]] = {}
-for f in collection.features:
-    name = f.geography_value
-    if name is None or f.geometry is None:
-        continue
-    centroids[str(name)] = (shape(f.geometry).centroid.x, shape(f.geometry).centroid.y)
-treated_set = set(TREATED_UNITS)
-treated_centroids = [centroids[u] for u in treated_set if u in centroids]
-zone_center = (
-    sum(c[0] for c in treated_centroids) / len(treated_centroids),
-    sum(c[1] for c in treated_centroids) / len(treated_centroids),
-)
-print(f"  {len(centroids)} CD centroids loaded")
-print(f"  treatment-zone center: {zone_center}")
-jc.save(
-    {"n_centroids": len(centroids), "n_treated": len(treated_centroids), "zone_center": list(zone_center)},
-    "artifacts/rdd_geometry.json",
-    caption="RDD geometry setup — centroids + treatment-zone center",
-)
-
-
-def _haversine_km(p1, p2):
-    lon1, lat1 = math.radians(p1[0]), math.radians(p1[1])
-    lon2, lat2 = math.radians(p2[0]), math.radians(p2[1])
-    dlon, dlat = lon2 - lon1, lat2 - lat1
-    a = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
-    return 2 * 6371 * math.asin(math.sqrt(a))
-
-# %% tags=["jc.step", "name=rdrobust_main", "deps=geometry"]
-import sys
-import math
-from pathlib import Path
 import jellycell.api as jc
 import numpy as np
 import pandas as pd
-from shapely.geometry import shape
-sys.path.insert(0, str(Path.cwd() / "showcase-rat-containerization"))
-from _helpers import TREATED_UNITS, load_or_build_panel, add_treatment_indicator
-from nyc311.geographies import load_nyc_boundaries
+from factor_factory.engines.rdd import estimate as rdd_estimate
+from factor_factory.tidy import Panel
 
-# Recompute geometry (cells run independently after cache restore)
-collection = load_nyc_boundaries(layer="community_district")
-centroids = {}
-for f in collection.features:
-    if f.geography_value and f.geometry:
-        centroids[str(f.geography_value)] = (shape(f.geometry).centroid.x, shape(f.geometry).centroid.y)
-treated_set = set(TREATED_UNITS)
-treated_centroids = [centroids[u] for u in treated_set if u in centroids]
-zone_center = (
-    sum(c[0] for c in treated_centroids) / len(treated_centroids),
-    sum(c[1] for c in treated_centroids) / len(treated_centroids),
-)
+panel = Panel.from_parquet("artifacts/ff_panel.parquet")
+df = panel.to_dataframe().reset_index()
+df["period"] = pd.to_datetime(df["period"].astype(str))
 
+# Compute pre-period mean rate per CD → use as running variable.
+pre = df[df["period"] < pd.Timestamp("2023-07-01")]
+pre_mean = pre.groupby("unit_id")["complaint_count"].mean().rename("pre_mean_rate")
+cutoff = float(pre_mean.median())
 
-def _haversine_km(p1, p2):
-    lon1, lat1 = math.radians(p1[0]), math.radians(p1[1])
-    lon2, lat2 = math.radians(p2[0]), math.radians(p2[1])
-    dlon, dlat = lon2 - lon1, lat2 - lat1
-    a = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
-    return 2 * 6371 * math.asin(math.sqrt(a))
+post = df[df["period"] >= pd.Timestamp("2023-07-01")]
+post_mean = post.groupby("unit_id")["complaint_count"].mean().rename("post_mean_rate")
+xsec = pd.concat([pre_mean, post_mean], axis=1).dropna().reset_index()
+xsec["period"] = pd.Timestamp("2024-01-01")
 
+# Build a degenerate one-period Panel for the RDD engine.
+xsec_panel_df = xsec.set_index(["unit_id", "period"])[["post_mean_rate", "pre_mean_rate"]]
 
-# Build RDD inputs at CD level: signed distance to treatment-zone center
-# (negative inside treated zone, positive outside) + post-treatment mean.
-panel = add_treatment_indicator(load_or_build_panel())
-post = panel[panel.index.get_level_values("period").astype(str) >= "2024-06"]
-post_means = post.groupby("unit_id")["complaint_count"].mean()
-
-rows = []
-for uid, mean_post in post_means.items():
-    if uid not in centroids:
-        continue
-    d_km = _haversine_km(centroids[uid], zone_center)
-    sign = -1.0 if uid in treated_set else +1.0
-    rows.append({"unit_id": uid, "running_var_km": sign * d_km, "outcome": float(mean_post), "treated": uid in treated_set})
-
-rdd_df = pd.DataFrame(rows).sort_values("running_var_km").reset_index(drop=True)
-y = rdd_df["outcome"].to_numpy()
-x = rdd_df["running_var_km"].to_numpy()
-print(f"  {len(rdd_df)} CDs in RDD; running-var range: [{x.min():.2f}, {x.max():.2f}] km")
-
-# Canonical: rdrobust with MSE-optimal bandwidth, triangular kernel,
-# polynomial p=1, robust bias-corrected CI (the default).
+# RDD engine expects a Panel — construct via Panel.from_records-like flow
+# by manually round-tripping through the ff Panel builder.
+from factor_factory.tidy import Panel as FfPanel, PanelMetadata, Provenance
+# Simpler: run rdrobust directly.
 from rdrobust import rdrobust
 
-main_grid = []
-for kernel in ("tri", "epa", "uni"):
-    for p_order in (1, 2):
-        try:
-            r = rdrobust(y, x, c=0.0, p=p_order, kernel=kernel, bwselect="mserd", level=95)
-            # rdrobust result: r.coef / r.se / r.pv / r.ci are DataFrames
-            # with rows ["Conventional", "Bias-Corrected", "Robust"].
-            est = float(r.coef.loc["Conventional"].iloc[0])
-            est_rb = float(r.coef.loc["Robust"].iloc[0])
-            se_rb = float(r.se.loc["Robust"].iloc[0])
-            pv_rb = float(r.pv.loc["Robust"].iloc[0])
-            ci_lo = float(r.ci.loc["Robust"].iloc[0])
-            ci_hi = float(r.ci.loc["Robust"].iloc[1]) if len(r.ci.loc["Robust"]) > 1 else float(r.ci.loc["Robust"].iloc[0])
-            h_left = float(r.bws.iloc[0, 0])
-            h_right = float(r.bws.iloc[0, 1])
-            main_grid.append({
-                "kernel": kernel,
-                "poly_order": p_order,
-                "bwselect": "mserd",
-                "h_left_km": round(h_left, 3),
-                "h_right_km": round(h_right, 3),
-                "tau_conv": round(est, 3),
-                "tau_robust": round(est_rb, 3),
-                "se_robust": round(se_rb, 3),
-                "p_robust": round(pv_rb, 4),
-                "ci_robust_lo": round(ci_lo, 3),
-                "ci_robust_hi": round(ci_hi, 3),
-                "n_eff_left": int(r.N_h[0]),
-                "n_eff_right": int(r.N_h[1]),
-            })
-        except Exception as e:
-            main_grid.append({
-                "kernel": kernel,
-                "poly_order": p_order,
-                "error": f"{type(e).__name__}: {str(e)[:60]}",
-            })
-
-main_df = pd.DataFrame(main_grid).astype(str)
-jc.table(
-    main_df,
-    name="rdrobust_sweep",
-    caption="rdrobust: kernel × polynomial-order sweep, MSE-optimal bandwidth, robust bias-corrected inference",
+# Sharp RDD: outcome = post_mean_rate, running = pre_mean_rate, cutoff = median.
+rd = rdrobust(
+    y=xsec["post_mean_rate"].to_numpy(),
+    x=xsec["pre_mean_rate"].to_numpy(),
+    c=cutoff,
+    p=1, kernel="triangular", bwselect="mserd",
 )
-print(main_df.to_string(index=False))
-jc.save(
-    {"n_units": len(rdd_df), "running_var_km_range": [float(x.min()), float(x.max())], "package": "rdrobust>=1.3"},
-    "artifacts/rdrobust_setup.json",
-    caption="rdrobust setup summary",
-)
+# rdrobust returns a complex object; extract headline.
+atte = float(rd.coef.iloc[0, 0])  # conventional
+se = float(rd.se.iloc[0, 0])
+pval = float(rd.pv.iloc[0, 0])
+bw = float(rd.bws.iloc[0, 0])
+ci_low = float(rd.ci.iloc[0, 0]); ci_high = float(rd.ci.iloc[0, 1])
+n_eff_left = int(rd.N_h[0]); n_eff_right = int(rd.N_h[1])
 
-# %% tags=["jc.step", "name=density_continuity", "deps=geometry"]
-import sys
-import math
-from pathlib import Path
-import jellycell.api as jc
-import numpy as np
-import pandas as pd
-import scipy.stats as sps
-from shapely.geometry import shape
-sys.path.insert(0, str(Path.cwd() / "showcase-rat-containerization"))
-from _helpers import TREATED_UNITS
-from nyc311.geographies import load_nyc_boundaries
-
-# Manual density continuity test — substitute for rddensity (broken on
-# pandas 2.x; no modern Python alternative as of 2026). Chi-square test
-# on density of CDs immediately above vs. below the cutoff. Simpler than
-# Cattaneo-Jansson-Ma 2018 but gives a defensible pass/fail at our small
-# N (= number of CDs). Sweeps across 4 window widths for transparency.
-collection = load_nyc_boundaries(layer="community_district")
-centroids = {}
-for f in collection.features:
-    if f.geography_value and f.geometry:
-        centroids[str(f.geography_value)] = (shape(f.geometry).centroid.x, shape(f.geometry).centroid.y)
-treated_set = set(TREATED_UNITS)
-treated_centroids = [centroids[u] for u in treated_set if u in centroids]
-zone_center = (
-    sum(c[0] for c in treated_centroids) / len(treated_centroids),
-    sum(c[1] for c in treated_centroids) / len(treated_centroids),
-)
-
-
-def _haversine_km(p1, p2):
-    lon1, lat1 = math.radians(p1[0]), math.radians(p1[1])
-    lon2, lat2 = math.radians(p2[0]), math.radians(p2[1])
-    dlon, dlat = lon2 - lon1, lat2 - lat1
-    a = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
-    return 2 * 6371 * math.asin(math.sqrt(a))
-
-
-distances = np.array([
-    (-1.0 if uid in treated_set else +1.0) * _haversine_km(centroids[uid], zone_center)
-    for uid in centroids
-])
-
-# Sweep across windows to see density-continuity behavior at multiple scales
-density_rows = []
-for window_km in (3.0, 5.0, 10.0, 15.0):
-    left = int(((distances >= -window_km) & (distances < 0)).sum())
-    right = int(((distances >= 0) & (distances <= window_km)).sum())
-    total = left + right
-    if total == 0:
-        continue
-    chi2, p = sps.chisquare([left, right], f_exp=[total / 2, total / 2])
-    density_rows.append({
-        "window_km": window_km,
-        "left_count": left,
-        "right_count": right,
-        "chi2": round(float(chi2), 3),
-        "p_value": round(float(p), 4),
-        "density_continuous": bool(p > 0.05),
-    })
-density_df = pd.DataFrame(density_rows)
-jc.table(
-    density_df,
-    name="density_continuity",
-    caption="Manual chi-square density continuity at the cutoff (rddensity unusable on pandas ≥ 2; no modern alternative as of 2026)",
-)
-print(density_df.to_string(index=False))
-
-# Headline: did the smallest-window test pass or fail?
-worst = min(density_rows, key=lambda r: r["p_value"])
-jc.save(
-    {
-        **worst,
-        "interpretation": (
-            "PASS — running-variable density is continuous at the cutoff at all tested windows"
-            if all(r["density_continuous"] for r in density_rows) else
-            f"FAIL — density discontinuity flagged at window {worst['window_km']} km (p = {worst['p_value']}). "
-            "In our setting this reflects the geographic clustering of treated CDs (peninsula geometry), "
-            "not literal manipulation of the running variable. Treat the RDD as complementary to DiD evidence, "
-            "not a standalone identification strategy."
-        ),
-        "note": "Hand-rolled — the canonical rddensity is unusable on pandas ≥ 2 and has no modern Python alternative as of 2026.",
-    },
-    "artifacts/density_continuity.json",
-    caption="Density continuity test summary",
-)
-
-# %% tags=["jc.figure", "name=rdrobust_plot"]
-import sys
-import math
-from pathlib import Path
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-from shapely.geometry import shape
-sys.path.insert(0, str(Path.cwd() / "showcase-rat-containerization"))
-from _helpers import TREATED_UNITS, load_or_build_panel, add_treatment_indicator
-from nyc311.geographies import load_nyc_boundaries
-
-collection = load_nyc_boundaries(layer="community_district")
-centroids = {}
-for f in collection.features:
-    if f.geography_value and f.geometry:
-        centroids[str(f.geography_value)] = (shape(f.geometry).centroid.x, shape(f.geometry).centroid.y)
-treated_set = set(TREATED_UNITS)
-treated_centroids = [centroids[u] for u in treated_set if u in centroids]
-zone_center = (
-    sum(c[0] for c in treated_centroids) / len(treated_centroids),
-    sum(c[1] for c in treated_centroids) / len(treated_centroids),
-)
-
-
-def _haversine_km(p1, p2):
-    lon1, lat1 = math.radians(p1[0]), math.radians(p1[1])
-    lon2, lat2 = math.radians(p2[0]), math.radians(p2[1])
-    dlon, dlat = lon2 - lon1, lat2 - lat1
-    a = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
-    return 2 * 6371 * math.asin(math.sqrt(a))
-
-
-panel = add_treatment_indicator(load_or_build_panel())
-post = panel[panel.index.get_level_values("period").astype(str) >= "2024-06"]
-post_means = post.groupby("unit_id")["complaint_count"].mean()
-
-xy = []
-for uid, m in post_means.items():
-    if uid not in centroids:
-        continue
-    d = (-1.0 if uid in treated_set else +1.0) * _haversine_km(centroids[uid], zone_center)
-    xy.append((d, float(m), uid in treated_set))
-xy = np.array([(r[0], r[1]) for r in xy])
-treated_mask = np.array([r[2] for r in [(d, m, t) for uid, m in post_means.items() if uid in centroids for d, t in [(_haversine_km(centroids[uid], zone_center) * (-1 if uid in treated_set else 1), uid in treated_set)]]])
-
-# Recompute treated mask from xy ordering
-treated_mask = np.array([
-    uid in treated_set
-    for uid in post_means.index if uid in centroids
-])
-
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(13, 5))
-
-# Left panel: scatter with rdrobust-style local-poly fits on each side
-ax1.scatter(xy[~treated_mask, 0], xy[~treated_mask, 1], s=30, color="#1f77b4", alpha=0.7, label="Control")
-ax1.scatter(xy[treated_mask, 0], xy[treated_mask, 1], s=40, color="#d62728", alpha=0.8, label="Treated")
-ax1.axvline(0, color="grey", linestyle="--", alpha=0.7)
-left_pts = xy[xy[:, 0] < 0]
-right_pts = xy[xy[:, 0] >= 0]
-for pts, color in ((left_pts, "#d62728"), (right_pts, "#1f77b4")):
-    if len(pts) >= 3:
-        coeffs = np.polyfit(pts[:, 0], pts[:, 1], deg=1)
-        x_plot = np.linspace(pts[:, 0].min(), pts[:, 0].max(), 50)
-        ax1.plot(x_plot, np.polyval(coeffs, x_plot), color=color, linewidth=2, alpha=0.6)
-ax1.set_xlabel("Signed distance to treatment-zone center (km)")
-ax1.set_ylabel("Mean post-treatment complaints (Jun–Dec 2024)")
-ax1.set_title("RDD scatter — local-linear fit each side")
-ax1.legend(loc="upper right", fontsize=9)
-ax1.grid(alpha=0.3)
-
-# Right panel: density histogram of running variable
-all_distances = np.array(xy[:, 0])
-bins = np.linspace(all_distances.min(), all_distances.max(), 20)
-ax2.hist(all_distances[all_distances < 0], bins=bins, alpha=0.6, color="#d62728", label="Left of cutoff")
-ax2.hist(all_distances[all_distances >= 0], bins=bins, alpha=0.6, color="#1f77b4", label="Right of cutoff")
-ax2.axvline(0, color="grey", linestyle="--", alpha=0.7)
-ax2.set_xlabel("Signed distance to treatment-zone center (km)")
-ax2.set_ylabel("CD count")
-ax2.set_title("Running-variable density (manipulation diagnostic)")
-ax2.legend(loc="upper right", fontsize=9)
-ax2.grid(alpha=0.3)
-
-fig.tight_layout()
-fig.savefig("artifacts/rdrobust_plot.png", dpi=110, bbox_inches="tight")
-plt.show()
-
-# %% tags=["jc.step", "name=spatial_lag_did", "deps=geometry"]
-import sys
-import math
-from pathlib import Path
-import jellycell.api as jc
-from shapely.geometry import shape
-sys.path.insert(0, str(Path.cwd() / "showcase-rat-containerization"))
-from _helpers import TREATED_UNITS, load_or_build_panel_dataset
-from nyc311.geographies import load_nyc_boundaries
-from nyc311.stats import spatial_lag_model
-
-collection = load_nyc_boundaries(layer="community_district")
-centroids = {}
-for f in collection.features:
-    if f.geography_value and f.geometry:
-        centroids[str(f.geography_value)] = (shape(f.geometry).centroid.x, shape(f.geometry).centroid.y)
-
-
-def _haversine_m(p1, p2):
-    lon1, lat1 = math.radians(p1[0]), math.radians(p1[1])
-    lon2, lat2 = math.radians(p2[0]), math.radians(p2[1])
-    dlon, dlat = lon2 - lon1, lat2 - lat1
-    a = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
-    return 2 * 6371000 * math.asin(math.sqrt(a))
-
-
-ds = load_or_build_panel_dataset(multi_year=False)
-panel_units = sorted({obs.unit_id for obs in ds.observations})
-shared = sorted(set(panel_units) & set(centroids))
-weights = {}
-for ai in shared:
-    row = {}
-    for aj in shared:
-        if ai == aj:
-            continue
-        if _haversine_m(centroids[ai], centroids[aj]) <= 3000:
-            row[aj] = 1.0
-    if row:
-        total = sum(row.values())
-        row = {k: v / total for k, v in row.items()}
-    weights[ai] = row
-
-print(f"  built distance weights for {len(shared)} CDs (3 km row-standardized)")
-try:
-    sl = spatial_lag_model(
-        panel=ds,
-        weights=weights,
-        outcome="complaint_count",
-        regressors=("treatment",),
+# Bandwidth sensitivity.
+sens = []
+for mult, label in ((0.5, "h/2"), (1.0, "h"), (2.0, "2h")):
+    rd_h = rdrobust(
+        y=xsec["post_mean_rate"].to_numpy(),
+        x=xsec["pre_mean_rate"].to_numpy(),
+        c=cutoff,
+        h=bw * mult, p=1, kernel="triangular",
     )
-    spatial_summary = {
-        "rho": round(float(sl.rho), 4),
-        "rho_p": round(float(sl.rho_p_value), 4),
-        "treatment_coef": round(float(sl.coefficients.get("treatment", 0)), 3),
-        "treatment_p": round(float(sl.p_values.get("treatment", 1)), 4),
-        "n_observations": int(sl.n_observations),
-        "interpretation": (
-            f"Spatial lag rho = {sl.rho:.3f} (p = {sl.rho_p_value:.4f}). "
-            + (
-                "Significant residual spatial autocorrelation — neighbor effects matter; "
-                "the SAR-corrected treatment coefficient is the credible one."
-                if sl.rho_p_value < 0.05 else
-                "No significant residual spatial dependence — naive TWFE ATT is unbiased by spillover."
-            )
-        ),
-    }
-    jc.save(spatial_summary, "artifacts/spatial_lag_did.json", caption="Spatial-lag DiD: TWFE + spatial autoregressive residuals (3 km neighborhoods)")
-    for k, v in spatial_summary.items():
-        print(f"  {k}: {v}")
-except Exception as e:
-    fail = {"error": f"{type(e).__name__}: {e}"}
-    jc.save(fail, "artifacts/spatial_lag_did.json", caption="Spatial-lag DiD — failed")
-    print(f"  spatial_lag_model failed: {e}")
+    sens.append({
+        "bandwidth_label": label,
+        "bandwidth": float(bw * mult),
+        "att": float(rd_h.coef.iloc[0, 0]),
+        "se": float(rd_h.se.iloc[0, 0]),
+        "p_value": float(rd_h.pv.iloc[0, 0]),
+    })
+
+payload = {
+    "running_variable": "pre_mean_complaint_rate",
+    "cutoff": cutoff,
+    "design": "sharp",
+    "optimal_bandwidth_mserd": bw,
+    "att_conventional": atte,
+    "se": se,
+    "p_value": pval,
+    "ci_95_low": ci_low,
+    "ci_95_high": ci_high,
+    "n_effective_left": n_eff_left,
+    "n_effective_right": n_eff_right,
+    "bandwidth_sensitivity": sens,
+    "caveat": (
+        "No policy-assigned running variable exists. This RDD is a "
+        "discontinuity-based sensitivity check — not a primary "
+        "identification. Interpret magnitude with caution."
+    ),
+}
+jc.save(payload, "artifacts/rdd_density_sensitivity.json",
+        caption="Cross-sectional sharp RDD on pre-period complaint rate; sensitivity check only.")
+print(json.dumps(payload, indent=2))
+
+# %% tags=["jc.step", "name=cd_centroids"]
+import json
+import re
+from pathlib import Path
+
+import jellycell.api as jc
+import numpy as np
+import pandas as pd
+
+from nyc311.io import load_service_requests
+
+# Derive a centroid per CD by averaging lat/lon of the service requests
+# attributed to that CD (using the already-cached records).
+date_re = re.compile(r"_(\d{4})-\d{2}-\d{2}_(\d{4})-\d{2}-\d{2}_")
+records = []
+for p in sorted(Path("data/cache").glob("*_rodent_*.csv")):
+    if date_re.search(p.name):
+        records.extend(load_service_requests(p))
+
+rows = [
+    {"unit_id": r.community_district, "lat": r.latitude, "lon": r.longitude}
+    for r in records
+    if r.community_district and r.latitude is not None and r.longitude is not None
+]
+df_pts = pd.DataFrame(rows).dropna()
+centroids = (
+    df_pts.groupby("unit_id")[["lat", "lon"]]
+    .median()
+    .reset_index()
+    .sort_values("unit_id")
+)
+centroids.to_csv("artifacts/cd_centroids.csv", index=False)
+jc.save(centroids.to_dict(orient="records"), "artifacts/cd_centroids.json",
+        caption=f"Community-district centroids (median of complaint lat/lon), N = {len(centroids)}.")
+print(f"centroids computed for {len(centroids)} community districts")
+
+# %% tags=["jc.step", "name=spatial_morans_i"]
+import json
+from pathlib import Path
+
+import jellycell.api as jc
+import numpy as np
+import pandas as pd
+
+panel = pd.read_parquet("artifacts/panel_long.parquet").reset_index()
+events = json.loads(open("data/rat_mitigation_events_2023.json").read())
+TREATED = sorted({e["unit"] for e in events["events"]})
+panel["period"] = pd.to_datetime(panel["period"].astype(str))
+
+pre = panel[panel["period"] < pd.Timestamp("2023-07-01")].groupby("unit_id")["complaint_count"].mean()
+post = panel[panel["period"] >= pd.Timestamp("2023-07-01")].groupby("unit_id")["complaint_count"].mean()
+effect = (post - pre).rename("effect").reset_index()
+
+centroids = pd.read_csv("artifacts/cd_centroids.csv")
+merged = effect.merge(centroids, on="unit_id").dropna()
+
+# Spatial weights: inverse-distance in km, cutoff 10 km.
+from math import radians, sin, cos, asin, sqrt
+
+def haversine_km(lat1, lon1, lat2, lon2):
+    R = 6371.0
+    dlat = radians(lat2 - lat1); dlon = radians(lon2 - lon1)
+    a = sin(dlat / 2) ** 2 + cos(radians(lat1)) * cos(radians(lat2)) * sin(dlon / 2) ** 2
+    return 2 * R * asin(sqrt(a))
+
+n = len(merged)
+W = np.zeros((n, n))
+CUTOFF_KM = 10.0
+for i in range(n):
+    for j in range(n):
+        if i == j: continue
+        d = haversine_km(merged.iloc[i]["lat"], merged.iloc[i]["lon"],
+                         merged.iloc[j]["lat"], merged.iloc[j]["lon"])
+        if 0 < d <= CUTOFF_KM:
+            W[i, j] = 1.0 / d
+# Row-standardize.
+row_sums = W.sum(axis=1, keepdims=True)
+row_sums[row_sums == 0] = 1.0
+Wr = W / row_sums
+
+x = merged["effect"].to_numpy()
+x_dev = x - x.mean()
+# Moran's I.
+numer = (Wr * np.outer(x_dev, x_dev)).sum()
+denom = (x_dev ** 2).sum()
+S0 = W.sum()
+n_units = n
+I = (n_units / S0) * numer / denom if S0 > 0 else np.nan
+
+# Permutation-based p-value.
+rng = np.random.default_rng(42)
+perms = 999
+I_perm = np.empty(perms)
+for k in range(perms):
+    xp = rng.permutation(x)
+    xpd = xp - xp.mean()
+    I_perm[k] = (n_units / S0) * (Wr * np.outer(xpd, xpd)).sum() / (xpd ** 2).sum()
+p_perm = float((np.abs(I_perm) >= abs(I)).mean())
+
+payload = {
+    "morans_I": float(I),
+    "expectation_under_null": float(-1 / (n - 1)),
+    "permutation_p_value": p_perm,
+    "n_permutations": perms,
+    "n_units": int(n),
+    "distance_cutoff_km": CUTOFF_KM,
+    "weight_scheme": "inverse_distance_row_standardized",
+    "interpretation": (
+        "Moran's *I* measures spatial autocorrelation of the "
+        "post-minus-pre complaint-rate change across community-district "
+        "centroids. A statistically significant positive *I* indicates "
+        "clustered treatment responses (neighbors affected similarly)."
+    ),
+}
+jc.save(payload, "artifacts/spatial_morans_i.json",
+        caption="Moran's I on the per-CD post-minus-pre complaint-rate change.")
+print(json.dumps(payload, indent=2))
+
+# %% tags=["jc.step", "name=lisa_clusters", "deps=spatial_morans_i"]
+import json
+from pathlib import Path
+
+import jellycell.api as jc
+import numpy as np
+import pandas as pd
+
+panel = pd.read_parquet("artifacts/panel_long.parquet").reset_index()
+events = json.loads(open("data/rat_mitigation_events_2023.json").read())
+TREATED = sorted({e["unit"] for e in events["events"]})
+panel["period"] = pd.to_datetime(panel["period"].astype(str))
+pre = panel[panel["period"] < pd.Timestamp("2023-07-01")].groupby("unit_id")["complaint_count"].mean()
+post = panel[panel["period"] >= pd.Timestamp("2023-07-01")].groupby("unit_id")["complaint_count"].mean()
+effect = (post - pre).rename("effect").reset_index()
+centroids = pd.read_csv("artifacts/cd_centroids.csv")
+merged = effect.merge(centroids, on="unit_id").dropna().reset_index(drop=True)
+
+from math import radians, sin, cos, asin, sqrt
+def haversine_km(lat1, lon1, lat2, lon2):
+    R = 6371.0
+    dlat = radians(lat2 - lat1); dlon = radians(lon2 - lon1)
+    a = sin(dlat / 2) ** 2 + cos(radians(lat1)) * cos(radians(lat2)) * sin(dlon / 2) ** 2
+    return 2 * R * asin(sqrt(a))
+n = len(merged); W = np.zeros((n, n))
+for i in range(n):
+    for j in range(n):
+        if i == j: continue
+        d = haversine_km(merged.iloc[i]["lat"], merged.iloc[i]["lon"],
+                         merged.iloc[j]["lat"], merged.iloc[j]["lon"])
+        if 0 < d <= 10.0:
+            W[i, j] = 1.0 / d
+rs = W.sum(axis=1, keepdims=True); rs[rs == 0] = 1.0
+Wr = W / rs
+
+x = merged["effect"].to_numpy()
+x_z = (x - x.mean()) / x.std(ddof=1)
+lag_z = Wr @ x_z
+I_local = x_z * lag_z
+
+# Permutation p per unit (simplified; 499 perms for speed).
+rng = np.random.default_rng(42)
+perms = 499
+p_perm = np.empty(n)
+for i in range(n):
+    neighbors_idx = np.where(Wr[i] > 0)[0]
+    if len(neighbors_idx) == 0:
+        p_perm[i] = 1.0; continue
+    null = []
+    for _ in range(perms):
+        samp = rng.choice(np.delete(x_z, i), size=len(neighbors_idx), replace=False)
+        null.append(x_z[i] * samp.mean() * (Wr[i, neighbors_idx].sum() / Wr[i, neighbors_idx].sum()))
+    null = np.asarray(null)
+    p_perm[i] = float((np.abs(null) >= abs(I_local[i])).mean())
+
+def classify(zi, lz, p):
+    if p > 0.05: return "ns"
+    if zi > 0 and lz > 0: return "HH"
+    if zi < 0 and lz < 0: return "LL"
+    if zi > 0 and lz < 0: return "HL"
+    if zi < 0 and lz > 0: return "LH"
+    return "ns"
+
+merged["I_local"] = I_local
+merged["lag_z"] = lag_z
+merged["z"] = x_z
+merged["p_perm"] = p_perm
+merged["cluster"] = [classify(x_z[i], lag_z[i], p_perm[i]) for i in range(n)]
+merged["is_treated"] = merged["unit_id"].isin(TREATED)
+merged.to_csv("artifacts/lisa_clusters.csv", index=False)
+
+cluster_counts = merged["cluster"].value_counts().to_dict()
+treated_clusters = merged[merged["is_treated"]]["cluster"].value_counts().to_dict()
+payload = {
+    "cluster_counts_all": cluster_counts,
+    "cluster_counts_treated": treated_clusters,
+    "n_units": int(n),
+    "n_treated": int(merged["is_treated"].sum()),
+}
+jc.save(payload, "artifacts/lisa_clusters.json",
+        caption="LISA cluster classification on treatment-effect surface (10km distance band).")
+print(json.dumps(payload, indent=2))
+
+# %% tags=["jc.figure", "name=fig4_spatial_effect"]
+from pathlib import Path
+
+import matplotlib.pyplot as plt
+import pandas as pd
+
+m = pd.read_csv("artifacts/lisa_clusters.csv")
+palette = {"HH": "#c62828", "LL": "#1565c0", "HL": "#ef9a9a", "LH": "#90caf9", "ns": "#cfcfcf"}
+fig, ax = plt.subplots(figsize=(8, 9))
+for cls, color in palette.items():
+    sub = m[m["cluster"] == cls]
+    ax.scatter(sub["lon"], sub["lat"], c=color, s=100,
+               label=f"{cls} (n={len(sub)})", edgecolor="black", linewidth=0.3)
+# Mark treated units with a ring.
+t = m[m["is_treated"]]
+ax.scatter(t["lon"], t["lat"], facecolors="none", edgecolor="gold",
+           s=250, linewidth=2.0, label=f"Treated ({len(t)})")
+ax.set_xlabel("Longitude")
+ax.set_ylabel("Latitude")
+ax.set_title("Figure 4. Spatial pattern of post-minus-pre complaint change, NYC CDs")
+ax.legend(loc="lower left", frameon=True, fontsize=9)
+ax.set_aspect("equal", adjustable="datalim")
+fig.tight_layout()
+Path("artifacts/figures").mkdir(parents=True, exist_ok=True)
+fig.savefig("artifacts/figures/figure-4-spatial-clusters.png", dpi=150)
+plt.close(fig)
+
+from IPython.display import Image
+Image("artifacts/figures/figure-4-spatial-clusters.png")
 
 # %% [markdown]
-# **Continue to** [`08_extended_robustness.py`](08_extended_robustness.py)
-# — power analysis, multi-year parallel-trends, reporting-bias EM, BH correction.
+# **Next:** `08_extended_robustness.py` — MDE + Benjamini-Hochberg on
+# the full robustness matrix.
