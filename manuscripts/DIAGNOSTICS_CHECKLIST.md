@@ -6,7 +6,7 @@
 
 | # | Assumption | Status | Evidence |
 | :--- | :--- | :--- | :--- |
-| 1 | **Parallel trends** (flat pre-period leads) | **Violated** | Joint *F* = 10.97, *p* &lt; .001. Treated CDs climb faster pre-treatment. Rambachan-Roth HonestDiD bounds (§4.6, Appendix C) report the identified set under smoothness restrictions. |
+| 1 | **Parallel trends** (flat pre-period leads) | **Violated** | Joint *F* = 4.40, *p* &lt; .001. Treated CDs climb faster pre-treatment. Rambachan-Roth HonestDiD bounds (§4.6, Appendix C) report the identified set under smoothness restrictions. |
 | 2 | **No anticipation** (null placebo at t₀-12mo) | **Check** | Placebo BJS ATT = +9.97, *p* &lt; .001. |
 | 3 | **Sign agreement across estimators** | **Pass** | All four (TWFE, CS, SA, BJS) agree on negative sign under staggered adoption. |
 | 4 | **Cluster-robust SEs** | **Pass** | SEs clustered on `unit_id` (community district). |

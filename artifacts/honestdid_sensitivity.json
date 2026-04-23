@@ -1,0 +1,126 @@
+{
+  "inputs": {
+    "n_pre_coefs": 23,
+    "n_post_coefs": 19,
+    "pre_coef_max_abs": 19.171998578031,
+    "pre_coef_mean": 9.398285645098442,
+    "post_coef_mean": -2.02776364790721
+  },
+  "relative_magnitudes_sweep": [
+    {
+      "Mbar": 0.0,
+      "D_pre": 19.171998578031,
+      "tau_hat": -2.02776364790721,
+      "lower": -2.02776364790721,
+      "upper": -2.02776364790721,
+      "half_width": 0.0,
+      "includes_zero": false
+    },
+    {
+      "Mbar": 0.5,
+      "D_pre": 19.171998578031,
+      "tau_hat": -2.02776364790721,
+      "lower": -11.613762936922711,
+      "upper": 7.558235641108291,
+      "half_width": 9.5859992890155,
+      "includes_zero": true
+    },
+    {
+      "Mbar": 1.0,
+      "D_pre": 19.171998578031,
+      "tau_hat": -2.02776364790721,
+      "lower": -21.199762225938212,
+      "upper": 17.14423493012379,
+      "half_width": 19.171998578031,
+      "includes_zero": true
+    },
+    {
+      "Mbar": 1.5,
+      "D_pre": 19.171998578031,
+      "tau_hat": -2.02776364790721,
+      "lower": -30.785761514953712,
+      "upper": 26.73023421913929,
+      "half_width": 28.7579978670465,
+      "includes_zero": true
+    },
+    {
+      "Mbar": 2.0,
+      "D_pre": 19.171998578031,
+      "tau_hat": -2.02776364790721,
+      "lower": -40.37176080396921,
+      "upper": 36.316233508154795,
+      "half_width": 38.343997156062,
+      "includes_zero": true
+    }
+  ],
+  "linear_trend_sweep": [
+    {
+      "Mbar": 0.0,
+      "pre_trend_slope_per_month": 0.48403032901684984,
+      "pre_trend_intercept": 15.69067992231749,
+      "max_abs_pre_residual": 7.9724700786944105,
+      "bias_linear_extrapolation": 20.046952883469135,
+      "tau_hat_uncorrected": -2.02776364790721,
+      "tau_adj_linear": -22.074716531376346,
+      "lower": -22.074716531376346,
+      "upper": -22.074716531376346,
+      "half_width": 0.0,
+      "includes_zero": false
+    },
+    {
+      "Mbar": 0.5,
+      "pre_trend_slope_per_month": 0.48403032901684984,
+      "pre_trend_intercept": 15.69067992231749,
+      "max_abs_pre_residual": 7.9724700786944105,
+      "bias_linear_extrapolation": 20.046952883469135,
+      "tau_hat_uncorrected": -2.02776364790721,
+      "tau_adj_linear": -22.074716531376346,
+      "lower": -26.060951570723553,
+      "upper": -18.08848149202914,
+      "half_width": 3.9862350393472052,
+      "includes_zero": false
+    },
+    {
+      "Mbar": 1.0,
+      "pre_trend_slope_per_month": 0.48403032901684984,
+      "pre_trend_intercept": 15.69067992231749,
+      "max_abs_pre_residual": 7.9724700786944105,
+      "bias_linear_extrapolation": 20.046952883469135,
+      "tau_hat_uncorrected": -2.02776364790721,
+      "tau_adj_linear": -22.074716531376346,
+      "lower": -30.047186610070757,
+      "upper": -14.102246452681936,
+      "half_width": 7.9724700786944105,
+      "includes_zero": false
+    },
+    {
+      "Mbar": 1.5,
+      "pre_trend_slope_per_month": 0.48403032901684984,
+      "pre_trend_intercept": 15.69067992231749,
+      "max_abs_pre_residual": 7.9724700786944105,
+      "bias_linear_extrapolation": 20.046952883469135,
+      "tau_hat_uncorrected": -2.02776364790721,
+      "tau_adj_linear": -22.074716531376346,
+      "lower": -34.03342164941796,
+      "upper": -10.11601141333473,
+      "half_width": 11.958705118041616,
+      "includes_zero": false
+    },
+    {
+      "Mbar": 2.0,
+      "pre_trend_slope_per_month": 0.48403032901684984,
+      "pre_trend_intercept": 15.69067992231749,
+      "max_abs_pre_residual": 7.9724700786944105,
+      "bias_linear_extrapolation": 20.046952883469135,
+      "tau_hat_uncorrected": -2.02776364790721,
+      "tau_adj_linear": -22.074716531376346,
+      "lower": -38.01965668876517,
+      "upper": -6.129776373987525,
+      "half_width": 15.944940157388821,
+      "includes_zero": false
+    }
+  ],
+  "breakdown_Mbar_RM": 0.5,
+  "breakdown_Mbar_LT": null,
+  "interpretation": "Under relative-magnitudes restriction RM(Mbar): the pooled post-period ATT remains negative (the identified set excludes zero) up to Mbar = 0.5. Under linear-trend extrapolation LT(Mbar), the pre-trend is OLS-fitted and extrapolated into the post-period; the trend-adjusted ATT remains negative up to Mbar = \u221e \u00d7 (observed pre-period max |residual|). Both restriction families are interpretable as the manuscript's robustness answer to the parallel-trends rejection in \u00a74.3."
+}

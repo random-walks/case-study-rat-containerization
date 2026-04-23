@@ -44,9 +44,9 @@ All four estimators agree in sign. With staggered adoption (two cohorts), TWFE a
 
 | Diagnostic | Value | Reading |
 | :--- | ---: | :--- |
-| Parallel-trends joint *F* | *F* = 10.97, *p* &lt; .001 | **Reject** flat pre-trends — see HonestDiD sensitivity in §4.6 and Appendix C. |
+| Parallel-trends joint *F* | *F* = 4.40, *p* &lt; .001 | **Reject** flat pre-trends — see HonestDiD sensitivity in §4.6 and Appendix C. |
 | Breusch-Pagan | *p* &lt; .001 | Heteroskedastic residuals; cluster-robust SEs mitigate. |
-| TWFE *R*² | 0.799 | Within-panel variance absorbed by fixed effects. |
+| TWFE *R*² | 0.802 | Within-panel variance absorbed by fixed effects. |
 | Shapiro-Wilk | sampled *p* &lt; .001 | Non-normal residuals — count-data feature; large-*N* CLT applies. |
 
 ## Balance (pre-treatment)

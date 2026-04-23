@@ -132,12 +132,12 @@
   },
   "diagnostics": {
     "pre_trends_F_reject": "reject_flat_pretrends",
-    "pre_trends_F_stat": 10.97055560957863,
-    "pre_trends_F_p": 1.490450147557926e-15,
+    "pre_trends_F_stat": 4.399522101959924,
+    "pre_trends_F_p": 6.548386127477012e-07,
     "bp_heteroskedastic": "heteroskedastic",
     "bp_p": 0.0,
     "shapiro_normal": "non_normal",
-    "r_squared": 0.7993502634051256
+    "r_squared": 0.8022911860029588
   },
   "balance_pretreatment": {
     "welch_t": 65.51956240805727,
