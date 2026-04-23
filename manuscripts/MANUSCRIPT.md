@@ -18,14 +18,15 @@ volume using a community-district × month panel built from 377,950 NYC
 difference-in-differences (DiD) estimators — two-way fixed effects
 (TWFE), Callaway-Sant'Anna (CS), Sun-Abraham (SA), and
 Borusyak-Jaravel-Spiess (BJS) — all recover a negative point estimate,
-with the headline BJS estimate at ATT = -15.29 complaints per CD per
-month (*SE* = 2.35, 95% CI [-19.90, -10.69], *p* < .001, *N* = 4,440).
-The effect survives robustness across four specifications (placebo
-timing, log-transformed outcome, post-COVID subsample, Manhattan-only
-controls) but rests on a parallel-trends assumption that the data
-reject (*F*(23, 73) = 7.90, *p* < .001). A cross-sectional sharp RDD
-on pre-period complaint density yields non-significant estimates at
-every bandwidth tested; Moran's *I* on the treatment-effect surface is
+with the headline BJS estimate at $\text{ATT} = -15.29$ complaints
+per CD per month ($SE = 2.35$, 95% CI $[-19.90,\, -10.69]$,
+$p < .001$, $N = 4{,}440$). The effect survives robustness across
+four specifications (placebo timing, log-transformed outcome,
+post-COVID subsample, Manhattan-only controls) but rests on a
+parallel-trends assumption that the data reject ($F(23, 73) = 7.90$,
+$p < .001$). A cross-sectional sharp RDD on pre-period complaint
+density yields non-significant estimates at every bandwidth tested;
+Moran's $I$ on the treatment-effect surface is
 indistinguishable from zero, indicating no spatial clustering of
 treated outcomes. We interpret the point estimate as a plausible
 upper bound on the true policy effect. The analysis is fully
@@ -112,14 +113,16 @@ cell is treated if both conditions hold: unit ∈ TREATED ∧ period ≥
 
 ### 3.2 Primary specification
 
-Let *Y*_it denote the Rodent-complaint count at community district *i*
-in month *t*. The headline specification is the two-way fixed-effects
-DiD:
+Let $Y_{it}$ denote the Rodent-complaint count at community district
+$i$ in month $t$. The headline specification is the two-way
+fixed-effects DiD:
 
-    Y_it = α_i + γ_t + β · (TREATED_i × Post_t) + ε_it
+$$
+Y_{it} = \alpha_i + \gamma_t + \beta \cdot (\text{TREATED}_i \times \text{Post}_t) + \varepsilon_{it}
+$$
 
-where α_i absorbs time-invariant CD-level confounders (e.g., baseline
-population, neighborhood character), γ_t absorbs common
+where $\alpha_i$ absorbs time-invariant CD-level confounders (e.g.,
+baseline population, neighborhood character), $\gamma_t$ absorbs common
 shocks (e.g., weather, citywide rodent-population swings), and
 cluster-robust standard errors are taken at the community-district
 level.
@@ -170,8 +173,8 @@ Figure 1 shows the mean monthly Rodent-complaint trajectory for the
 treated and control groups across the full window. Both groups
 exhibit a common post-COVID rise through 2022, with treated CDs
 averaging 108.6 complaints per CD per month pre-treatment vs. 78.5
-for the control group (Welch *t*(3106) = 6.75, *p* < .001,
-Cohen's *d* = 0.38, small-to-medium). Treated CDs carried elevated
+for the control group (Welch $t(3106) = 6.75$, $p < .001$,
+Cohen's $d = 0.38$, small-to-medium). Treated CDs carried elevated
 baseline rates, which we return to in §5.3.
 
 ![Figure 1 — Mean monthly Rodent-complaint trajectory, treated (nine lower-Manhattan CDs) vs. control (65 outer-borough / upper-Manhattan CDs), 2020-01 through 2024-12. Dashed vertical line at 2023-07-01 marks the containerization rollout.](../artifacts/figures/figure-1-pretrends.png)
@@ -179,12 +182,13 @@ baseline rates, which we return to in §5.3.
 ### 4.2 Main effect
 
 Table 2 reports the four estimators. All four recover a negative
-ATT. TWFE and BJS coincide to the third decimal (ATT = -15.29);
-CS and SA coincide at ATT = -12.20. Cluster-robust *SE*s at the
+ATT. TWFE and BJS coincide to the third decimal
+($\text{ATT} = -15.29$); CS and SA coincide at
+$\text{ATT} = -12.20$. Cluster-robust $SE$s at the
 community-district level place the headline BJS estimate well
-outside zero (95% CI [-19.90, -10.69], *p* < .001). TWFE alone is
-borderline at *p* = .038; the larger CS *SE* of 6.98 reflects its
-more conservative inference under heterogeneity.
+outside zero (95% CI $[-19.90,\, -10.69]$, $p < .001$). TWFE alone
+is borderline at $p = .038$; the larger CS $SE$ of 6.98 reflects
+its more conservative inference under heterogeneity.
 
 **See** Table 2 at `artifacts/paper_tables.md` for the four-estimator
 summary.
@@ -192,37 +196,37 @@ summary.
 ### 4.3 Event study
 
 Figure 2 plots the event-study coefficients (24 months of leads, 18
-months of lags, reference = *t_0* - 1). The coefficients are *not*
-flat in the pre-period: a joint *F*-test on the pre-period leads
-yields *F*(23, 73) = 7.90, *p* < .001. Treated CDs were climbing
+months of lags, reference $= t_0 - 1$). The coefficients are *not*
+flat in the pre-period: a joint $F$-test on the pre-period leads
+yields $F(23, 73) = 7.90$, $p < .001$. Treated CDs were climbing
 faster than controls through 2022 and mid-2023. Post-treatment
 coefficients trend negative but the window includes pre-period
 deviations of comparable magnitude, warranting caution. This is the
 central identification concern, developed further in §5.3.
 
-![Figure 2 — Event-study coefficients with 95% CIs (24 months leads, 18 months lags, reference *t_0 − 1*). Pre-period leads are visibly non-flat, matching the joint *F*(23, 73) = 7.90, *p* < .001 rejection.](../artifacts/figures/figure-2-event-study.png)
+![Figure 2 — Event-study coefficients with 95% CIs (24 months leads, 18 months lags, reference t_0 − 1). Pre-period leads are visibly non-flat, matching the joint F(23, 73) = 7.90, p < .001 rejection.](../artifacts/figures/figure-2-event-study.png)
 
 ### 4.4 Robustness
 
 Table 3 (in `artifacts/paper_tables.md`) summarizes the four
 probes. Findings:
 
-- **Placebo (2022-07-01)**: results are mixed. BJS recovers +10.64
-  (*p* = .001) and TWFE +10.64 (*p* = .096), both with positive
+- **Placebo (2022-07-01)**: results are mixed. BJS recovers $+10.64$
+  ($p = .001$) and TWFE $+10.64$ ($p = .096$), both with positive
   signs — the opposite direction from the headline — while CS and
-  SA recover negative placebo coefficients (-24.4 each, with SA
-  significant). The BJS placebo's small raw *p* partly reflects the
+  SA recover negative placebo coefficients ($-24.4$ each, with SA
+  significant). The BJS placebo's small raw $p$ partly reflects the
   method's low SE on single-cohort samples; we interpret the mixed
   directionality as consistent with a pre-existing differential
   slope rather than a clean placebo null (see §5.3).
-- **Log outcome**: TWFE on log(1 + Y) yields coefficient -0.072
-  (≈ -6.9% change), *p* = .326. Same sign, non-significant at this
-  transformation.
-- **Post-COVID subsample**: BJS ATT = -23.04 (*p* < .001) —
+- **Log outcome**: TWFE on $\log(1 + Y)$ yields coefficient
+  $-0.072$ (≈ $-6.9\%$ change), $p = .326$. Same sign,
+  non-significant at this transformation.
+- **Post-COVID subsample**: BJS $\text{ATT} = -23.04$ ($p < .001$) —
   strengthens the headline, suggesting the 2020 lockdown data are
   not masking a larger underlying effect.
-- **Manhattan-only controls**: BJS ATT = -44.35 (*p* < .001) but
-  with the sample collapsed to only six non-pilot Manhattan CDs
+- **Manhattan-only controls**: BJS $\text{ATT} = -44.35$ ($p < .001$)
+  but with the sample collapsed to only six non-pilot Manhattan CDs
   as controls; the larger magnitude likely reflects the removal of
   the outer-borough control CDs that had lower baseline rates.
 
@@ -230,52 +234,53 @@ probes. Findings:
 
 ### 4.5 Spatial and RDD auxiliaries
 
-Moran's *I* on the per-CD post-minus-pre complaint change is
--0.005 (permutation *p* = .544, 999 permutations, 10 km inverse-distance
-band): consistent with zero. Treated CDs' responses are not spatially
-clustered beyond what random arrangement would produce, which we
-interpret as the policy's effect being unit-local rather than
-diffusing through adjacency.
+Moran's $I$ on the per-CD post-minus-pre complaint change is
+$-0.005$ (permutation $p = .544$, 999 permutations, 10 km
+inverse-distance band): consistent with zero. Treated CDs' responses
+are not spatially clustered beyond what random arrangement would
+produce, which we interpret as the policy's effect being unit-local
+rather than diffusing through adjacency.
 
-![Figure 4 — Per-CD post-minus-pre complaint change plotted on the NYC community-district boundaries. The diffuse pattern — no visible clusters of positive or negative response — matches the null Moran's *I*.](../artifacts/figures/figure-4-spatial-clusters.png)
+![Figure 4 — Per-CD post-minus-pre complaint change plotted on the NYC community-district boundaries. The diffuse pattern — no visible clusters of positive or negative response — matches the null Moran's I.](../artifacts/figures/figure-4-spatial-clusters.png)
 
-The sharp RDD on the
-pre-period complaint rate recovers non-significant effects at every
-bandwidth tested (h/2, h, 2h) (Table 4). We interpret the RDD's null
-finding as evidence that there is no density-threshold effect around
-the median pre-period rate — a sensible finding given the absence of a
-policy-assigned running variable.
+The sharp RDD on the pre-period complaint rate recovers
+non-significant effects at every bandwidth tested ($h/2$, $h$, $2h$)
+(Table 4). We interpret the RDD's null finding as evidence that there
+is no density-threshold effect around the median pre-period rate — a
+sensible finding given the absence of a policy-assigned running
+variable.
 
 ## 5. Discussion
 
 ### 5.1 Magnitude and plausibility
 
-The headline BJS estimate of -15.3 complaints per CD per month is
+The headline BJS estimate of $-15.3$ complaints per CD per month is
 material: applied to the 9 treated CDs over the 18 post-treatment
 months in our window, it implies roughly 2,480 averted rodent
 complaints, or about 14% of the pre-treatment treated-group
-complaint volume. Per-CD Cohen's *d* ≈ 0.4 (medium effect).
+complaint volume. Per-CD Cohen's $d \approx 0.4$ (medium effect).
 
 ### 5.2 Cross-estimator consensus
 
 All four estimators — TWFE, CS, SA, BJS — agree on sign. Across the
-13 *p*-values reported in the manuscript (4 main + 4 placebo + log
-+ post-COVID + MN-only + RDD + Moran's I), six survive Benjamini-
-Hochberg correction at *p*_BH < .05: main_bjs (*p*_BH < .001),
-main_sa (*p*_BH = .002), post_covid_bjs (*p*_BH < .001), mn_only_bjs
-(*p*_BH < .001), placebo_sa (*p*_BH < .001), and placebo_bjs
-(*p*_BH = .002). Main TWFE at raw *p* = .038 does *not* survive
-the BH threshold, nor does CS at any specification. The fact that
-*placebo* BJS + SA also reject at the BH threshold is a direct
-marker of the parallel-trends violation and the small-cohort
-pathology of the heterogeneity-robust estimators: it should be read
-as evidence *against* a clean identification, not as corroboration
-of the headline.
+13 $p$-values reported in the manuscript (4 main + 4 placebo + log
++ post-COVID + MN-only + RDD + Moran's $I$), six survive
+Benjamini–Hochberg correction at $p_{\text{BH}} < .05$: main_bjs
+($p_{\text{BH}} < .001$), main_sa ($p_{\text{BH}} = .002$),
+post_covid_bjs ($p_{\text{BH}} < .001$), mn_only_bjs
+($p_{\text{BH}} < .001$), placebo_sa ($p_{\text{BH}} < .001$), and
+placebo_bjs ($p_{\text{BH}} = .002$). Main TWFE at raw $p = .038$
+does *not* survive the BH threshold, nor does CS at any
+specification. The fact that *placebo* BJS + SA also reject at the
+BH threshold is a direct marker of the parallel-trends violation and
+the small-cohort pathology of the heterogeneity-robust estimators:
+it should be read as evidence *against* a clean identification, not
+as corroboration of the headline.
 
 ### 5.3 Limitations
 
 1. **Parallel trends violated.** The event study rejects flat
-   pre-period leads (*F*(23, 73) = 7.90, *p* < .001). Treated CDs
+   pre-period leads ($F(23, 73) = 7.90$, $p < .001$). Treated CDs
    were on a steeper post-COVID trajectory than controls.
    Conventional interpretation of the DiD coefficient as the
    *unbiased* ATT requires flat pre-trends; under the observed
@@ -283,13 +288,14 @@ of the headline.
    a pre-existing slope differential. We interpret the magnitude as
    an upper bound on the true effect.
 2. **Underpowered at conventional MDE floor.** The minimum detectable
-   effect at α = .05, power = .80 for this design is |*d*| ≈ 1.0, or
-   roughly 35 complaints per CD per month. The observed |ATT| of 15.3
-   does not exceed that conventional MDE. We recover significance
-   through the cluster-robust SE structure, not through unconditional
-   power, and the placebo results suggest that this significance may
-   partly reflect the idiosyncrasies of the heterogeneity-robust
-   estimators on a single-cohort sample.
+   effect at $\alpha = .05$, power $= .80$ for this design is
+   $|d| \approx 1.0$, or roughly 35 complaints per CD per month.
+   The observed $|\text{ATT}|$ of 15.3 does not exceed that
+   conventional MDE. We recover significance through the
+   cluster-robust SE structure, not through unconditional power, and
+   the placebo results suggest that this significance may partly
+   reflect the idiosyncrasies of the heterogeneity-robust estimators
+   on a single-cohort sample.
 
    ![Figure 5 — Power curve for the staggered-DiD design, sweeping effect size on the x-axis against power on the y-axis at α = .05. The observed |ATT| of 15.3 complaints per CD per month falls well below the conventional 80% power threshold (≈ 35 complaints).](../artifacts/figures/figure-5-power-curve.png)
 3. **311 complaints are not rat abundance.** Complaint volume
@@ -325,7 +331,7 @@ bound, condition on the parallel-trends violation), the evidence is
 not constitute dispositive causal proof. The city's natural
 experiment — the 2024 citywide expansion of containerization to all
 commercial and large residential buildings — will provide a second,
-larger-*N* test. The current pilot-period evidence is best
+larger-$N$ test. The current pilot-period evidence is best
 characterized as "consistent with" a 10–15% complaint reduction with
 substantial uncertainty on the true effect size.
 
