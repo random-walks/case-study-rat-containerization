@@ -26,13 +26,13 @@
 | Post-COVID (2022-01 →) (BJS) | -23.04 | <.001 | Strengthens headline. |
 | Manhattan-only controls (BJS) | -44.35 | <.001 | Same sign, wide CI. |
 
-**Table 4. RDD bandwidth sensitivity (cutoff = 70.3).**
+**Table 4. RDD bandwidth sensitivity (cutoff = 35.1).**
 
 | Bandwidth | h | ATT | SE | p |
 | --- | --- | --- | --- | --- |
-| h/2 | 13.49 | +6.48 | 9.79 | 0.508 |
-| h | 26.97 | +7.61 | 7.10 | 0.284 |
-| 2h | 53.95 | +2.54 | 6.77 | 0.707 |
+| h/2 | 6.59 | +1.07 | 4.72 | 0.821 |
+| h | 13.18 | +1.64 | 3.41 | 0.631 |
+| 2h | 26.36 | -1.51 | 2.91 | 0.604 |
 
 **Table 5. Identification + statistical diagnostic checklist.**
 
@@ -41,5 +41,5 @@
 | Parallel-trends F | F = 7.90 | <.001 | Reject flat pre-trends. |
 | Breusch-Pagan | see §4.2 | <.001 | Heteroskedastic; cluster-robust SE. |
 | TWFE R² | 0.812 | — | Within-panel variance absorbed. |
-| MDE (α=.05, power=.80) | ~35.1 complaints (|d| ~ 1.00) | — | Exceeds observed |ATT|; see §5.3. |
-| BH survivors | 6/13 | BH 0.05 | Main BJS + SA survive. |
+| MDE (α=.05, power=.80) | ~17.6 complaints (|d| ~ 1.00) | — | Exceeds observed |ATT|; see §5.3. |
+| BH survivors | 9/13 | BH 0.05 | Main BJS + SA survive. |

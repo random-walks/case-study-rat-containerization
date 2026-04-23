@@ -1,13 +1,13 @@
 {
-  "within_residual_sd": 35.20203984783554,
+  "within_residual_sd": 17.688819830761513,
   "n_treated_units": 9,
   "n_control_units": 65,
   "alpha": 0.05,
   "power": 0.8,
   "mde_cohens_d": 0.9964184583668012,
-  "mde_natural_units": 35.075962276546996,
+  "mde_natural_units": 17.625466586095488,
   "observed_att_bjs": -15.292768959434426,
   "observed_abs_att_bjs": 15.292768959434426,
   "observed_exceeds_mde": false,
-  "interpretation": "At \u03b1 = .05 and 80% power, the smallest detectable ATT is 35.08 complaints per CD per month (Cohen's d ~ 1.00). The observed |ATT_BJS| = 15.29 does not exceed this floor."
+  "interpretation": "At \u03b1 = .05 and 80% power, the smallest detectable ATT is 17.63 complaints per CD per month (Cohen's d ~ 1.00). The observed |ATT_BJS| = 15.29 does not exceed this floor."
 }
