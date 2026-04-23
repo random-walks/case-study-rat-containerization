@@ -174,7 +174,7 @@ for the control group (Welch *t*(3106) = 6.75, *p* < .001,
 Cohen's *d* = 0.38, small-to-medium). Treated CDs carried elevated
 baseline rates, which we return to in §5.3.
 
-**See** `artifacts/figures/figure-1-pretrends.png` for the visual.
+![Figure 1 — Mean monthly Rodent-complaint trajectory, treated (nine lower-Manhattan CDs) vs. control (65 outer-borough / upper-Manhattan CDs), 2020-01 through 2024-12. Dashed vertical line at 2023-07-01 marks the containerization rollout.](../artifacts/figures/figure-1-pretrends.png)
 
 ### 4.2 Main effect
 
@@ -200,7 +200,7 @@ coefficients trend negative but the window includes pre-period
 deviations of comparable magnitude, warranting caution. This is the
 central identification concern, developed further in §5.3.
 
-**See** `artifacts/figures/figure-2-event-study.png`.
+![Figure 2 — Event-study coefficients with 95% CIs (24 months leads, 18 months lags, reference *t_0 − 1*). Pre-period leads are visibly non-flat, matching the joint *F*(23, 73) = 7.90, *p* < .001 rejection.](../artifacts/figures/figure-2-event-study.png)
 
 ### 4.4 Robustness
 
@@ -226,8 +226,7 @@ probes. Findings:
   as controls; the larger magnitude likely reflects the removal of
   the outer-borough control CDs that had lower baseline rates.
 
-**See** `artifacts/figures/figure-6-att-by-borough.png` for the
-per-borough decomposition of the post-minus-pre change.
+![Figure 6 — Per-borough decomposition of the post-minus-pre complaint change, treated CDs vs. borough-level control pools. Larger magnitudes in the Manhattan-only specification reflect the smaller, more similar control pool.](../artifacts/figures/figure-6-att-by-borough.png)
 
 ### 4.5 Spatial and RDD auxiliaries
 
@@ -236,7 +235,11 @@ Moran's *I* on the per-CD post-minus-pre complaint change is
 band): consistent with zero. Treated CDs' responses are not spatially
 clustered beyond what random arrangement would produce, which we
 interpret as the policy's effect being unit-local rather than
-diffusing through adjacency (see Figure 4). The sharp RDD on the
+diffusing through adjacency.
+
+![Figure 4 — Per-CD post-minus-pre complaint change plotted on the NYC community-district boundaries. The diffuse pattern — no visible clusters of positive or negative response — matches the null Moran's *I*.](../artifacts/figures/figure-4-spatial-clusters.png)
+
+The sharp RDD on the
 pre-period complaint rate recovers non-significant effects at every
 bandwidth tested (h/2, h, 2h) (Table 4). We interpret the RDD's null
 finding as evidence that there is no density-threshold effect around
@@ -282,11 +285,13 @@ of the headline.
 2. **Underpowered at conventional MDE floor.** The minimum detectable
    effect at α = .05, power = .80 for this design is |*d*| ≈ 1.0, or
    roughly 35 complaints per CD per month. The observed |ATT| of 15.3
-   does not exceed that conventional MDE (see Figure 5). We recover
-   significance through the cluster-robust SE structure, not through
-   unconditional power, and the placebo results suggest that this
-   significance may partly reflect the idiosyncrasies of the
-   heterogeneity-robust estimators on a single-cohort sample.
+   does not exceed that conventional MDE. We recover significance
+   through the cluster-robust SE structure, not through unconditional
+   power, and the placebo results suggest that this significance may
+   partly reflect the idiosyncrasies of the heterogeneity-robust
+   estimators on a single-cohort sample.
+
+   ![Figure 5 — Power curve for the staggered-DiD design, sweeping effect size on the x-axis against power on the y-axis at α = .05. The observed |ATT| of 15.3 complaints per CD per month falls well below the conventional 80% power threshold (≈ 35 complaints).](../artifacts/figures/figure-5-power-curve.png)
 3. **311 complaints are not rat abundance.** Complaint volume
    reflects both underlying rat activity and citizen reporting
    propensity. Legewie & Schaeffer (2016) document that reporting
