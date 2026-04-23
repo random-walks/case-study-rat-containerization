@@ -6,85 +6,144 @@
     "author": "Blaise Albis-Burdige",
     "author_url": "https://blaiseab.com",
     "month_year": "April 2026",
-    "version": "2.0.0"
+    "version": "3.0.0"
   },
   "panel": {
     "n_units": 74,
-    "n_periods": 60,
-    "n_observations": 4440,
-    "window": "2020-01 \u2192 2024-12",
-    "treated_units": [
-      "MANHATTAN 01",
-      "MANHATTAN 02",
-      "MANHATTAN 03",
-      "MANHATTAN 04",
-      "MANHATTAN 05",
-      "MANHATTAN 06",
-      "MANHATTAN 07",
-      "MANHATTAN 08",
-      "MANHATTAN 09"
-    ],
-    "n_treated": 9,
-    "treatment_date": "2023-07-01",
-    "total_complaints": 377950
+    "n_periods": 75,
+    "n_observations": 5550,
+    "window": "2020-01 \u2192 2026-03",
+    "cohort_1_pilot": {
+      "treatment_date": "2023-07-01",
+      "n_units": 9,
+      "units": [
+        "MANHATTAN 01",
+        "MANHATTAN 02",
+        "MANHATTAN 03",
+        "MANHATTAN 04",
+        "MANHATTAN 05",
+        "MANHATTAN 06",
+        "MANHATTAN 07",
+        "MANHATTAN 08",
+        "MANHATTAN 09"
+      ]
+    },
+    "cohort_2_citywide": {
+      "treatment_date": "2024-11-12",
+      "n_units": 50,
+      "units": [
+        "BRONX 01",
+        "BRONX 02",
+        "BRONX 03",
+        "BRONX 04",
+        "BRONX 05",
+        "BRONX 06",
+        "BRONX 07",
+        "BRONX 08",
+        "BRONX 09",
+        "BRONX 10",
+        "BRONX 11",
+        "BRONX 12",
+        "BROOKLYN 01",
+        "BROOKLYN 02",
+        "BROOKLYN 03",
+        "BROOKLYN 04",
+        "BROOKLYN 05",
+        "BROOKLYN 06",
+        "BROOKLYN 07",
+        "BROOKLYN 08",
+        "BROOKLYN 09",
+        "BROOKLYN 10",
+        "BROOKLYN 11",
+        "BROOKLYN 12",
+        "BROOKLYN 13",
+        "BROOKLYN 14",
+        "BROOKLYN 15",
+        "BROOKLYN 16",
+        "BROOKLYN 17",
+        "BROOKLYN 18",
+        "MANHATTAN 10",
+        "MANHATTAN 11",
+        "MANHATTAN 12",
+        "QUEENS 01",
+        "QUEENS 02",
+        "QUEENS 03",
+        "QUEENS 04",
+        "QUEENS 05",
+        "QUEENS 06",
+        "QUEENS 07",
+        "QUEENS 08",
+        "QUEENS 09",
+        "QUEENS 10",
+        "QUEENS 11",
+        "QUEENS 12",
+        "QUEENS 13",
+        "QUEENS 14",
+        "STATEN ISLAND 01",
+        "STATEN ISLAND 02",
+        "STATEN ISLAND 03"
+      ]
+    },
+    "never_treated_n": 15,
+    "total_complaints": 224889
   },
   "headline_att": {
     "method": "bjs",
-    "att": -15.292768959434426,
-    "se": 2.350611952608363,
-    "p_value": 7.724643147355437e-11,
-    "ci_95_low": -19.899968386546817,
-    "ci_95_high": -10.685569532322035,
-    "n": 4440,
-    "interpretation": "BJS DiD: treated CDs experienced a reduction of 15.3 rodent complaints per community district per month post-2023-07-01 (95% CI [-19.9, -10.7])."
+    "att": -11.90471889249752,
+    "se": 0.7019909052465987,
+    "p_value": 0.0,
+    "ci_95_low": -13.280621066780853,
+    "ci_95_high": -10.528816718214188,
+    "n": 5550,
+    "interpretation": "BJS staggered-DiD: across both cohorts (2023 pilot + 2024 citywide rollout), treated community districts experienced a reduction of 11.9 rodent complaints per CD per month post-treatment (95% CI [-13.3, -10.5])."
   },
   "cross_estimator": {
     "twfe": {
-      "att": -15.292768959435215,
-      "se": 7.370300709955736,
-      "p_value": 0.03805339524620921
+      "att": -10.27111838124901,
+      "se": 1.775609687318204,
+      "p_value": 7.678779168074357e-09
     },
     "cs": {
-      "att": -12.199240265906935,
-      "se": 6.979132224148605,
-      "p_value": 0.08047104575570074
+      "att": -4.873898511090853,
+      "se": 2.0105265327326167,
+      "p_value": 0.015342571936653338
     },
     "sa": {
-      "att": -12.199240265906932,
-      "se": 3.60907253635547,
-      "p_value": 0.0007244381632605101
+      "att": -12.847914169948066,
+      "se": 2.8148554539901784,
+      "p_value": 5.011048016978492e-06
     },
     "bjs": {
-      "att": -15.292768959434426,
-      "se": 2.350611952608363,
-      "p_value": 7.724643147355437e-11
+      "att": -11.90471889249752,
+      "se": 0.7019909052465987,
+      "p_value": 0.0
     }
   },
   "robustness": {
-    "placebo_att_bjs": 10.639487179487064,
-    "placebo_p_bjs": 0.0011243991493405936,
-    "log_outcome_coef": -0.07168406935911843,
-    "log_outcome_pct_change": -6.917507452247573,
-    "log_outcome_p": 0.32587692436041893,
-    "post_covid_att_bjs": -23.04301697530906,
+    "placebo_att_bjs": 9.966346516007492,
+    "placebo_p_bjs": 0.0,
+    "log_outcome_coef": 0.22661394467230805,
+    "log_outcome_pct_change": 25.43455276814981,
+    "log_outcome_p": 0.09187380201161963,
+    "post_covid_att_bjs": -6.701317044537372,
     "post_covid_p_bjs": 0.0,
-    "manhattan_only_att_bjs": -44.35097001763486,
-    "manhattan_only_p_bjs": 0.0
+    "manhattan_only_att_bjs": 3.6230436230440253,
+    "manhattan_only_p_bjs": 0.05936767684488942
   },
   "diagnostics": {
     "pre_trends_F_reject": "reject_flat_pretrends",
-    "pre_trends_F_stat": 7.90310089220958,
-    "pre_trends_F_p": 4.810702914403835e-12,
+    "pre_trends_F_stat": 4.399522101959924,
+    "pre_trends_F_p": 6.548386127477012e-07,
     "bp_heteroskedastic": "heteroskedastic",
-    "bp_p": 8.143679213997383e-219,
+    "bp_p": 0.0,
     "shapiro_normal": "non_normal",
-    "r_squared": 0.8116828756953536
+    "r_squared": 0.8022911860029588
   },
   "balance_pretreatment": {
-    "welch_t": 6.752413699133144,
-    "welch_p": 4.312128825414393e-11,
-    "cohens_d": 0.3824942963171858,
-    "pre_treated_mean": 108.619,
-    "pre_control_mean": 78.473
+    "welch_t": 65.51956240805727,
+    "welch_p": 0.0,
+    "cohens_d": 1.8934294930892437,
+    "pre_treated_mean": 51.1,
+    "pre_control_mean": 1.617
   }
 }

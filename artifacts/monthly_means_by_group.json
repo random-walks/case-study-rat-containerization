@@ -1,302 +1,377 @@
 [
   {
     "period": "2020-01-01",
-    "control_mean": 48.76923076923077,
-    "treated_mean": 69.77777777777777
+    "control_mean": 1.3333333333333333,
+    "treated_mean": 31.847457627118644
   },
   {
     "period": "2020-02-01",
-    "control_mean": 44.03076923076923,
-    "treated_mean": 74.0
+    "control_mean": 1.8666666666666667,
+    "treated_mean": 29.423728813559322
   },
   {
     "period": "2020-03-01",
-    "control_mean": 41.13846153846154,
-    "treated_mean": 60.888888888888886
+    "control_mean": 1.4666666666666666,
+    "treated_mean": 26.93220338983051
   },
   {
     "period": "2020-04-01",
-    "control_mean": 39.63076923076923,
-    "treated_mean": 65.11111111111111
+    "control_mean": 0.6666666666666666,
+    "treated_mean": 26.627118644067796
   },
   {
     "period": "2020-05-01",
-    "control_mean": 70.0,
-    "treated_mean": 92.22222222222223
+    "control_mean": 2.7333333333333334,
+    "treated_mean": 44.898305084745765
   },
   {
     "period": "2020-06-01",
-    "control_mean": 76.4,
-    "treated_mean": 90.88888888888889
+    "control_mean": 1.8,
+    "treated_mean": 48.559322033898304
   },
   {
     "period": "2020-07-01",
-    "control_mean": 79.6923076923077,
-    "treated_mean": 96.22222222222223
+    "control_mean": 2.6666666666666665,
+    "treated_mean": 50.559322033898304
   },
   {
     "period": "2020-08-01",
-    "control_mean": 82.8,
-    "treated_mean": 98.44444444444444
+    "control_mean": 3.3333333333333335,
+    "treated_mean": 52.271186440677965
   },
   {
     "period": "2020-09-01",
-    "control_mean": 72.49230769230769,
-    "treated_mean": 93.55555555555556
+    "control_mean": 2.2666666666666666,
+    "treated_mean": 46.49152542372882
   },
   {
     "period": "2020-10-01",
-    "control_mean": 68.33846153846154,
-    "treated_mean": 74.44444444444444
+    "control_mean": 1.9333333333333333,
+    "treated_mean": 42.83050847457627
   },
   {
     "period": "2020-11-01",
-    "control_mean": 49.323076923076925,
-    "treated_mean": 71.55555555555556
+    "control_mean": 0.6,
+    "treated_mean": 32.47457627118644
   },
   {
     "period": "2020-12-01",
-    "control_mean": 45.353846153846156,
-    "treated_mean": 57.111111111111114
+    "control_mean": 0.5333333333333333,
+    "treated_mean": 29.203389830508474
   },
   {
     "period": "2021-01-01",
-    "control_mean": 53.44615384615385,
-    "treated_mean": 78.88888888888889
+    "control_mean": 0.7333333333333333,
+    "treated_mean": 35.271186440677965
   },
   {
     "period": "2021-02-01",
-    "control_mean": 42.06153846153846,
-    "treated_mean": 62.0
+    "control_mean": 0.6,
+    "treated_mean": 27.74576271186441
   },
   {
     "period": "2021-03-01",
-    "control_mean": 77.50769230769231,
-    "treated_mean": 85.55555555555556
+    "control_mean": 2.533333333333333,
+    "treated_mean": 48.57627118644068
   },
   {
     "period": "2021-04-01",
-    "control_mean": 83.81538461538462,
-    "treated_mean": 104.22222222222223
+    "control_mean": 1.9333333333333333,
+    "treated_mean": 53.6271186440678
   },
   {
     "period": "2021-05-01",
-    "control_mean": 92.33846153846154,
-    "treated_mean": 113.55555555555556
+    "control_mean": 3.4,
+    "treated_mean": 58.66101694915254
   },
   {
     "period": "2021-06-01",
-    "control_mean": 107.41538461538461,
-    "treated_mean": 127.33333333333333
+    "control_mean": 3.7333333333333334,
+    "treated_mean": 67.9322033898305
   },
   {
     "period": "2021-07-01",
-    "control_mean": 108.12307692307692,
-    "treated_mean": 138.44444444444446
+    "control_mean": 4.533333333333333,
+    "treated_mean": 68.96610169491525
   },
   {
     "period": "2021-08-01",
-    "control_mean": 102.06153846153846,
-    "treated_mean": 141.33333333333334
+    "control_mean": 2.8666666666666667,
+    "treated_mean": 66.27118644067797
   },
   {
     "period": "2021-09-01",
-    "control_mean": 93.66153846153846,
-    "treated_mean": 131.55555555555554
+    "control_mean": 1.6666666666666667,
+    "treated_mean": 61.20338983050848
   },
   {
     "period": "2021-10-01",
-    "control_mean": 104.33846153846154,
-    "treated_mean": 147.33333333333334
+    "control_mean": 2.533333333333333,
+    "treated_mean": 68.0677966101695
   },
   {
     "period": "2021-11-01",
-    "control_mean": 74.52307692307693,
-    "treated_mean": 126.88888888888889
+    "control_mean": 0.8,
+    "treated_mean": 50.52542372881356
   },
   {
     "period": "2021-12-01",
-    "control_mean": 65.9076923076923,
-    "treated_mean": 106.66666666666667
+    "control_mean": 0.26666666666666666,
+    "treated_mean": 44.3728813559322
   },
   {
     "period": "2022-01-01",
-    "control_mean": 65.29230769230769,
-    "treated_mean": 98.66666666666667
+    "control_mean": 0.3333333333333333,
+    "treated_mean": 43.40677966101695
   },
   {
     "period": "2022-02-01",
-    "control_mean": 62.89230769230769,
-    "treated_mean": 88.44444444444444
+    "control_mean": 1.7333333333333334,
+    "treated_mean": 40.94915254237288
   },
   {
     "period": "2022-03-01",
-    "control_mean": 86.0,
-    "treated_mean": 118.22222222222223
+    "control_mean": 2.1333333333333333,
+    "treated_mean": 55.847457627118644
   },
   {
     "period": "2022-04-01",
-    "control_mean": 86.8923076923077,
-    "treated_mean": 112.66666666666667
+    "control_mean": 1.9333333333333333,
+    "treated_mean": 55.96610169491525
   },
   {
     "period": "2022-05-01",
-    "control_mean": 107.38461538461539,
-    "treated_mean": 156.66666666666666
+    "control_mean": 2.0,
+    "treated_mean": 70.59322033898304
   },
   {
     "period": "2022-06-01",
-    "control_mean": 115.16923076923077,
-    "treated_mean": 177.33333333333334
+    "control_mean": 2.466666666666667,
+    "treated_mean": 76.33898305084746
   },
   {
     "period": "2022-07-01",
-    "control_mean": 116.36923076923077,
-    "treated_mean": 167.77777777777777
+    "control_mean": 1.7333333333333334,
+    "treated_mean": 76.45762711864407
   },
   {
     "period": "2022-08-01",
-    "control_mean": 110.67692307692307,
-    "treated_mean": 165.11111111111111
+    "control_mean": 2.6666666666666665,
+    "treated_mean": 72.88135593220339
   },
   {
     "period": "2022-09-01",
-    "control_mean": 96.24615384615385,
-    "treated_mean": 138.44444444444446
+    "control_mean": 1.8666666666666667,
+    "treated_mean": 63.101694915254235
   },
   {
     "period": "2022-10-01",
-    "control_mean": 84.58461538461539,
-    "treated_mean": 119.55555555555556
+    "control_mean": 0.7333333333333333,
+    "treated_mean": 55.52542372881356
   },
   {
     "period": "2022-11-01",
-    "control_mean": 67.13846153846154,
-    "treated_mean": 94.44444444444444
+    "control_mean": 1.0,
+    "treated_mean": 43.932203389830505
   },
   {
     "period": "2022-12-01",
-    "control_mean": 56.06153846153846,
-    "treated_mean": 82.88888888888889
+    "control_mean": 0.6666666666666666,
+    "treated_mean": 37.03389830508475
   },
   {
     "period": "2023-01-01",
-    "control_mean": 78.21538461538462,
-    "treated_mean": 112.44444444444444
+    "control_mean": 0.26666666666666666,
+    "treated_mean": 51.59322033898305
   },
   {
     "period": "2023-02-01",
-    "control_mean": 70.92307692307692,
-    "treated_mean": 106.44444444444444
+    "control_mean": 0.2,
+    "treated_mean": 47.13559322033898
   },
   {
     "period": "2023-03-01",
-    "control_mean": 79.81538461538462,
-    "treated_mean": 114.22222222222223
+    "control_mean": 0.26666666666666666,
+    "treated_mean": 52.610169491525426
   },
   {
     "period": "2023-04-01",
-    "control_mean": 92.43076923076923,
-    "treated_mean": 134.66666666666666
+    "control_mean": 0.3333333333333333,
+    "treated_mean": 61.101694915254235
   },
   {
     "period": "2023-05-01",
-    "control_mean": 97.41538461538461,
-    "treated_mean": 139.77777777777777
+    "control_mean": 0.3333333333333333,
+    "treated_mean": 64.23728813559322
   },
   {
     "period": "2023-06-01",
-    "control_mean": 99.16923076923077,
-    "treated_mean": 126.22222222222223
+    "control_mean": 0.4666666666666667,
+    "treated_mean": 64.13559322033899
   },
   {
     "period": "2023-07-01",
-    "control_mean": 114.55384615384615,
-    "treated_mean": 135.11111111111111
+    "control_mean": 2.1333333333333333,
+    "treated_mean": 72.86440677966101
   },
   {
     "period": "2023-08-01",
-    "control_mean": 118.49230769230769,
-    "treated_mean": 157.11111111111111
+    "control_mean": 2.2,
+    "treated_mean": 76.69491525423729
   },
   {
     "period": "2023-09-01",
-    "control_mean": 102.64615384615385,
-    "treated_mean": 149.55555555555554
+    "control_mean": 1.4,
+    "treated_mean": 67.59322033898304
   },
   {
     "period": "2023-10-01",
-    "control_mean": 91.41538461538461,
-    "treated_mean": 108.44444444444444
+    "control_mean": 1.6666666666666667,
+    "treated_mean": 58.20338983050848
   },
   {
     "period": "2023-11-01",
-    "control_mean": 67.81538461538462,
-    "treated_mean": 107.77777777777777
+    "control_mean": 0.5333333333333333,
+    "treated_mean": 45.440677966101696
   },
   {
     "period": "2023-12-01",
-    "control_mean": 65.9076923076923,
-    "treated_mean": 92.88888888888889
+    "control_mean": 0.4,
+    "treated_mean": 43.28813559322034
   },
   {
     "period": "2024-01-01",
-    "control_mean": 75.9076923076923,
-    "treated_mean": 89.33333333333333
+    "control_mean": 0.2,
+    "treated_mean": 48.57627118644068
   },
   {
     "period": "2024-02-01",
-    "control_mean": 76.67692307692307,
-    "treated_mean": 83.11111111111111
+    "control_mean": 0.2,
+    "treated_mean": 48.52542372881356
   },
   {
     "period": "2024-03-01",
-    "control_mean": 77.01538461538462,
-    "treated_mean": 86.66666666666667
+    "control_mean": 0.06666666666666667,
+    "treated_mean": 49.016949152542374
   },
   {
     "period": "2024-04-01",
-    "control_mean": 94.67692307692307,
-    "treated_mean": 86.44444444444444
+    "control_mean": 0.13333333333333333,
+    "treated_mean": 58.71186440677966
   },
   {
     "period": "2024-05-01",
-    "control_mean": 113.04615384615384,
-    "treated_mean": 115.11111111111111
+    "control_mean": 0.13333333333333333,
+    "treated_mean": 71.01694915254237
   },
   {
     "period": "2024-06-01",
-    "control_mean": 106.55384615384615,
-    "treated_mean": 102.88888888888889
+    "control_mean": 0.13333333333333333,
+    "treated_mean": 66.50847457627118
   },
   {
     "period": "2024-07-01",
-    "control_mean": 112.49230769230769,
-    "treated_mean": 121.77777777777777
+    "control_mean": 0.2,
+    "treated_mean": 71.20338983050847
   },
   {
     "period": "2024-08-01",
-    "control_mean": 108.0,
-    "treated_mean": 105.55555555555556
+    "control_mean": 0.06666666666666667,
+    "treated_mean": 67.52542372881356
   },
   {
     "period": "2024-09-01",
-    "control_mean": 102.73846153846154,
-    "treated_mean": 110.0
+    "control_mean": 0.4,
+    "treated_mean": 64.88135593220339
   },
   {
     "period": "2024-10-01",
-    "control_mean": 84.36923076923077,
-    "treated_mean": 104.66666666666667
+    "control_mean": 0.3333333333333333,
+    "treated_mean": 54.3728813559322
   },
   {
     "period": "2024-11-01",
-    "control_mean": 63.56923076923077,
-    "treated_mean": 75.77777777777777
+    "control_mean": 0.06666666666666667,
+    "treated_mean": 40.779661016949156
   },
   {
     "period": "2024-12-01",
-    "control_mean": 49.2,
-    "treated_mean": 60.22222222222222
+    "control_mean": 0.06666666666666667,
+    "treated_mean": 31.677966101694917
+  },
+  {
+    "period": "2025-01-01",
+    "control_mean": 0.06666666666666667,
+    "treated_mean": 36.932203389830505
+  },
+  {
+    "period": "2025-02-01",
+    "control_mean": 0.06666666666666667,
+    "treated_mean": 35.186440677966104
+  },
+  {
+    "period": "2025-03-01",
+    "control_mean": 0.13333333333333333,
+    "treated_mean": 49.05084745762712
+  },
+  {
+    "period": "2025-04-01",
+    "control_mean": 0.0,
+    "treated_mean": 49.20338983050848
+  },
+  {
+    "period": "2025-05-01",
+    "control_mean": 0.06666666666666667,
+    "treated_mean": 56.45762711864407
+  },
+  {
+    "period": "2025-06-01",
+    "control_mean": 0.13333333333333333,
+    "treated_mean": 62.57627118644068
+  },
+  {
+    "period": "2025-07-01",
+    "control_mean": 0.0,
+    "treated_mean": 61.610169491525426
+  },
+  {
+    "period": "2025-08-01",
+    "control_mean": 0.06666666666666667,
+    "treated_mean": 57.40677966101695
+  },
+  {
+    "period": "2025-09-01",
+    "control_mean": 0.13333333333333333,
+    "treated_mean": 47.16949152542373
+  },
+  {
+    "period": "2025-10-01",
+    "control_mean": 0.0,
+    "treated_mean": 32.79661016949152
+  },
+  {
+    "period": "2025-11-01",
+    "control_mean": 0.06666666666666667,
+    "treated_mean": 22.93220338983051
+  },
+  {
+    "period": "2025-12-01",
+    "control_mean": 0.06666666666666667,
+    "treated_mean": 19.1864406779661
+  },
+  {
+    "period": "2026-01-01",
+    "control_mean": 0.2,
+    "treated_mean": 22.593220338983052
+  },
+  {
+    "period": "2026-02-01",
+    "control_mean": 0.4,
+    "treated_mean": 19.949152542372882
+  },
+  {
+    "period": "2026-03-01",
+    "control_mean": 1.3333333333333333,
+    "treated_mean": 34.96610169491525
   }
 ]

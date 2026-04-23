@@ -1,61 +1,80 @@
 {
   "name": "nyc_rat_containerization_2023_2024",
-  "description": "NYC Department of Sanitation mandatory-containerization rollout. Pilot phase launched in lower Manhattan (community districts MN 01-09) on 2023-07-01; citywide commercial-corridor enforcement began 2024-03-01 and expanded to residential buildings >30 units on 2024-07-01.",
-  "source": "NYC DSNY press releases 2023-06-15, 2024-02-20, 2024-06-12; NYC 311 service-request system policy changelog.",
-  "events": [
-    {
-      "unit": "MANHATTAN 01",
+  "description": "NYC Department of Sanitation mandatory-containerization rollout. Cohort 1 (pilot): lower-Manhattan community districts MN 01-09, effective 2023-07-01. Cohort 2 (citywide residential 1-9-unit buildings): all other standard community districts, effective 2024-11-12. High-number districts (airports, parks, cemeteries, Rikers Island — CDs with district number >= 20) and 'Unspecified' geocoding-failure districts are not part of either cohort and serve as never-treated controls for the staggered DiD.",
+  "source": "NYC DSNY press releases 2023-06-15 (pilot) and 2024-10-01 (citywide rollout rule 16 RCNY Ch. 1, effective 2024-11-12). See also DSNY 'Residential Containerization' page (nyc.gov/site/dsny/collection/containerization/residential-containerization.page).",
+  "cohorts": {
+    "pilot_2023": {
       "event_date": "2023-07-01",
+      "n_units": 9,
       "kind": "pilot",
-      "description": "Lower Manhattan pilot — mandatory bin containerization."
+      "description": "Lower-Manhattan pilot — mandatory bin containerization for commercial and residential buildings."
     },
-    {
-      "unit": "MANHATTAN 02",
-      "event_date": "2023-07-01",
-      "kind": "pilot",
-      "description": "Lower Manhattan pilot — mandatory bin containerization."
-    },
-    {
-      "unit": "MANHATTAN 03",
-      "event_date": "2023-07-01",
-      "kind": "pilot",
-      "description": "Lower Manhattan pilot — mandatory bin containerization."
-    },
-    {
-      "unit": "MANHATTAN 04",
-      "event_date": "2023-07-01",
-      "kind": "pilot",
-      "description": "Lower Manhattan pilot — mandatory bin containerization."
-    },
-    {
-      "unit": "MANHATTAN 05",
-      "event_date": "2023-07-01",
-      "kind": "pilot",
-      "description": "Lower Manhattan pilot — mandatory bin containerization."
-    },
-    {
-      "unit": "MANHATTAN 06",
-      "event_date": "2023-07-01",
-      "kind": "pilot",
-      "description": "Lower Manhattan pilot — mandatory bin containerization."
-    },
-    {
-      "unit": "MANHATTAN 07",
-      "event_date": "2023-07-01",
-      "kind": "pilot",
-      "description": "Lower Manhattan pilot — mandatory bin containerization."
-    },
-    {
-      "unit": "MANHATTAN 08",
-      "event_date": "2023-07-01",
-      "kind": "pilot",
-      "description": "Lower Manhattan pilot — mandatory bin containerization."
-    },
-    {
-      "unit": "MANHATTAN 09",
-      "event_date": "2023-07-01",
-      "kind": "pilot",
-      "description": "Lower Manhattan pilot — mandatory bin containerization."
+    "citywide_2024": {
+      "event_date": "2024-11-12",
+      "n_units": 50,
+      "kind": "rollout",
+      "description": "Citywide residential 1–9-unit buildings — mandatory NYC-approved wheelie bins (rule 16 RCNY Ch. 1)."
     }
+  },
+  "events": [
+    {"unit": "MANHATTAN 01", "event_date": "2023-07-01", "kind": "pilot", "cohort": "pilot_2023", "description": "Lower-Manhattan pilot."},
+    {"unit": "MANHATTAN 02", "event_date": "2023-07-01", "kind": "pilot", "cohort": "pilot_2023", "description": "Lower-Manhattan pilot."},
+    {"unit": "MANHATTAN 03", "event_date": "2023-07-01", "kind": "pilot", "cohort": "pilot_2023", "description": "Lower-Manhattan pilot."},
+    {"unit": "MANHATTAN 04", "event_date": "2023-07-01", "kind": "pilot", "cohort": "pilot_2023", "description": "Lower-Manhattan pilot."},
+    {"unit": "MANHATTAN 05", "event_date": "2023-07-01", "kind": "pilot", "cohort": "pilot_2023", "description": "Lower-Manhattan pilot."},
+    {"unit": "MANHATTAN 06", "event_date": "2023-07-01", "kind": "pilot", "cohort": "pilot_2023", "description": "Lower-Manhattan pilot."},
+    {"unit": "MANHATTAN 07", "event_date": "2023-07-01", "kind": "pilot", "cohort": "pilot_2023", "description": "Lower-Manhattan pilot."},
+    {"unit": "MANHATTAN 08", "event_date": "2023-07-01", "kind": "pilot", "cohort": "pilot_2023", "description": "Lower-Manhattan pilot."},
+    {"unit": "MANHATTAN 09", "event_date": "2023-07-01", "kind": "pilot", "cohort": "pilot_2023", "description": "Lower-Manhattan pilot."},
+    {"unit": "BRONX 01", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BRONX 02", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BRONX 03", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BRONX 04", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BRONX 05", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BRONX 06", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BRONX 07", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BRONX 08", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BRONX 09", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BRONX 10", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BRONX 11", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BRONX 12", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BROOKLYN 01", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BROOKLYN 02", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BROOKLYN 03", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BROOKLYN 04", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BROOKLYN 05", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BROOKLYN 06", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BROOKLYN 07", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BROOKLYN 08", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BROOKLYN 09", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BROOKLYN 10", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BROOKLYN 11", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BROOKLYN 12", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BROOKLYN 13", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BROOKLYN 14", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BROOKLYN 15", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BROOKLYN 16", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BROOKLYN 17", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "BROOKLYN 18", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "MANHATTAN 10", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "MANHATTAN 11", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "MANHATTAN 12", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "QUEENS 01", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "QUEENS 02", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "QUEENS 03", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "QUEENS 04", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "QUEENS 05", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "QUEENS 06", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "QUEENS 07", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "QUEENS 08", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "QUEENS 09", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "QUEENS 10", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "QUEENS 11", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "QUEENS 12", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "QUEENS 13", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "QUEENS 14", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "STATEN ISLAND 01", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "STATEN ISLAND 02", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."},
+    {"unit": "STATEN ISLAND 03", "event_date": "2024-11-12", "kind": "rollout", "cohort": "citywide_2024", "description": "Citywide residential 1–9-unit rollout."}
   ]
 }

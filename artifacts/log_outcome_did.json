@@ -1,12 +1,12 @@
 {
-  "coef_treatment_log": -0.07168406935911843,
-  "se": 0.072964405055817,
-  "p_value": 0.32587692436041893,
+  "coef_treatment_log": 0.22661394467230805,
+  "se": 0.13444150172864816,
+  "p_value": 0.09187380201161963,
   "ci_95": [
-    -0.21469167542191198,
-    0.07132353670367512
+    -0.03688655674332175,
+    0.49011444608793786
   ],
-  "r_squared": 0.9425184633012657,
-  "pct_change_point_est": -6.917507452247573,
+  "r_squared": 0.9413505570786445,
+  "pct_change_point_est": 25.43455276814981,
   "interpretation": "exp(coef) - 1 is the fractional change in expected complaints per CD per month."
 }

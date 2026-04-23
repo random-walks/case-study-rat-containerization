@@ -3,9 +3,18 @@
   "geography": "community_district",
   "freq": "MS",
   "n_units": 74,
-  "n_periods": 60,
+  "n_periods": 75,
   "outcome_col": "complaint_count",
   "treatment_events": [
-    "nyc_rat_containerization_2023_pilot"
+    {
+      "name": "nyc_containerization_pilot_2023",
+      "date": "2023-07-01",
+      "n_treated": 9
+    },
+    {
+      "name": "nyc_containerization_citywide_2024",
+      "date": "2024-11-12",
+      "n_treated": 50
+    }
   ]
 }

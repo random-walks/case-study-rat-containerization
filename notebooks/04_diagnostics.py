@@ -13,6 +13,7 @@
 
 # %% tags=["jc.step", "name=event_study"]
 import json
+from datetime import date
 from pathlib import Path
 
 import jellycell.api as jc
@@ -22,18 +23,33 @@ import statsmodels.formula.api as smf
 
 panel = pd.read_parquet("artifacts/panel_long.parquet").reset_index()
 events = json.loads(Path("data/rat_mitigation_events_2023.json").read_text())
-TREATED = sorted({e["unit"] for e in events["events"]})
+
+# Build per-unit treatment-date map from the staggered spec. Each unit
+# that appears in events["events"] has its OWN treatment date; the
+# never-treated units (15 irregular CDs) get NaT.
+unit_to_date = {ev["unit"]: pd.Timestamp(ev["event_date"]) for ev in events["events"]}
 panel["period"] = pd.to_datetime(panel["period"].astype(str))
-panel["treated_unit"] = panel["unit_id"].isin(TREATED).astype(int)
+panel["treatment_date"] = panel["unit_id"].map(unit_to_date)
+panel["treated_unit"] = panel["treatment_date"].notna().astype(int)
 panel["period_idx"] = (panel["period"].dt.year - 2020) * 12 + panel["period"].dt.month - 1
 
-TREATMENT_PERIOD_IDX = (2023 - 2020) * 12 + (7 - 1)  # 2023-07 → idx 42
-panel["event_time"] = panel["period_idx"] - TREATMENT_PERIOD_IDX
+# Per-unit event time: months between the observation period and the
+# unit's treatment date. Never-treated units get NaN (handled below
+# by only firing the dummies on treated units). This replaces the
+# single-reference-date indexing that conflated pilot post-treatment
+# with citywide pre-treatment in the two-cohort spec.
+panel["event_time"] = np.where(
+    panel["treated_unit"] == 1,
+    (panel["period"].dt.year - panel["treatment_date"].dt.year) * 12
+    + (panel["period"].dt.month - panel["treatment_date"].dt.month),
+    np.nan,
+)
 
 # Event-time dummies for treated units; reference = event_time = -1.
-# Restrict event_time to [-24, +18] for stability (drops 2020-H1 leads).
+# Restrict event_time to [-24, +18] for stability (drops 2020-H1 leads
+# for pilot units; caps the citywide cohort's post window at +18 months
+# which we have full coverage of).
 lo, hi = -24, 18
-rows = []
 for k in range(lo, hi + 1):
     if k == -1:
         continue
@@ -116,10 +132,13 @@ from scipy import stats as sps
 
 panel = pd.read_parquet("artifacts/panel_long.parquet").reset_index()
 events = json.loads(open("data/rat_mitigation_events_2023.json").read())
-TREATED = sorted({e["unit"] for e in events["events"]})
+# Staggered treatment: per-unit treatment-date map; post flips on the
+# unit's OWN treatment date. Never-treated CDs stay at 0 throughout.
+unit_to_date = {ev["unit"]: pd.Timestamp(ev["event_date"]) for ev in events["events"]}
 panel["period"] = pd.to_datetime(panel["period"].astype(str))
-panel["treated_unit"] = panel["unit_id"].isin(TREATED).astype(int)
-panel["post"] = (panel["period"] >= pd.Timestamp("2023-07-01")).astype(int)
+panel["treatment_date"] = panel["unit_id"].map(unit_to_date)
+panel["treated_unit"] = panel["treatment_date"].notna().astype(int)
+panel["post"] = (panel["period"] >= panel["treatment_date"]).fillna(False).astype(int)
 panel["treatment"] = panel["treated_unit"] * panel["post"]
 panel["period_idx"] = (panel["period"].dt.year - 2020) * 12 + panel["period"].dt.month - 1
 
@@ -175,10 +194,13 @@ import json
 
 panel = pd.read_parquet("artifacts/panel_long.parquet").reset_index()
 events = json.loads(open("data/rat_mitigation_events_2023.json").read())
-TREATED = sorted({e["unit"] for e in events["events"]})
+# Staggered treatment: per-unit treatment-date map; post flips on the
+# unit's OWN treatment date. Never-treated CDs stay at 0 throughout.
+unit_to_date = {ev["unit"]: pd.Timestamp(ev["event_date"]) for ev in events["events"]}
 panel["period"] = pd.to_datetime(panel["period"].astype(str))
-panel["treated_unit"] = panel["unit_id"].isin(TREATED).astype(int)
-panel["post"] = (panel["period"] >= pd.Timestamp("2023-07-01")).astype(int)
+panel["treatment_date"] = panel["unit_id"].map(unit_to_date)
+panel["treated_unit"] = panel["treatment_date"].notna().astype(int)
+panel["post"] = (panel["period"] >= panel["treatment_date"]).fillna(False).astype(int)
 panel["treatment"] = panel["treated_unit"] * panel["post"]
 panel["period_idx"] = (panel["period"].dt.year - 2020) * 12 + panel["period"].dt.month - 1
 ols = smf.ols("complaint_count ~ treatment + C(unit_id) + C(period_idx)", data=panel)

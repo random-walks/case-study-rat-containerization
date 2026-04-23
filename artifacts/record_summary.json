@@ -1,6 +1,10 @@
 {
   "window_start": "2020-01-01",
-  "window_end": "2024-12-31",
-  "n_records": 377950,
-  "n_borough_files": 5
+  "window_end": "2026-03-31",
+  "n_records": 224889,
+  "n_borough_files": 10,
+  "slices": [
+    "2020-01-01..2024-12-31",
+    "2025-01-01..2026-03-31"
+  ]
 }

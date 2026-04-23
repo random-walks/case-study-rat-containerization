@@ -1,7 +1,7 @@
 {
-  "morans_I": -0.005348308493922699,
+  "morans_I": -0.011089900920202438,
   "expectation_under_null": -0.013888888888888888,
-  "permutation_p_value": 0.5435435435435435,
+  "permutation_p_value": 0.13013013013013014,
   "n_permutations": 999,
   "n_units": 73,
   "distance_cutoff_km": 10.0,
