@@ -1,0 +1,59 @@
+{
+  "by_borough": {
+    "Manhattan": {
+      "borough": "Manhattan",
+      "n_treated_units": 12,
+      "n_control_units": 15,
+      "n_observations": 2025,
+      "att": -11.026638096576168,
+      "se": 3.899045056899953,
+      "p_value": 0.004683460290035008,
+      "ci_95_low": -18.668766408100076,
+      "ci_95_high": -3.38450978505226
+    },
+    "Bronx": {
+      "borough": "Bronx",
+      "n_treated_units": 12,
+      "n_control_units": 15,
+      "n_observations": 2025,
+      "att": -9.334304378531035,
+      "se": 3.047906878019213,
+      "p_value": 0.0021947492527355744,
+      "ci_95_low": -15.308201859448694,
+      "ci_95_high": -3.3604068976133776
+    },
+    "Brooklyn": {
+      "borough": "Brooklyn",
+      "n_treated_units": 18,
+      "n_control_units": 15,
+      "n_observations": 2475,
+      "att": -17.49435028248596,
+      "se": 3.55270897142738,
+      "p_value": 8.469388548084194e-07,
+      "ci_95_low": -24.457659866483624,
+      "ci_95_high": -10.531040698488297
+    },
+    "Queens": {
+      "borough": "Queens",
+      "n_treated_units": 14,
+      "n_control_units": 15,
+      "n_observations": 2175,
+      "att": -8.355553874091934,
+      "se": 1.6763766562782678,
+      "p_value": 6.218850583095358e-07,
+      "ci_95_low": -11.641252120397338,
+      "ci_95_high": -5.069855627786529
+    },
+    "Staten Island": {
+      "borough": "Staten Island",
+      "n_treated_units": 3,
+      "n_control_units": 15,
+      "n_observations": 1350,
+      "att": -7.834745762711889,
+      "se": 2.0594549720749975,
+      "p_value": 0.0001422165724857304,
+      "ci_95_low": -11.871277507978885,
+      "ci_95_high": -3.798214017444894
+    }
+  }
+}
