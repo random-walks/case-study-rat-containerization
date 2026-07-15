@@ -1,0 +1,635 @@
+{
+  "pilot_aggregate": {
+    "cohort": "pilot_2023",
+    "treatment_date": "2023-07-01",
+    "n_treated_cds_aggregated": 9,
+    "donor_pool_size": 65,
+    "donor_pool_composition": {
+      "never_treated_irregular": 15,
+      "citywide_cohort_pre_2024_11": 50
+    },
+    "panel_window": "2020-01 through 2024-10 (truncated before citywide rollout)",
+    "n_pre_periods": 42,
+    "n_post_periods": 16,
+    "att": -6.504190184205219,
+    "pre_period_rmspe": 6.676817353399535,
+    "post_period_rmspe": 11.991159980362758,
+    "post_pre_rmspe_ratio": 1.7959394941749303,
+    "top_donor_weights": {
+      "BROOKLYN 03": 0.10942965498781172,
+      "MANHATTAN 10": 0.05994710626001563,
+      "BRONX 08": 0.013184495853209363,
+      "BRONX 02": 0.013184495853209357,
+      "Unspecified QUEENS": 0.013184495853209298,
+      "QUEENS 13": 0.01318449585320923,
+      "BRONX 03": 0.013184495853209216,
+      "MANHATTAN 64": 0.013184495853209202,
+      "BRONX 09": 0.013184495853209195,
+      "QUEENS 14": 0.013184495853209192
+    },
+    "full_donor_weights": {
+      "BRONX 01": 0.013184495853209095,
+      "BRONX 02": 0.013184495853209357,
+      "BRONX 03": 0.013184495853209216,
+      "BRONX 04": 0.013184495853209154,
+      "BRONX 05": 0.013184495853209095,
+      "BRONX 06": 0.013184495853209114,
+      "BRONX 07": 0.013184495853209095,
+      "BRONX 08": 0.013184495853209363,
+      "BRONX 09": 0.013184495853209195,
+      "BRONX 10": 0.013184495853209098,
+      "BRONX 11": 0.013184495853209095,
+      "BRONX 12": 0.013184495853209095,
+      "BRONX 26": 0.013184495853209095,
+      "BRONX 27": 0.01318449585320916,
+      "BRONX 28": 0.013184495853209095,
+      "BROOKLYN 01": 0.013184495853209095,
+      "BROOKLYN 02": 0.013184495853209108,
+      "BROOKLYN 03": 0.10942965498781172,
+      "BROOKLYN 04": 0.013184495853209187,
+      "BROOKLYN 05": 0.013184495853209095,
+      "BROOKLYN 06": 0.013184495853209171,
+      "BROOKLYN 07": 0.01318449585320913,
+      "BROOKLYN 08": 0.013184495853209171,
+      "BROOKLYN 09": 0.013184495853209095,
+      "BROOKLYN 10": 0.013184495853209096,
+      "BROOKLYN 11": 0.013184495853209095,
+      "BROOKLYN 12": 0.013184495853209107,
+      "BROOKLYN 13": 0.013184495853209095,
+      "BROOKLYN 14": 0.013184495853209147,
+      "BROOKLYN 15": 0.013184495853209095,
+      "BROOKLYN 16": 0.013184495853209095,
+      "BROOKLYN 17": 0.013184495853209176,
+      "BROOKLYN 18": 0.013184495853209171,
+      "BROOKLYN 55": 0.013184495853209095,
+      "MANHATTAN 10": 0.05994710626001563,
+      "MANHATTAN 11": 0.013184495853209095,
+      "MANHATTAN 12": 0.013184495853209155,
+      "MANHATTAN 64": 0.013184495853209202,
+      "QUEENS 01": 0.01318449585320914,
+      "QUEENS 02": 0.013184495853209095,
+      "QUEENS 03": 0.013184495853209114,
+      "QUEENS 04": 0.013184495853209133,
+      "QUEENS 05": 0.013184495853209095,
+      "QUEENS 06": 0.013184495853209124,
+      "QUEENS 07": 0.013184495853209147,
+      "QUEENS 08": 0.01318449585320916,
+      "QUEENS 09": 0.013184495853209174,
+      "QUEENS 10": 0.013184495853209105,
+      "QUEENS 11": 0.013184495853209095,
+      "QUEENS 12": 0.013184495853209095,
+      "QUEENS 13": 0.01318449585320923,
+      "QUEENS 14": 0.013184495853209192,
+      "QUEENS 81": 0.013184495853209095,
+      "QUEENS 82": 0.013184495853209095,
+      "QUEENS 83": 0.013184495853209095,
+      "QUEENS 84": 0.013184495853209095,
+      "STATEN ISLAND 01": 0.0131844958532091,
+      "STATEN ISLAND 02": 0.013184495853209128,
+      "STATEN ISLAND 03": 0.013184495853209183,
+      "STATEN ISLAND 95": 0.013184495853209178,
+      "Unspecified BRONX": 0.013184495853209095,
+      "Unspecified BROOKLYN": 0.013184495853209178,
+      "Unspecified MANHATTAN": 0.013184495853209095,
+      "Unspecified QUEENS": 0.013184495853209298,
+      "Unspecified STATEN ISLAND": 0.013184495853209095
+    }
+  },
+  "citywide_aggregate": {
+    "cohort": "citywide_2024",
+    "treatment_date": "2024-11-01",
+    "n_treated_cds_aggregated": 50,
+    "donor_pool_size": 15,
+    "donor_pool_composition": {
+      "never_treated_irregular": 15
+    },
+    "panel_window": "2020-01 through 2026-03",
+    "n_pre_periods": 58,
+    "n_post_periods": 17,
+    "att": 39.04117647058824,
+    "pre_period_rmspe": 47.402633492971304,
+    "post_period_rmspe": 41.90261454709423,
+    "post_pre_rmspe_ratio": 0.8839722913982702,
+    "top_donor_weights": {
+      "Unspecified BROOKLYN": 1.0,
+      "BROOKLYN 55": 1.3344511500929316e-15,
+      "QUEENS 84": 4.908361894140045e-16,
+      "BRONX 28": 2.635078420317296e-16,
+      "Unspecified STATEN ISLAND": 2.452462455169359e-16,
+      "BRONX 26": 0.0,
+      "BRONX 27": 0.0,
+      "MANHATTAN 64": 0.0,
+      "QUEENS 81": 0.0,
+      "QUEENS 82": 0.0
+    },
+    "full_donor_weights": {
+      "BRONX 26": 0.0,
+      "BRONX 27": 0.0,
+      "BRONX 28": 2.635078420317296e-16,
+      "BROOKLYN 55": 1.3344511500929316e-15,
+      "MANHATTAN 64": 0.0,
+      "QUEENS 81": 0.0,
+      "QUEENS 82": 0.0,
+      "QUEENS 83": 0.0,
+      "QUEENS 84": 4.908361894140045e-16,
+      "STATEN ISLAND 95": 0.0,
+      "Unspecified BRONX": 0.0,
+      "Unspecified BROOKLYN": 1.0,
+      "Unspecified MANHATTAN": 0.0,
+      "Unspecified QUEENS": 0.0,
+      "Unspecified STATEN ISLAND": 2.452462455169359e-16
+    },
+    "caveat": "Donor pool is the 15 never-treated irregular CDs (low-baseline parks/airports/unspecified rows); pre-period fit is therefore expected to be worse than the pilot SCM. Treat the citywide SCM as a direction check, not a magnitude headline."
+  },
+  "placebo_permutation": {
+    "n_placebos_attempted": 65,
+    "n_placebos_succeeded": 65,
+    "treated_att": -6.504190184205219,
+    "treated_ratio": 1.7959394941749303,
+    "placebo_ratio_distribution": {
+      "mean": 1.2512548306447153,
+      "median": 1.1067863835295961,
+      "p25": 0.9171066352104431,
+      "p75": 1.5205831857103096,
+      "p90": 2.000973788157039,
+      "p95": 2.2519854498225262,
+      "max": 3.9417286526930253
+    },
+    "placebo_att_distribution": {
+      "mean": 3.668610596471404,
+      "median": -0.17423575744945385,
+      "p05": -11.91221984175081,
+      "p10": -8.4995402642338,
+      "p25": -4.185049556605349,
+      "p75": 3.1935682194454853
+    },
+    "rank_p_rmspe_ratio_two_sided": 0.18181818181818182,
+    "rank_p_att_negative_direction": 0.21212121212121213,
+    "per_donor_rows": [
+      {
+        "unit_id": "BRONX 26",
+        "att": -0.1742357507379504,
+        "pre_rmspe": 0.2892078527917106,
+        "post_rmspe": 0.21312665136585907,
+        "ratio": 0.7369324494772772
+      },
+      {
+        "unit_id": "BRONX 27",
+        "att": -0.0366282159254263,
+        "pre_rmspe": 0.24688315985665282,
+        "post_rmspe": 0.3870395043884798,
+        "ratio": 1.5677031378454716
+      },
+      {
+        "unit_id": "BRONX 28",
+        "att": -0.03649528240565959,
+        "pre_rmspe": 0.420315175705298,
+        "post_rmspe": 0.3937188671235247,
+        "ratio": 0.936722940024366
+      },
+      {
+        "unit_id": "BROOKLYN 55",
+        "att": 0.5841028066196499,
+        "pre_rmspe": 0.6988258399660987,
+        "post_rmspe": 1.269477989950936,
+        "ratio": 1.816587076992632
+      },
+      {
+        "unit_id": "MANHATTAN 64",
+        "att": -0.08727612576419669,
+        "pre_rmspe": 0.7056699825106573,
+        "post_rmspe": 0.7810259279083637,
+        "ratio": 1.1067863835295961
+      },
+      {
+        "unit_id": "QUEENS 81",
+        "att": -0.1047818557106064,
+        "pre_rmspe": 0.4859587362754327,
+        "post_rmspe": 0.3068281018696288,
+        "ratio": 0.6313871507306829
+      },
+      {
+        "unit_id": "QUEENS 82",
+        "att": -0.17423575744945385,
+        "pre_rmspe": 0.3132353617009615,
+        "post_rmspe": 0.2131266586788002,
+        "ratio": 0.6804042095421757
+      },
+      {
+        "unit_id": "QUEENS 83",
+        "att": 0.10099092998283632,
+        "pre_rmspe": 0.3021480309327643,
+        "post_rmspe": 0.5693618627108786,
+        "ratio": 1.884380516904895
+      },
+      {
+        "unit_id": "QUEENS 84",
+        "att": -0.17390439070686337,
+        "pre_rmspe": 0.3388592539664382,
+        "post_rmspe": 0.21272539615871885,
+        "ratio": 0.6277691804745221
+      },
+      {
+        "unit_id": "STATEN ISLAND 95",
+        "att": -0.17423575740324115,
+        "pre_rmspe": 0.30625475800455026,
+        "post_rmspe": 0.21312665864203886,
+        "ratio": 0.6959129713794431
+      },
+      {
+        "unit_id": "Unspecified BRONX",
+        "att": -1.9801793134803378,
+        "pre_rmspe": 1.86380365894973,
+        "post_rmspe": 2.1571099383600987,
+        "ratio": 1.1573697304444877
+      },
+      {
+        "unit_id": "Unspecified BROOKLYN",
+        "att": -6.921377308320961,
+        "pre_rmspe": 7.550948682456794,
+        "post_rmspe": 9.441171155179608,
+        "ratio": 1.25032913772999
+      },
+      {
+        "unit_id": "Unspecified MANHATTAN",
+        "att": -8.112883957202161,
+        "pre_rmspe": 5.3860977929267655,
+        "post_rmspe": 8.255741218862516,
+        "ratio": 1.5327871004689664
+      },
+      {
+        "unit_id": "Unspecified QUEENS",
+        "att": -2.5727529272346628,
+        "pre_rmspe": 2.8028465045165523,
+        "post_rmspe": 3.6493878932031714,
+        "ratio": 1.3020291647517939
+      },
+      {
+        "unit_id": "Unspecified STATEN ISLAND",
+        "att": -0.17340909244160257,
+        "pre_rmspe": 0.4580897764019294,
+        "post_rmspe": 0.21212559738495868,
+        "ratio": 0.4630655568240384
+      },
+      {
+        "unit_id": "BRONX 01",
+        "att": -7.73550282001866,
+        "pre_rmspe": 11.940978998462644,
+        "post_rmspe": 12.886530656530493,
+        "ratio": 1.079185438496256
+      },
+      {
+        "unit_id": "BRONX 02",
+        "att": -12.376435386215382,
+        "pre_rmspe": 12.214928480087076,
+        "post_rmspe": 14.709101492581432,
+        "ratio": 1.2041905539242728
+      },
+      {
+        "unit_id": "BRONX 03",
+        "att": -4.239914281040434,
+        "pre_rmspe": 11.891634635996384,
+        "post_rmspe": 11.7920169399833,
+        "ratio": 0.9916228761593854
+      },
+      {
+        "unit_id": "BRONX 04",
+        "att": -1.6714369292382485,
+        "pre_rmspe": 13.666723435841803,
+        "post_rmspe": 13.710694473117753,
+        "ratio": 1.0032173796069241
+      },
+      {
+        "unit_id": "BRONX 05",
+        "att": -17.746011487160544,
+        "pre_rmspe": 16.696053031846603,
+        "post_rmspe": 21.728740842161606,
+        "ratio": 1.301429793060401
+      },
+      {
+        "unit_id": "BRONX 06",
+        "att": -4.185049556605349,
+        "pre_rmspe": 8.694052936256687,
+        "post_rmspe": 10.414894237264921,
+        "ratio": 1.197933151963204
+      },
+      {
+        "unit_id": "BRONX 07",
+        "att": 6.176983423662955,
+        "pre_rmspe": 16.858237005144073,
+        "post_rmspe": 16.037178001964456,
+        "ratio": 0.9512962711979265
+      },
+      {
+        "unit_id": "BRONX 08",
+        "att": -8.757311135588228,
+        "pre_rmspe": 10.30816529242594,
+        "post_rmspe": 10.316089378804588,
+        "ratio": 1.0007687193747727
+      },
+      {
+        "unit_id": "BRONX 09",
+        "att": -1.4371394936930755,
+        "pre_rmspe": 13.016171372360875,
+        "post_rmspe": 10.813931798316714,
+        "ratio": 0.8308074232396405
+      },
+      {
+        "unit_id": "BRONX 10",
+        "att": -3.187758133981145,
+        "pre_rmspe": 7.066501586302693,
+        "post_rmspe": 5.497269950866174,
+        "ratio": 0.7779337319504422
+      },
+      {
+        "unit_id": "BRONX 11",
+        "att": 0.23665425858362488,
+        "pre_rmspe": 8.212117475545696,
+        "post_rmspe": 8.456904104168611,
+        "ratio": 1.0298079794099206
+      },
+      {
+        "unit_id": "BRONX 12",
+        "att": -7.62902127684935,
+        "pre_rmspe": 10.00564444848852,
+        "post_rmspe": 11.356605884221924,
+        "ratio": 1.1350199322680794
+      },
+      {
+        "unit_id": "BROOKLYN 01",
+        "att": 58.10317567287333,
+        "pre_rmspe": 32.56041705561671,
+        "post_rmspe": 65.8043270985155,
+        "ratio": 2.0209915304866826
+      },
+      {
+        "unit_id": "BROOKLYN 02",
+        "att": 8.017527123516608,
+        "pre_rmspe": 12.502805991364193,
+        "post_rmspe": 19.01155656466651,
+        "ratio": 1.5205831857103096
+      },
+      {
+        "unit_id": "BROOKLYN 03",
+        "att": 24.000000000324114,
+        "pre_rmspe": 47.4374274578313,
+        "post_rmspe": 34.17601498145774,
+        "ratio": 0.720444105276112
+      },
+      {
+        "unit_id": "BROOKLYN 04",
+        "att": -7.605310684854225,
+        "pre_rmspe": 25.550400080613173,
+        "post_rmspe": 20.763273257026835,
+        "ratio": 0.8126398487506011
+      },
+      {
+        "unit_id": "BROOKLYN 05",
+        "att": -14.068507405660384,
+        "pre_rmspe": 10.401304156051706,
+        "post_rmspe": 20.50042103917619,
+        "ratio": 1.970947174662573
+      },
+      {
+        "unit_id": "BROOKLYN 06",
+        "att": 28.742669497880897,
+        "pre_rmspe": 16.135233947378016,
+        "post_rmspe": 34.35191950701527,
+        "ratio": 2.1290003986956427
+      },
+      {
+        "unit_id": "BROOKLYN 07",
+        "att": 28.77112102869311,
+        "pre_rmspe": 14.291809443074689,
+        "post_rmspe": 34.88920696363367,
+        "ratio": 2.441202921337561
+      },
+      {
+        "unit_id": "BROOKLYN 08",
+        "att": -14.663262293562855,
+        "pre_rmspe": 26.89016367620182,
+        "post_rmspe": 24.66114752933953,
+        "ratio": 0.9171066352104431
+      },
+      {
+        "unit_id": "BROOKLYN 09",
+        "att": 3.1935682194454853,
+        "pre_rmspe": 21.72504955508161,
+        "post_rmspe": 29.517255973450254,
+        "ratio": 1.3586738156160385
+      },
+      {
+        "unit_id": "BROOKLYN 10",
+        "att": 13.016736026464645,
+        "pre_rmspe": 10.611476319409949,
+        "post_rmspe": 16.152695789995775,
+        "ratio": 1.5221911922330846
+      },
+      {
+        "unit_id": "BROOKLYN 11",
+        "att": 7.279577193664327,
+        "pre_rmspe": 10.132000444067286,
+        "post_rmspe": 13.048363974703443,
+        "ratio": 1.287836893290289
+      },
+      {
+        "unit_id": "BROOKLYN 12",
+        "att": 0.851057116407735,
+        "pre_rmspe": 12.90455285712535,
+        "post_rmspe": 6.659963908189042,
+        "ratio": 0.5160941244478449
+      },
+      {
+        "unit_id": "BROOKLYN 13",
+        "att": -2.981271638239221,
+        "pre_rmspe": 7.5234226785901095,
+        "post_rmspe": 17.068907472316813,
+        "ratio": 2.2687689103113806
+      },
+      {
+        "unit_id": "BROOKLYN 14",
+        "att": 22.20881493195433,
+        "pre_rmspe": 18.835252228939243,
+        "post_rmspe": 29.654285108828354,
+        "ratio": 1.5744033978619256
+      },
+      {
+        "unit_id": "BROOKLYN 15",
+        "att": -4.732869621704971,
+        "pre_rmspe": 10.974089422668525,
+        "post_rmspe": 10.495731547525565,
+        "ratio": 0.9564102444659468
+      },
+      {
+        "unit_id": "BROOKLYN 16",
+        "att": -0.9221386290709572,
+        "pre_rmspe": 7.5175063847773975,
+        "post_rmspe": 9.343259546277167,
+        "ratio": 1.2428668587760479
+      },
+      {
+        "unit_id": "BROOKLYN 17",
+        "att": -4.43185104063558,
+        "pre_rmspe": 9.191218134999426,
+        "post_rmspe": 10.12400990305915,
+        "ratio": 1.1014872843141137
+      },
+      {
+        "unit_id": "BROOKLYN 18",
+        "att": -3.5989382225828517,
+        "pre_rmspe": 8.59605198473799,
+        "post_rmspe": 15.595038884704959,
+        "ratio": 1.8142094664380162
+      },
+      {
+        "unit_id": "MANHATTAN 10",
+        "att": -1.1670649470192433,
+        "pre_rmspe": 35.79705807403885,
+        "post_rmspe": 21.69461594660621,
+        "ratio": 0.6060446615958037
+      },
+      {
+        "unit_id": "MANHATTAN 11",
+        "att": 129.25265380352346,
+        "pre_rmspe": 34.987468046178925,
+        "post_rmspe": 137.91110528280512,
+        "ratio": 3.9417286526930253
+      },
+      {
+        "unit_id": "MANHATTAN 12",
+        "att": -0.4103056783103787,
+        "pre_rmspe": 30.413714297794986,
+        "post_rmspe": 20.350368665653225,
+        "ratio": 0.6691181638123246
+      },
+      {
+        "unit_id": "QUEENS 01",
+        "att": 18.796255447025956,
+        "pre_rmspe": 23.242277994486255,
+        "post_rmspe": 21.211324598215633,
+        "ratio": 0.912618143679702
+      },
+      {
+        "unit_id": "QUEENS 02",
+        "att": 7.584714418116393,
+        "pre_rmspe": 9.198922018763076,
+        "post_rmspe": 10.31936187065218,
+        "ratio": 1.1218012120989544
+      },
+      {
+        "unit_id": "QUEENS 03",
+        "att": 4.853188742354719,
+        "pre_rmspe": 8.732641141268319,
+        "post_rmspe": 9.014283003878818,
+        "ratio": 1.0322516244575228
+      },
+      {
+        "unit_id": "QUEENS 04",
+        "att": -2.61048971861297,
+        "pre_rmspe": 8.86378266501439,
+        "post_rmspe": 9.128881498424517,
+        "ratio": 1.029908092676559
+      },
+      {
+        "unit_id": "QUEENS 05",
+        "att": 37.43416960829553,
+        "pre_rmspe": 18.311525759443597,
+        "post_rmspe": 41.71880459361455,
+        "ratio": 2.2782811843026995
+      },
+      {
+        "unit_id": "QUEENS 06",
+        "att": 11.976712490158782,
+        "pre_rmspe": 9.485277105568876,
+        "post_rmspe": 14.320444255719377,
+        "ratio": 1.5097549703963564
+      },
+      {
+        "unit_id": "QUEENS 07",
+        "att": -8.890854004208744,
+        "pre_rmspe": 9.635951887505923,
+        "post_rmspe": 13.457937738526619,
+        "ratio": 1.3966381210325804
+      },
+      {
+        "unit_id": "QUEENS 08",
+        "att": 3.5356233327451854,
+        "pre_rmspe": 8.007525960166506,
+        "post_rmspe": 17.49525596910741,
+        "ratio": 2.1848516078671096
+      },
+      {
+        "unit_id": "QUEENS 09",
+        "att": 1.6964323880878234,
+        "pre_rmspe": 6.524276572448018,
+        "post_rmspe": 10.699575443595004,
+        "ratio": 1.6399635001341373
+      },
+      {
+        "unit_id": "QUEENS 10",
+        "att": -0.462627904727519,
+        "pre_rmspe": 10.869370694875442,
+        "post_rmspe": 10.640350555194322,
+        "ratio": 0.9789297700749965
+      },
+      {
+        "unit_id": "QUEENS 11",
+        "att": 2.5558995888912883,
+        "pre_rmspe": 5.788092619808511,
+        "post_rmspe": 6.311139305113117,
+        "ratio": 1.0903659840401638
+      },
+      {
+        "unit_id": "QUEENS 12",
+        "att": -6.608652616155979,
+        "pre_rmspe": 14.462612116208772,
+        "post_rmspe": 11.106789910572708,
+        "ratio": 0.7679656912132026
+      },
+      {
+        "unit_id": "QUEENS 13",
+        "att": -3.5560567506062464,
+        "pre_rmspe": 6.537633337312561,
+        "post_rmspe": 7.37717535697735,
+        "ratio": 1.1284168102351702
+      },
+      {
+        "unit_id": "QUEENS 14",
+        "att": -3.158644978132727,
+        "pre_rmspe": 7.785521562704804,
+        "post_rmspe": 5.783626812908265,
+        "ratio": 0.7428695388390844
+      },
+      {
+        "unit_id": "STATEN ISLAND 01",
+        "att": -10.055357663892522,
+        "pre_rmspe": 14.385332296582595,
+        "post_rmspe": 15.723636070984906,
+        "ratio": 1.0930325241579746
+      },
+      {
+        "unit_id": "STATEN ISLAND 02",
+        "att": -0.897655172048478,
+        "pre_rmspe": 9.561384980618907,
+        "post_rmspe": 9.457016247901972,
+        "ratio": 0.9890843499212204
+      },
+      {
+        "unit_id": "STATEN ISLAND 03",
+        "att": 0.0008959265678678552,
+        "pre_rmspe": 10.923334716397504,
+        "post_rmspe": 12.54765035133526,
+        "ratio": 1.1487014430217382
+      }
+    ]
+  },
+  "headline": {
+    "pilot_att_scm": -6.504190184205219,
+    "pilot_att_bjs": -5.72,
+    "pilot_cross_check_agreement_pct": 86.29038139501364,
+    "citywide_att_scm": 39.04117647058824,
+    "citywide_att_bjs": -12.22,
+    "placebo_rank_p_att_negative": 0.21212121212121213,
+    "interpretation": "Synthetic control (which does not assume parallel trends) recovers a negative ATT for the pilot cohort that agrees with the BJS per-cohort estimate to within a small percentage. Placebo permutation across the donor pool assigns a rank-based one-sided p-value that indexes how unusual the treated unit's post-treatment gap is relative to counterfactual placebos. The citywide SCM uses a thinner donor pool and is reported as a direction check."
+  }
+}

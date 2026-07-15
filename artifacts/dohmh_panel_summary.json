@@ -1,0 +1,19 @@
+{
+  "n_units": 63,
+  "n_periods": 75,
+  "n_cells": 4725,
+  "total_rat_positive_inspections": 273394,
+  "treatment_events": {
+    "pilot_2023": {
+      "n_treated_units": 9,
+      "treatment_date": "2023-07-01"
+    },
+    "citywide_2024": {
+      "n_treated_units": 50,
+      "treatment_date": "2024-11-12"
+    }
+  },
+  "outcome_col": "rat_positive_inspections",
+  "pre_treatment_mean_treated": 66.56613756613757,
+  "pre_treatment_mean_never_treated": 0.20666666666666667
+}
