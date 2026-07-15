@@ -7,7 +7,7 @@
 # # 01 — Load and preprocess
 #
 # Fetches (or re-reads from cache) NYC 311 **Rodent** complaints for the
-# 2020-01-01 → 2026-03-31 window, aggregates them into a balanced
+# 2020-01-01 → END window (see START/END below), aggregates them into a balanced
 # community-district × month panel, and emits a
 # `factor_factory.tidy.Panel` ready for staggered DiD estimation.
 #
@@ -44,12 +44,12 @@ from nyc311.pipeline import bulk_fetch
 CACHE_DIR = Path("data/cache")
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
 START = "2020-01-01"
-END = "2026-03-31"
+END = "2026-06-30"  # last complete month at the 2026-07 rebuild
 
 # Fetch on first run; deterministic filenames so subsequent runs skip.
 # We pull in two slices so older 2020-2024 cache files can be reused:
 # slice 1 = pre-rollout baseline + 2023 pilot (2020-01 → 2024-12)
-# slice 2 = 2024 citywide rollout post-period (2025-01 → 2026-03)
+# slice 2 = 2024 citywide rollout post-period (2025-01 → END)
 print(f"bulk_fetch(Rodent, {START} → 2024-12-31) to {CACHE_DIR}...")
 paths_2020 = bulk_fetch(
     complaint_types=("Rodent",),

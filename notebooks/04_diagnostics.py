@@ -110,7 +110,7 @@ ax.errorbar(es["event_time"], es["coef"],
             ecolor="#888", capsize=2, markersize=4, linewidth=1)
 ax.axhline(0, color="red", linestyle="--", alpha=0.5)
 ax.axvline(0, color="red", linestyle="--", alpha=0.5)
-ax.set_xlabel("Months from treatment (0 = July 2023)")
+ax.set_xlabel("Months from treatment (0 = per-unit treatment onset)")
 ax.set_ylabel("Coefficient (monthly rodent complaints)")
 ax.set_title("Figure 2. Event-study coefficients (TWFE, cluster-robust 95% CI)")
 fig.tight_layout()

@@ -8,11 +8,11 @@
 #
 # Runs TWFE, Callaway-Sant'Anna (CS), Sun-Abraham (SA), and
 # Borusyak-Jaravel-Spiess (BJS) on the community-district × month panel.
-# Staggered-robust estimators (CS / SA / BJS) should agree with TWFE when
-# adoption is a single cohort (which ours is: all nine treated CDs flip
-# on 2023-07-01). Cross-estimator sign agreement is the primary
-# invariant; magnitude within ±20% across methods is the secondary
-# invariant.
+# Adoption is STAGGERED (2023-07-01 pilot + 2024-11-12 citywide, built as
+# two TreatmentEvents in notebook 01), so TWFE and the robust triple are
+# expected to diverge under cohort heterogeneity. Cross-estimator sign
+# agreement is the primary invariant; the spread across methods is itself
+# diagnostic evidence about heterogeneity, not a bug.
 
 # %% tags=["jc.step", "name=did_results"]
 from pathlib import Path
@@ -52,7 +52,7 @@ payload = {
     for r in results
 }
 jc.save(payload, "artifacts/did_results.json",
-        caption="Four-estimator DiD on NYC rat-containerization pilot (2023-07-01, 9 treated CDs).")
+        caption="Four-estimator staggered DiD on NYC rat containerization (2023 pilot + 2024 citywide cohorts).")
 
 # %% tags=["jc.table", "name=main_results"]
 import json

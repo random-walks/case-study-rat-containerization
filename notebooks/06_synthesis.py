@@ -26,8 +26,8 @@ STABLE_OVERRIDES = {
     "hostname": "showcase-runner",
     "author": "Blaise Albis-Burdige",
     "author_url": "https://blaiseab.com",
-    "month_year": "April 2026",
-    "version": "3.0.0",
+    "month_year": "July 2026",
+    "version": "4.0.0",
 }
 
 did = json.loads(open("artifacts/did_results.json").read())
@@ -35,6 +35,7 @@ placebo = json.loads(open("artifacts/placebo_did.json").read())
 log_out = json.loads(open("artifacts/log_outcome_did.json").read())
 post_covid = json.loads(open("artifacts/post_covid_did.json").read())
 mn_only = json.loads(open("artifacts/manhattan_only_did.json").read())
+phase_guard = json.loads(open("artifacts/phase_in_guard_did.json").read())
 es = json.loads(open("artifacts/event_study_summary.json").read())
 resid = json.loads(open("artifacts/twfe_residual_diagnostics.json").read())
 panel_summary = json.loads(open("artifacts/panel_summary.json").read())
@@ -87,6 +88,8 @@ reconciled = {
         "post_covid_p_bjs": post_covid["bjs"]["p_value"],
         "manhattan_only_att_bjs": mn_only["bjs"]["att"],
         "manhattan_only_p_bjs": mn_only["bjs"]["p_value"],
+        "phase_in_guard_att_bjs": phase_guard["bjs"]["att"],
+        "phase_in_guard_p_bjs": phase_guard["bjs"]["p_value"],
     },
     "diagnostics": {
         "pre_trends_F_reject": es["pre_trends_F_test"]["interpretation"],
@@ -194,13 +197,17 @@ lines = [
     f"| Log-outcome TWFE | {rob['log_outcome_coef']:+.3f} "
     f"({rob['log_outcome_pct_change']:+.1f}%) | "
     f"{_fmt_p(rob['log_outcome_p'])} | "
-    f"Multiplicative specification: sign preserved, magnitude smaller. |",
+    f"Multiplicative specification — see §4.5 for the scale-artifact "
+    f"discussion; read sign against the table value, not this caption. |",
     f"| Post-COVID sample (2022-01 →) | {rob['post_covid_att_bjs']:+.2f} | "
     f"{_fmt_p(rob['post_covid_p_bjs'])} | Isolates the policy window from "
     f"2020 lockdown variance. |",
     f"| Manhattan-only controls (BJS) | {rob['manhattan_only_att_bjs']:+.2f} | "
-    f"{_fmt_p(rob['manhattan_only_p_bjs'])} | Controls restricted to non-pilot "
-    f"Manhattan CDs; removes outer-borough confounds. |",
+    f"{_fmt_p(rob['manhattan_only_p_bjs'])} | Manhattan-only slice with "
+    f"per-cohort onsets; thin control pool after 2024-11 — see §4.5. |",
+    f"| Phase-in guard (window < 2025-06) | {rob['phase_in_guard_att_bjs']:+.2f} | "
+    f"{_fmt_p(rob['phase_in_guard_p_bjs'])} | Truncates before the 2025–26 "
+    f"medium/large-building phase-ins that partially treat the control pool. |",
     "",
     "## Diagnostics",
     "",

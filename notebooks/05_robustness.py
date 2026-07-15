@@ -142,17 +142,28 @@ for p in sorted(Path("data/cache").glob("*_rodent_*.csv")):
 
 post_covid_records = [r for r in records if r.created_date >= date(2022, 1, 1)]
 
+# Preserve the REAL staggered assignment (two cohorts, per notebook 01).
+# The pilot-era version of this probe marked all 59 treated units at the
+# pilot date, which treated the citywide cohort ~16 months early.
 events = json.loads(Path("data/rat_mitigation_events_2023.json").read_text())
-TREATED = tuple(sorted({e["unit"] for e in events["events"]}))
-tevent = Nyc311TE(
-    name="nyc_rat_containerization_2023_pilot",
+by_cohort: dict[str, list[str]] = {}
+for ev in events["events"]:
+    by_cohort.setdefault(ev["cohort"], []).append(ev["unit"])
+pilot_event = Nyc311TE(
+    name="pilot_2023_post_covid",
     description="2023-07-01 lower-Manhattan pilot; post-COVID sample.",
-    treated_units=TREATED, treatment_date=date(2023, 7, 1),
-    geography="community_district",
+    treated_units=tuple(sorted(by_cohort["pilot_2023"])),
+    treatment_date=date(2023, 7, 1), geography="community_district",
+)
+rollout_event = Nyc311TE(
+    name="citywide_2024_post_covid",
+    description="2024-11-12 citywide rollout; post-COVID sample.",
+    treated_units=tuple(sorted(by_cohort["citywide_2024"])),
+    treatment_date=date(2024, 11, 12), geography="community_district",
 )
 ds_pc = build_complaint_panel(
     post_covid_records, geography="community_district", freq="ME",
-    treatment_events=(tevent,),
+    treatment_events=(pilot_event, rollout_event),
 )
 ff_pc = ds_pc.to_factor_factory_panel()
 res = did_estimate(
@@ -192,15 +203,34 @@ mn_records = [r for r in records if r.borough and r.borough.upper().startswith("
 
 events = json.loads(Path("data/rat_mitigation_events_2023.json").read_text())
 TREATED = tuple(sorted({e["unit"] for e in events["events"]}))
-tevent = Nyc311TE(
-    name="nyc_rat_containerization_2023_pilot_mn_only",
-    description="Manhattan-only controls (6 non-pilot Manhattan CDs).",
-    treated_units=TREATED, treatment_date=date(2023, 7, 1),
-    geography="community_district",
-)
+# NOTE: kept for continuity with the 2023-only paper, now with the REAL
+# per-cohort onsets (MN 01–09 at the pilot date, MN 10–12 at the citywide
+# date). Even so, once MN 10–12 flip in 2024-11 the never-treated pool is
+# just the irregular MN catch-alls — MANUSCRIPT §4.5 tells the reader to
+# lean on the other probes; the synthetic-control analysis (notebook 13)
+# is the real replacement.
+mn_by_cohort: dict[str, list[str]] = {}
+for ev in events["events"]:
+    if ev["unit"].startswith("MANHATTAN"):
+        mn_by_cohort.setdefault(ev["cohort"], []).append(ev["unit"])
+mn_events = []
+if mn_by_cohort.get("pilot_2023"):
+    mn_events.append(Nyc311TE(
+        name="pilot_2023_mn_only",
+        description="Lower-Manhattan pilot cohort (MN-only probe).",
+        treated_units=tuple(sorted(mn_by_cohort["pilot_2023"])),
+        treatment_date=date(2023, 7, 1), geography="community_district",
+    ))
+if mn_by_cohort.get("citywide_2024"):
+    mn_events.append(Nyc311TE(
+        name="citywide_2024_mn_only",
+        description="Citywide-rollout cohort, Manhattan slice (MN-only probe).",
+        treated_units=tuple(sorted(mn_by_cohort["citywide_2024"])),
+        treatment_date=date(2024, 11, 12), geography="community_district",
+    ))
 ds_mn = build_complaint_panel(
     mn_records, geography="community_district", freq="ME",
-    treatment_events=(tevent,),
+    treatment_events=tuple(mn_events),
 )
 ff_mn = ds_mn.to_factor_factory_panel()
 res = did_estimate(
@@ -212,8 +242,70 @@ payload = {r.method: {
     "ci_95": [float(r.ci_95[0]), float(r.ci_95[1])], "n": int(r.n),
 } for r in res}
 jc.save(payload, "artifacts/manhattan_only_did.json",
-        caption="Control group restricted to non-pilot Manhattan CDs (6 CDs).")
+        caption="Manhattan-only probe (kept for continuity; thin control pool under staggering — see MANUSCRIPT §4.5).")
 print("Manhattan-only controls:")
+for r in res:
+    print(f"  {r.method:<6} att={r.att:+8.3f} se={r.se:6.3f} p={r.p_value:.4g}  N={r.n}")
+
+# %% tags=["jc.step", "name=phase_in_guard_did"]
+import json
+from datetime import date
+from pathlib import Path
+import re
+
+import jellycell.api as jc
+from factor_factory.engines.did import estimate as did_estimate
+from nyc311.io import load_service_requests
+from nyc311.temporal import build_complaint_panel
+from nyc311.temporal._models import TreatmentEvent as Nyc311TE
+
+# Phase-in guard: DSNY folded medium (10–30 unit) and larger buildings
+# into containerization over 2025–2026, partially treating the
+# "never-treated" pool and deepening treatment in the citywide cohort
+# late in the window. Truncate the panel before 2025-06-01 (the first
+# large-building milestone) and re-estimate — if the headline moves
+# materially, the late window is contaminated.
+date_re = re.compile(r"_(\d{4})-\d{2}-\d{2}_(\d{4})-\d{2}-\d{2}_")
+records = []
+for p in sorted(Path("data/cache").glob("*_rodent_*.csv")):
+    if date_re.search(p.name):
+        records.extend(load_service_requests(p))
+guard_records = [r for r in records if r.created_date < date(2025, 6, 1)]
+
+events = json.loads(Path("data/rat_mitigation_events_2023.json").read_text())
+by_cohort: dict[str, list[str]] = {}
+for ev in events["events"]:
+    by_cohort.setdefault(ev["cohort"], []).append(ev["unit"])
+guard_events = (
+    Nyc311TE(
+        name="pilot_2023_phase_in_guard",
+        description="Pilot cohort; panel truncated before the 2025-06 phase-ins.",
+        treated_units=tuple(sorted(by_cohort["pilot_2023"])),
+        treatment_date=date(2023, 7, 1), geography="community_district",
+    ),
+    Nyc311TE(
+        name="citywide_2024_phase_in_guard",
+        description="Citywide cohort; panel truncated before the 2025-06 phase-ins.",
+        treated_units=tuple(sorted(by_cohort["citywide_2024"])),
+        treatment_date=date(2024, 11, 12), geography="community_district",
+    ),
+)
+ds_guard = build_complaint_panel(
+    guard_records, geography="community_district", freq="ME",
+    treatment_events=guard_events,
+)
+ff_guard = ds_guard.to_factor_factory_panel()
+res = did_estimate(
+    ff_guard, methods=("twfe", "cs", "sa", "bjs"),
+    outcome="complaint_count", cluster="unit_id",
+)
+payload = {r.method: {
+    "att": float(r.att), "se": float(r.se), "p_value": float(r.p_value),
+    "ci_95": [float(r.ci_95[0]), float(r.ci_95[1])], "n": int(r.n),
+} for r in res}
+jc.save(payload, "artifacts/phase_in_guard_did.json",
+        caption="Phase-in guard: panel truncated before 2025-06-01 (pre-dates the medium/large-building phase-ins).")
+print("Phase-in guard (window < 2025-06):")
 for r in res:
     print(f"  {r.method:<6} att={r.att:+8.3f} se={r.se:6.3f} p={r.p_value:.4g}  N={r.n}")
 

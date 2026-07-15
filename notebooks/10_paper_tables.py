@@ -20,16 +20,24 @@ rec = json.loads(open("artifacts/reconciled_findings.json").read())
 p = rec["panel"]
 bal = rec["balance_pretreatment"]
 
+# Column headers and counts derive from the reconciled panel — the
+# pilot-era version hard-coded "Treated (9) | Control (65)" and shipped
+# that stale split long after the staggered design landed.
+n_treated = p["cohort_1_pilot"]["n_units"] + p["cohort_2_citywide"]["n_units"]
+n_control = p["never_treated_n"]
+tcol = f"Treated ({n_treated})"
+ccol = f"Never-treated ({n_control})"
+
 t1_rows = [
-    {"Variable": "Community districts", "Treated (9)": "9", "Control (65)": "65", "Total": str(p["n_units"])},
-    {"Variable": "Months in window",    "Treated (9)": str(p["n_periods"]), "Control (65)": str(p["n_periods"]), "Total": str(p["n_periods"])},
-    {"Variable": "CD-month observations", "Treated (9)": str(9 * p["n_periods"]), "Control (65)": str(65 * p["n_periods"]), "Total": f"{p['n_observations']:,}"},
-    {"Variable": "Pre-treatment mean complaints/CD/month", "Treated (9)": f"{bal['pre_treated_mean']:.1f}", "Control (65)": f"{bal['pre_control_mean']:.1f}", "Total": "—"},
-    {"Variable": "Total Rodent complaints in window", "Treated (9)": "—", "Control (65)": "—", "Total": f"{p['total_complaints']:,}"},
+    {"Variable": "Community districts", tcol: str(n_treated), ccol: str(n_control), "Total": str(p["n_units"])},
+    {"Variable": "Months in window",    tcol: str(p["n_periods"]), ccol: str(p["n_periods"]), "Total": str(p["n_periods"])},
+    {"Variable": "CD-month observations", tcol: str(n_treated * p["n_periods"]), ccol: str(n_control * p["n_periods"]), "Total": f"{p['n_observations']:,}"},
+    {"Variable": "Pre-treatment mean complaints/CD/month", tcol: f"{bal['pre_treated_mean']:.1f}", ccol: f"{bal['pre_control_mean']:.1f}", "Total": "—"},
+    {"Variable": "Total Rodent complaints in window", tcol: "—", ccol: "—", "Total": f"{p['total_complaints']:,}"},
 ]
 t1 = pd.DataFrame(t1_rows)
 jc.table(t1, name="table_T1_descriptive",
-         caption="Table 1. Descriptive statistics, 2020–2024 panel.")
+         caption=f"Table 1. Descriptive statistics, {p['window']} panel.")
 print("T1:")
 print(t1.to_string(index=False))
 
@@ -184,11 +192,22 @@ for m in ("twfe", "cs", "sa", "bjs"):
 t2 = pd.DataFrame(rows)
 
 rob = rec["robustness"]
+# Readings derive from the numbers — hand-written readings drifted out of
+# sync with regenerated values in the pilot-era version (a "Non-significant"
+# label sat next to p < .001 in the committed table).
+headline_att = rec["headline_att"]["att"]
+
+def _reading(att: float, p: float, note: str = "") -> str:
+    sign = "same sign as headline" if (att < 0) == (headline_att < 0) else "SIGN FLIP vs. headline"
+    sig = "p < .05" if p < 0.05 else "n.s."
+    return f"{sign}; {sig}." + (f" {note}" if note else "")
+
 t3 = pd.DataFrame([
-    {"Check": "Placebo t₀ = 2022-07-01 (BJS)", "ATT": f"{rob['placebo_att_bjs']:+.2f}", "p": "<.001" if rob['placebo_p_bjs'] < 0.001 else f"{rob['placebo_p_bjs']:.3f}", "Reading": "Non-significant at raw α; sign reversal vs. headline."},
-    {"Check": "Log(1 + complaints) TWFE", "ATT": f"{rob['log_outcome_coef']:+.3f} ({rob['log_outcome_pct_change']:+.1f}%)", "p": f"{rob['log_outcome_p']:.3f}", "Reading": "Same sign; smaller magnitude."},
-    {"Check": "Post-COVID (2022-01 →) (BJS)", "ATT": f"{rob['post_covid_att_bjs']:+.2f}", "p": "<.001" if rob['post_covid_p_bjs'] < 0.001 else f"{rob['post_covid_p_bjs']:.3f}", "Reading": "Strengthens headline."},
-    {"Check": "Manhattan-only controls (BJS)", "ATT": f"{rob['manhattan_only_att_bjs']:+.2f}", "p": "<.001" if rob['manhattan_only_p_bjs'] < 0.001 else f"{rob['manhattan_only_p_bjs']:.3f}", "Reading": "Same sign, wide CI."},
+    {"Check": "Placebo t₀ = 2022-07-01 (BJS)", "ATT": f"{rob['placebo_att_bjs']:+.2f}", "p": "<.001" if rob['placebo_p_bjs'] < 0.001 else f"{rob['placebo_p_bjs']:.3f}", "Reading": _reading(rob['placebo_att_bjs'], rob['placebo_p_bjs'], "Picks up the pre-trend slope; see §4.5.")},
+    {"Check": "Log(1 + complaints) TWFE", "ATT": f"{rob['log_outcome_coef']:+.3f} ({rob['log_outcome_pct_change']:+.1f}%)", "p": f"{rob['log_outcome_p']:.3f}", "Reading": _reading(rob['log_outcome_coef'], rob['log_outcome_p'], "Scale artifact; see §4.5.")},
+    {"Check": "Post-COVID (2022-01 →) (BJS)", "ATT": f"{rob['post_covid_att_bjs']:+.2f}", "p": "<.001" if rob['post_covid_p_bjs'] < 0.001 else f"{rob['post_covid_p_bjs']:.3f}", "Reading": _reading(rob['post_covid_att_bjs'], rob['post_covid_p_bjs'])},
+    {"Check": "Manhattan-only controls (BJS)", "ATT": f"{rob['manhattan_only_att_bjs']:+.2f}", "p": "<.001" if rob['manhattan_only_p_bjs'] < 0.001 else f"{rob['manhattan_only_p_bjs']:.3f}", "Reading": _reading(rob['manhattan_only_att_bjs'], rob['manhattan_only_p_bjs'], "Thin control pool after 2024-11; see §4.5.")},
+    {"Check": "Phase-in guard (window < 2025-06)", "ATT": f"{rob['phase_in_guard_att_bjs']:+.2f}", "p": "<.001" if rob['phase_in_guard_p_bjs'] < 0.001 else f"{rob['phase_in_guard_p_bjs']:.3f}", "Reading": _reading(rob['phase_in_guard_att_bjs'], rob['phase_in_guard_p_bjs'], "Pre-dates the 2025–26 building phase-ins; see §5.3.")},
 ])
 
 t4 = pd.DataFrame([
@@ -207,8 +226,8 @@ t5 = pd.DataFrame([
 ])
 
 content = "\n".join([
-    df_to_md(t1, "Table 1. Descriptive statistics, 2020–2024 panel."),
-    df_to_md(t2, "Table 2. Four DiD estimators of the containerization-pilot effect."),
+    df_to_md(t1, f"Table 1. Descriptive statistics, {p['window']} panel."),
+    df_to_md(t2, "Table 2. Four staggered-DiD estimators of the containerization effect (both cohorts)."),
     df_to_md(t3, "Table 3. Robustness checks."),
     df_to_md(t4, f"Table 4. RDD bandwidth sensitivity (cutoff = {rdd['cutoff']:.1f})."),
     df_to_md(t5, "Table 5. Identification + statistical diagnostic checklist."),

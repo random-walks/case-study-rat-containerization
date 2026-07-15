@@ -121,9 +121,10 @@ monthly = (
     .rename(columns={0: "control_mean", 1: "treated_mean"})
 )
 monthly.index = monthly.index.astype(str)
+window = f"{panel_df['period'].min():%Y-%m} → {panel_df['period'].max():%Y-%m}"
 jc.save(monthly.reset_index().to_dict(orient="records"),
         "artifacts/monthly_means_by_group.json",
-        caption="Mean monthly rodent complaints — treated vs. control CDs, 2020-01 → 2024-12")
+        caption=f"Mean monthly rodent complaints — treated vs. never-treated CDs, {window}")
 
 # %% tags=["jc.figure", "name=fig1_pretrends"]
 import json
@@ -143,14 +144,26 @@ monthly = (
     .mean().unstack(level=0)
 )
 
+# Groups, cohort dates, and the window all derive from the data — never
+# hard-code them (the pilot-era version of this cell shipped a stale
+# "Control (65 CDs)" legend long after the staggered design landed).
+n_control = panel_df.loc[panel_df["treated_unit"] == 0, "unit_id"].nunique()
+n_treated = panel_df.loc[panel_df["treated_unit"] == 1, "unit_id"].nunique()
+cohort_dates = sorted({(e["kind"], e["event_date"]) for e in events["events"]},
+                      key=lambda kd: kd[1])
+
 fig, ax = plt.subplots(figsize=(9, 5))
-ax.plot(monthly.index, monthly[0], label="Control (65 CDs)", color="#444", linewidth=1.5)
-ax.plot(monthly.index, monthly[1], label="Treated (9 lower-Manhattan CDs)", color="#c84", linewidth=1.8)
-ax.axvline(pd.Timestamp("2023-07-01"), color="red", linestyle="--", alpha=0.8,
-           label="Containerization pilot (2023-07-01)")
+ax.plot(monthly.index, monthly[0],
+        label=f"Never-treated ({n_control} irregular CDs)", color="#444", linewidth=1.5)
+ax.plot(monthly.index, monthly[1],
+        label=f"Treated ({n_treated} CDs, pilot + citywide)", color="#c84", linewidth=1.8)
+for (kind, date), style in zip(cohort_dates, ["--", ":"]):
+    ax.axvline(pd.Timestamp(date), color="red", linestyle=style, alpha=0.8,
+               label=f"{kind.replace('_', ' ').title()} ({date})")
+window = f"{monthly.index.min():%Y-%m} through {monthly.index.max():%Y-%m}"
 ax.set_xlabel("Month")
 ax.set_ylabel("Mean Rodent complaints per CD")
-ax.set_title("Figure 1. Mean monthly rodent-complaint volume by group, 2020–2024")
+ax.set_title(f"Figure 1. Mean monthly rodent-complaint volume by group, {window}")
 ax.legend(loc="upper left", frameon=False)
 fig.tight_layout()
 Path("artifacts/figures").mkdir(parents=True, exist_ok=True)
