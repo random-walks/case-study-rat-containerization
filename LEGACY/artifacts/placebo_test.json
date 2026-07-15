@@ -1,3 +1,0 @@
-{
-  "error": "AbsorbingEffectError: \nThe model cannot be estimated. The included effects have fully absorbed\none or more of the variables. This occurs when one or more of the dependent\nvariable is perfectly explained using the effects included in the model.\n\nThe following variables or variable combinations have been fully absorbed\nor have become perfectly collinear after effects are removed:\n\n          placebo\n\nSet drop_absorbed=True to automatically drop absorbed variables.\n"
-}

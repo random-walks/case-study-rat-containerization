@@ -1,8 +1,0 @@
-{
-  "n_pre_periods": 29,
-  "interaction_coef": -0.5785,
-  "interaction_se": 0.2947,
-  "interaction_p": 0.0498,
-  "passes": false,
-  "interpretation": "FAIL \u2014 significant pre-treatment trend differential between treated and control"
-}

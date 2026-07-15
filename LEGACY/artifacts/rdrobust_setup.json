@@ -1,8 +1,0 @@
-{
-  "n_units": 59,
-  "running_var_km_range": [
-    -7.487896372014907,
-    29.44696031430995
-  ],
-  "package": "rdrobust>=1.3"
-}

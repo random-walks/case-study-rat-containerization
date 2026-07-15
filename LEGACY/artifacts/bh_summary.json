@@ -1,7 +1,0 @@
-{
-  "n_tests": 7,
-  "n_significant_raw": 2,
-  "n_significant_after_bh": 1,
-  "method": "Benjamini-Hochberg (fdr_bh)",
-  "alpha": 0.05
-}
