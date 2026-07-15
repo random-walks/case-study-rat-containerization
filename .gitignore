@@ -1,7 +1,25 @@
+# jellycell outputs (regenerate via `uv run jellycell run`/`render`)
 site/
 .jellycell/
 journal.md
+
+# data caches (rebuilt from Socrata on first run)
 data/cache/
 data/raw/
+!data/README.md
+
+# python
+.venv/
 __pycache__/
 *.pyc
+.ipynb_checkpoints/
+
+# editor + OS noise
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# secrets
+.env
+.env.local

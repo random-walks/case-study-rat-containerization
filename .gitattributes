@@ -1,3 +1,4 @@
+# Binary formats (left over from the LFS export — keep git from mangling them).
 *.png !text !filter !merge !diff
 *.jpg !text !filter !merge !diff
 *.jpeg !text !filter !merge !diff
@@ -10,3 +11,8 @@
 *.shp !text !filter !merge !diff
 *.shx !text !filter !merge !diff
 *.dbf !text !filter !merge !diff
+
+# Collapse generated trees in diffs/language stats. No LFS — figures and
+# committed artifacts are small enough for plain git.
+artifacts/** linguist-generated=true
+manuscripts/tearsheets/** linguist-generated=true

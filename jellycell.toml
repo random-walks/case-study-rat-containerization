@@ -1,5 +1,5 @@
 [project]
-name = "showcase-rat-containerization"
+name = "case-study-rat-containerization"
 
 [paths]
 notebooks = "notebooks"

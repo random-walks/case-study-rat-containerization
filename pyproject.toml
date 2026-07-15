@@ -1,0 +1,23 @@
+[project]
+name = "case-study-rat-containerization"
+version = "1.0.0"
+description = "Staggered-DiD case study: NYC trash containerization vs 311 rat complaints (jellycell + factor-factory + nyc311)"
+requires-python = ">=3.12"
+dependencies = [
+  "pandas>=2.2",
+  "pyarrow>=18",
+  "jellycell[server]>=1.4.0,<2",
+  "factor-factory[did,rdd,scm,spatial,inequality,changepoint,stl]>=1.0.2,<2",
+  "nyc311[stats,spatial,dataframes,tearsheets]>=1.0.2,<2",
+  "matplotlib>=3.8",
+  "seaborn>=0.13",
+  "statsmodels>=0.14",
+  # direct import in notebooks/07_rdd_and_spatial.py
+  "rdrobust",
+]
+
+[tool.uv]
+package = false
+
+[tool.jellycell]
+project = "case-study-rat-containerization"

@@ -1,4 +1,4 @@
-# showcase-rat-containerization
+# case-study-rat-containerization
 
 A causal evaluation of NYC's 2023 rat-mitigation containerization pilot
 using NYC 311 Rodent-complaint data and four difference-in-differences
@@ -17,24 +17,32 @@ parallel-trends assumption that the data reject (*F*(23, 73) = 7.90,
 *p* < .001). Interpret the point estimate as an upper bound on the
 true policy effect. Full discussion: `manuscripts/MANUSCRIPT.md`.
 
+> Standalone repo since 2026-07 — extracted with full history from
+> `blaise-website` `packages/python-showcase/`. The published post at
+> <https://blaiseoss.com/posts/rat-containerization> is generated from
+> `manuscripts/MANUSCRIPT.md` by the blaise-dev-workspace sync
+> (`scripts/sync-case-study.sh rat`); never edit the MDX directly.
+
 ## Run
 
-From the repo root:
+From the repo root (Python 3.12 + [uv](https://docs.astral.sh/uv/)):
 
 ```bash
-pnpm showcase:run showcase-rat-containerization     # 10 notebooks in order
-pnpm showcase:render showcase-rat-containerization  # → site/index.html
-pnpm showcase:lint showcase-rat-containerization
-pnpm showcase:view showcase-rat-containerization    # live catalogue @ :5180
+uv sync                    # resolve + install into .venv
+uv run jellycell run       # all notebooks in order
+uv run jellycell render    # → site/index.html
+uv run jellycell lint
+uv run jellycell view      # live catalogue @ :5180
 ```
 
-First run fetches ~5 minutes of Socrata CSVs into `data/cache/`
-(gitignored). Subsequent runs hit the local cache.
+First run fetches the Socrata CSVs into `data/cache/` (gitignored,
+~10–15 min on a cold cache; needs network). Subsequent runs hit the
+local cache.
 
 ## Structure
 
 ```
-showcase-rat-containerization/
+case-study-rat-containerization/
 ├── jellycell.toml
 ├── notebooks/
 │   ├── 01_load_and_preprocess.py       ← nyc311.bulk_fetch + build Panel
