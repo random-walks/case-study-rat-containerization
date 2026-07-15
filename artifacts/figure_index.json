@@ -2,7 +2,7 @@
   {
     "id": "F1",
     "file": "artifacts/figures/figure-1-pretrends.png",
-    "caption": "Mean monthly rodent-complaint volume by group, 2020\u20132024.",
+    "caption": "Mean monthly rodent-complaint volume by group over the full panel window.",
     "source_notebook": "02_balance_and_pretrends.py"
   },
   {

@@ -2,13 +2,13 @@
   "cluster_counts_all": {
     "ns": 70,
     "LH": 2,
-    "HL": 1
+    "HL": 2
   },
   "cluster_counts_treated": {
-    "ns": 56,
+    "ns": 55,
     "LH": 2,
-    "HL": 1
+    "HL": 2
   },
-  "n_units": 73,
+  "n_units": 74,
   "n_treated": 59
 }

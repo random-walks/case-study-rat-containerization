@@ -3,7 +3,7 @@
   "geography": "community_district",
   "freq": "MS",
   "n_units": 74,
-  "n_periods": 75,
+  "n_periods": 78,
   "outcome_col": "complaint_count",
   "treatment_events": [
     {

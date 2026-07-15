@@ -5,14 +5,14 @@
     "hostname": "showcase-runner",
     "author": "Blaise Albis-Burdige",
     "author_url": "https://blaiseab.com",
-    "month_year": "April 2026",
-    "version": "3.0.0"
+    "month_year": "July 2026",
+    "version": "4.0.0"
   },
   "panel": {
     "n_units": 74,
-    "n_periods": 75,
-    "n_observations": 5550,
-    "window": "2020-01 \u2192 2026-03",
+    "n_periods": 78,
+    "n_observations": 5772,
+    "window": "2020-01 \u2192 2026-06",
     "cohort_1_pilot": {
       "treatment_date": "2023-07-01",
       "n_units": 9,
@@ -85,59 +85,61 @@
       ]
     },
     "never_treated_n": 15,
-    "total_complaints": 224889
+    "total_complaints": 232447
   },
   "headline_att": {
     "method": "bjs",
-    "att": -11.90471889249752,
-    "se": 0.7019909052465987,
+    "att": -11.926260353274838,
+    "se": 0.6453998173037618,
     "p_value": 0.0,
-    "ci_95_low": -13.280621066780853,
-    "ci_95_high": -10.528816718214188,
-    "n": 5550,
-    "interpretation": "BJS staggered-DiD: across both cohorts (2023 pilot + 2024 citywide rollout), treated community districts experienced a reduction of 11.9 rodent complaints per CD per month post-treatment (95% CI [-13.3, -10.5])."
+    "ci_95_low": -13.191243995190211,
+    "ci_95_high": -10.661276711359465,
+    "n": 5772,
+    "interpretation": "BJS staggered-DiD: across both cohorts (2023 pilot + 2024 citywide rollout), treated community districts experienced a reduction of 11.9 rodent complaints per CD per month post-treatment (95% CI [-13.2, -10.7])."
   },
   "cross_estimator": {
     "twfe": {
-      "att": -10.27111838124901,
-      "se": 1.775609687318204,
-      "p_value": 7.678779168074357e-09
+      "att": -10.261379273843591,
+      "se": 1.7600129803294817,
+      "p_value": 5.841260586336716e-09
     },
     "cs": {
-      "att": -4.873898511090853,
-      "se": 2.0105265327326167,
-      "p_value": 0.015342571936653338
+      "att": -4.771951857666143,
+      "se": 2.2195183985689932,
+      "p_value": 0.031555667366164775
     },
     "sa": {
-      "att": -12.847914169948066,
-      "se": 2.8148554539901784,
-      "p_value": 5.011048016978492e-06
+      "att": -12.10290855827579,
+      "se": 2.609653204622392,
+      "p_value": 3.5222936607404165e-06
     },
     "bjs": {
-      "att": -11.90471889249752,
-      "se": 0.7019909052465987,
+      "att": -11.926260353274838,
+      "se": 0.6453998173037618,
       "p_value": 0.0
     }
   },
   "robustness": {
     "placebo_att_bjs": 9.966346516007492,
     "placebo_p_bjs": 0.0,
-    "log_outcome_coef": 0.22661394467230805,
-    "log_outcome_pct_change": 25.43455276814981,
-    "log_outcome_p": 0.09187380201161963,
-    "post_covid_att_bjs": -6.701317044537372,
+    "log_outcome_coef": 0.18731812865959285,
+    "log_outcome_pct_change": 20.601089065681965,
+    "log_outcome_p": 0.11934301116956912,
+    "post_covid_att_bjs": -17.433998253932884,
     "post_covid_p_bjs": 0.0,
-    "manhattan_only_att_bjs": 3.6230436230440253,
-    "manhattan_only_p_bjs": 0.05936767684488942
+    "manhattan_only_att_bjs": -20.201635812472386,
+    "manhattan_only_p_bjs": 0.0,
+    "phase_in_guard_att_bjs": -8.837501134241805,
+    "phase_in_guard_p_bjs": 0.0
   },
   "diagnostics": {
     "pre_trends_F_reject": "reject_flat_pretrends",
-    "pre_trends_F_stat": 4.399522101959924,
-    "pre_trends_F_p": 6.548386127477012e-07,
+    "pre_trends_F_stat": 4.255758212122283,
+    "pre_trends_F_p": 1.1463231045056453e-06,
     "bp_heteroskedastic": "heteroskedastic",
     "bp_p": 0.0,
     "shapiro_normal": "non_normal",
-    "r_squared": 0.8022911860029588
+    "r_squared": 0.7992422547419259
   },
   "balance_pretreatment": {
     "welch_t": 65.51956240805727,

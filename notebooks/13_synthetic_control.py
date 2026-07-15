@@ -323,18 +323,25 @@ print(
 )
 
 # Persist all three SCM payloads in one file for the manuscript hookup.
+# Cross-check values come from the per-cohort artifact — an earlier draft
+# baked in point estimates from a previous run, which drifted.
+_cohorts = json.loads(
+    open("artifacts/heterogeneous_effects_by_cohort.json").read()
+)["by_cohort"]
+_pilot_att_did = float(_cohorts["pilot_2023"]["att"])
+_citywide_att_did = float(_cohorts["citywide_2024"]["att"])
 scm_payload = {
     "pilot_aggregate": pilot_summary,
     "citywide_aggregate": citywide_summary,
     "placebo_permutation": placebo_summary,
     "headline": {
         "pilot_att_scm": pilot_summary["att"],
-        "pilot_att_bjs": -5.72,
+        "pilot_att_did_cohort": _pilot_att_did,
         "pilot_cross_check_agreement_pct": float(
-            100 * (1 - abs(pilot_summary["att"] - (-5.72)) / abs(-5.72))
+            100 * (1 - abs(pilot_summary["att"] - _pilot_att_did) / abs(_pilot_att_did))
         ),
         "citywide_att_scm": citywide_summary["att"],
-        "citywide_att_bjs": -12.22,
+        "citywide_att_did_cohort": _citywide_att_did,
         "placebo_rank_p_att_negative": rank_p_att_neg,
         "interpretation": (
             "Synthetic control (which does not assume parallel trends) "

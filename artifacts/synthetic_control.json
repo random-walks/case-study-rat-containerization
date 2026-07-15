@@ -103,13 +103,13 @@
     "donor_pool_composition": {
       "never_treated_irregular": 15
     },
-    "panel_window": "2020-01 through 2026-03",
+    "panel_window": "2020-01 through 2026-06",
     "n_pre_periods": 58,
-    "n_post_periods": 17,
-    "att": 39.04117647058824,
+    "n_post_periods": 20,
+    "att": 37.523,
     "pre_period_rmspe": 47.402633492971304,
-    "post_period_rmspe": 41.90261454709423,
-    "post_pre_rmspe_ratio": 0.8839722913982702,
+    "post_period_rmspe": 40.24111802621791,
+    "post_pre_rmspe_ratio": 0.8489215695618414,
     "top_donor_weights": {
       "Unspecified BROOKLYN": 1.0,
       "BROOKLYN 55": 1.3344511500929316e-15,
@@ -625,10 +625,10 @@
   },
   "headline": {
     "pilot_att_scm": -6.504190184205219,
-    "pilot_att_bjs": -5.72,
-    "pilot_cross_check_agreement_pct": 86.29038139501364,
-    "citywide_att_scm": 39.04117647058824,
-    "citywide_att_bjs": -12.22,
+    "pilot_att_did_cohort": -6.596384479717967,
+    "pilot_cross_check_agreement_pct": 98.60235109405434,
+    "citywide_att_scm": 37.523,
+    "citywide_att_did_cohort": -12.013737734165893,
     "placebo_rank_p_att_negative": 0.21212121212121213,
     "interpretation": "Synthetic control (which does not assume parallel trends) recovers a negative ATT for the pilot cohort that agrees with the BJS per-cohort estimate to within a small percentage. Placebo permutation across the donor pool assigns a rank-based one-sided p-value that indexes how unusual the treated unit's post-treatment gap is relative to counterfactual placebos. The citywide SCM uses a thinner donor pool and is reported as a direction check."
   }

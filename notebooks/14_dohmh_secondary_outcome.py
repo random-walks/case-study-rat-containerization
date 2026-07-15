@@ -45,13 +45,17 @@ import requests
 CACHE_DIR = Path("data/cache")
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
 START = "2020-01-01T00:00:00"
-END = "2026-04-01T00:00:00"
+END = "2026-07-01T00:00:00"  # match the 311 panel window (2026-06 last month)
 CACHE_PATH = CACHE_DIR / f"dohmh_rat_positive_{START[:10]}_{END[:10]}.parquet"
 
 SOCRATA_URL = "https://data.cityofnewyork.us/resource/p937-wjvj.json"
+# Rat-positive = both failure-for-rat-activity result values in p937-wjvj
+# (verified against `$group=result` on the live endpoint; an earlier
+# draft filtered on truncated strings and silently fetched zero rows).
 WHERE = (
     f"inspection_date >= '{START}' AND inspection_date < '{END}' "
-    "AND (result = 'Failed for Rat Act' OR result = 'Rat Activity')"
+    "AND result in('Failed for Rat Activity', "
+    "'Failed for Rat Activity and Other Reason')"
 )
 FIELDS = "inspection_date,borough,community_board,result,inspection_type"
 PAGE_SIZE = 50000

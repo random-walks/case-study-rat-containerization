@@ -93,7 +93,7 @@
     }
   ],
   "weights_col": null,
-  "record_count": 5550,
+  "record_count": 5772,
   "provenance": {
     "data_source": "NYC Open Data \u2014 311 Service Requests (Socrata erm2-nwe9)",
     "license": "CC0-1.0",

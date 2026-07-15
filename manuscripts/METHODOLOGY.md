@@ -21,18 +21,25 @@ parameters.
 `nyc311.temporal.build_complaint_panel` aggregates records to the
 community-district × month level with balanced filling: any
 (CD, month) cell without a complaint is filled with zero rather than
-dropped. This produces a rectangular 74 × 60 panel with 4,440 cells,
-which the `factor_factory.tidy.Panel.to_factor_factory_panel`
+dropped. Over the 2020-01 through 2026-06 window this produces a
+rectangular 74 × 78 panel with 5,772 cells (232,447 Rodent
+complaints), which the
+`factor_factory.tidy.Panel.to_factor_factory_panel`
 adapter casts into the canonical `factor_factory.tidy.Panel`
 contract for consumption by the DiD engines.
 
 ### 1.3 Treatment specification
 
-Treatment is a single-cohort staggered-DiD design: all nine treated
-community districts (MN 01–09) flip from 0 to 1 on 2023-07-01 and
-remain treated for the duration of the post-period. The treatment
-event file is `data/rat_mitigation_events_2023.json`, hand-curated
-from DSNY press releases dated 2023-06-15, 2024-02-20, and 2024-06-12.
+Treatment is a two-cohort staggered-DiD design. The pilot cohort —
+the nine lower-Manhattan community districts MN 01–09 — flips from 0
+to 1 on 2023-07-01; the citywide cohort — the 50 remaining real CDs
+across the other boroughs — flips on 2024-11-12. Each unit remains
+treated for the duration of its post-period, and 15 irregular CDs
+(airports, parks, cemeteries, and Unspecified geocoding-failure rows)
+carry no event date and serve as the never-treated control pool. The
+treatment event file is `data/rat_mitigation_events_2023.json`,
+hand-curated from DSNY press releases dated 2023-06-15, 2024-02-20,
+and 2024-06-12, with each event tagged by cohort.
 
 ## 2. Identification
 
@@ -41,27 +48,36 @@ from DSNY press releases dated 2023-06-15, 2024-02-20, and 2024-06-12.
     Y_it = α_i + γ_t + β · (TREATED_i × Post_t) + ε_it
 
 - α_i: CD fixed effects (74 dummies)
-- γ_t: period fixed effects (60 dummies)
+- γ_t: period fixed effects (78 dummies)
 - TREATED_i × Post_t: the interaction whose coefficient β is the ATT
 - SE: cluster-robust at `unit_id` (community district)
+
+The equation above is the pooled TWFE for exposition; the
+heterogeneity-robust estimators (CS, SA, BJS) replace the single
+interaction with cohort × relative-time structure that respects the
+staggered onsets described in §1.3.
 
 ### 2.2 Why four estimators
 
 TWFE is known to produce biased point estimates in staggered-adoption
 settings when treatment effects are heterogeneous across cohorts or
-time (Goodman-Bacon, 2021; de Chaisemartin & D'Haultfœuille, 2020).
-Our design has a single cohort, which rescues TWFE from the
-"contamination" problem in most settings — but we report all four
-heterogeneity-robust estimators (CS, SA, BJS) regardless, so readers
-can form their own interpretation.
+time (Goodman-Bacon, 2021; de Chaisemartin & D'Haultfœuille, 2020;
+Baker, Larcker, & Wang, 2022). Our design has two cohorts with
+visibly different per-CD effects (the 2024 citywide rollout runs
+roughly twice the 2023 pilot), so TWFE is *not* rescued from the
+"forbidden comparison" contamination — which is precisely why we
+report the three heterogeneity-robust estimators (CS, SA, BJS)
+alongside it.
 
-Expected behavior under single-cohort adoption with homogeneous
-ATT:
-- TWFE ≈ BJS (both use full panel; BJS has tighter SE via imputation).
-- CS and SA use different weighting schemes but recover the same point
-  estimate in the one-cohort case.
-- Sign disagreement across the four would indicate model
-  misspecification or violations of common-trend assumptions.
+Expected behavior under two-cohort staggered adoption with
+heterogeneous ATT:
+- TWFE and BJS no longer coincide mechanically; their spread is a
+  read on cohort heterogeneity rather than a bug.
+- CS and SA weight cohort × relative-time cells differently, so their
+  point estimates diverge from each other and from BJS by an amount
+  that indexes heterogeneity.
+- Sign agreement across the four is the robustness bar; magnitude
+  agreement is not expected under heterogeneity (Roth et al., 2023).
 
 ### 2.3 Cluster-robust inference
 
@@ -70,30 +86,37 @@ community-district level. This allows within-CD serial correlation
 across months without bias in the SE, but assumes independence
 across CDs. Spatial proximity could plausibly violate this
 assumption (adjacent CDs might share shocks); however, Moran's *I*
-on the residuals is near zero (§4.5 of MANUSCRIPT.md), which makes
-the single-level cluster adequate.
+on the per-CD change is near zero (§4.7 of MANUSCRIPT.md), which
+makes the single-level cluster adequate.
 
 ### 2.4 Parallel-trends check
 
 The event study in §4.3 of MANUSCRIPT.md rejects flat pre-period
-leads at *F*(23, 73) = 7.90, *p* < .001. This is the identification
+leads at *F*(23, 73) = 4.26, *p* < .001. This is the identification
 concern; the magnitude of the treatment effect should be interpreted
-as an upper bound (see §5.3 limitation 1).
+as an upper bound (see §5.3 limitation 1 of MANUSCRIPT.md).
 
 ## 3. Robustness strategy
 
-Four probes, each changing a single specification choice:
+Five probes, each changing a single specification choice. The
+post-COVID and Manhattan-only probes were re-specified for the
+two-cohort design: the earlier single-cohort code force-marked all
+59 treated CDs at the 2023 pilot date, mis-timing the 50 citywide
+CDs by ~16 months; both now carry the true per-cohort onsets
+(MN 01–09 at 2023-07-01, the citywide 50 at 2024-11-12).
 
 | Probe | Changes | Rationale |
 | :--- | :--- | :--- |
 | Placebo t₀ | 2023-07-01 → 2022-07-01; drop post-pilot data | Check for anticipation or pre-existing trend. |
 | Log outcome | Y → log(1 + Y) | Address right-skewed count variance; multiplicative specification. |
-| Post-COVID | Drop 2020-01 → 2021-12 | Check whether COVID lockdown effects drive the headline. |
-| MN-only controls | Control pool → 6 non-pilot MN CDs | Eliminate borough-level confounding at cost of N. |
+| Post-COVID | Drop 2020-01 → 2021-12; keep true per-cohort onsets | Check whether COVID lockdown effects drive the headline. |
+| MN-only controls | Restrict panel to Manhattan; two-cohort onsets within borough | Eliminate borough-level confounding at cost of a thin post-2024-11 control pool. |
+| Phase-in guard | Truncate panel before 2025-06-01 | Pre-date the 2025–26 medium/large-building phase-ins that partially treat the never-treated pool. |
 
 Each probe produces its own four-estimator result set in
 `artifacts/placebo_did.json`, `log_outcome_did.json`,
-`post_covid_did.json`, `manhattan_only_did.json`.
+`post_covid_did.json`, `manhattan_only_did.json`,
+`phase_in_guard_did.json`.
 
 ## 4. Auxiliary analyses
 
@@ -125,7 +148,7 @@ standard error.
 Effect sizes for the DiD ATT are reported in natural units
 (complaints per CD per month); a Cohen's *d*-style dimensionless
 version can be recovered by dividing the ATT by the within-residual
-SD (~35 complaints, see `artifacts/mde_analysis.json`).
+SD (~17.7 complaints, see `artifacts/mde_analysis.json`).
 
 ## 6. Reproducibility
 

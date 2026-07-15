@@ -222,7 +222,11 @@ t5 = pd.DataFrame([
     {"Diagnostic": "Breusch-Pagan", "Value": "see §4.2", "p": "<.001", "Reading": "Heteroskedastic; cluster-robust SE."},
     {"Diagnostic": "TWFE R²", "Value": f"{d['r_squared']:.3f}", "p": "—", "Reading": "Within-panel variance absorbed."},
     {"Diagnostic": "MDE (α=.05, power=.80)", "Value": f"~{mde['mde_natural_units']:.1f} complaints (|d| ~ {mde['mde_cohens_d']:.2f})", "p": "—", "Reading": "Exceeds observed |ATT|; see §5.3."},
-    {"Diagnostic": "BH survivors", "Value": f"{bh['n_surviving_bh']}/{bh['n_tests']}", "p": "BH 0.05", "Reading": "Main BJS + SA survive."},
+    {"Diagnostic": "BH survivors", "Value": f"{bh['n_surviving_bh']}/{bh['n_tests']}", "p": "BH 0.05", "Reading": (
+        "Main estimators surviving: "
+        + (", ".join(r["test"].removeprefix("main_").upper() for r in bh["results"] if r["test"].startswith("main_") and r["reject_at_bh_05"]) or "none")
+        + "."
+    )},
 ])
 
 content = "\n".join([

@@ -6,18 +6,21 @@
 # %% [markdown]
 # # 05 — Robustness
 #
-# Four robustness probes:
+# Five robustness probes:
 # 1. **Placebo treatment date**: shift t_0 earlier by 12 months. Null effect
 #    is reassuring; a significant "effect" before the real rollout would
 #    argue for anticipation or shared trend.
 # 2. **Log-transformed outcome**: OLS on log(complaints+1). Addresses
 #    right-skewed count heteroskedasticity (§04 diagnostic).
-# 3. **Sample restriction — drop COVID period**: rerun on 2022-01 → 2024-12
-#    only, to check that 2020 lockdown anomalies aren't driving the
+# 3. **Sample restriction — drop COVID period**: rerun on 2022-01 onward
+#    only, to check that 2020 lockdown anomalies are not driving the
 #    headline.
-# 4. **Alternative control group — Manhattan-only controls**: run DiD
-#    with just the non-pilot Manhattan CDs as controls (cleaner but
-#    smaller N).
+# 4. **Alternative control group — Manhattan-only slice**: run DiD on
+#    Manhattan units only, with the true per-cohort onsets (thin control
+#    pool after 2024-11 — see MANUSCRIPT §4.5).
+# 5. **Phase-in guard**: truncate the panel before 2025-06-01 so DSNY's
+#    2025–26 medium/large-building phase-ins (which partially treat the
+#    control pool) cannot drive the headline.
 
 # %% tags=["jc.step", "name=placebo_did"]
 import json

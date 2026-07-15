@@ -1,8 +1,8 @@
 {
   "n_units": 63,
-  "n_periods": 75,
-  "n_cells": 4725,
-  "total_rat_positive_inspections": 273394,
+  "n_periods": 78,
+  "n_cells": 4914,
+  "total_rat_positive_inspections": 282771,
   "treatment_events": {
     "pilot_2023": {
       "n_treated_units": 9,
@@ -15,5 +15,5 @@
   },
   "outcome_col": "rat_positive_inspections",
   "pre_treatment_mean_treated": 66.56613756613757,
-  "pre_treatment_mean_never_treated": 0.20666666666666667
+  "pre_treatment_mean_never_treated": 0.1987179487179487
 }

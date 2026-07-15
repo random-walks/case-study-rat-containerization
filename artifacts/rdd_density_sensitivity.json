@@ -2,35 +2,35 @@
   "running_variable": "pre_mean_complaint_rate",
   "cutoff": 35.14285714285714,
   "design": "sharp",
-  "optimal_bandwidth_mserd": 13.17919812616401,
-  "att_conventional": 1.6377714112896484,
-  "se": 3.4044665132050174,
-  "p_value": 0.6304699416652413,
-  "ci_95_low": -5.034860341164842,
-  "ci_95_high": 8.31040316374414,
+  "optimal_bandwidth_mserd": 13.446295173915638,
+  "att_conventional": 1.0227302394097677,
+  "se": 3.5013542193090412,
+  "p_value": 0.7702135137457725,
+  "ci_95_low": -5.839797927553311,
+  "ci_95_high": 7.885258406372847,
   "n_effective_left": 17,
-  "n_effective_right": 11,
+  "n_effective_right": 13,
   "bandwidth_sensitivity": [
     {
       "bandwidth_label": "h/2",
-      "bandwidth": 6.589599063082005,
-      "att": 1.06565232274842,
-      "se": 4.720410765237942,
-      "p_value": 0.8213926389912244
+      "bandwidth": 6.723147586957819,
+      "att": -0.011826998352390206,
+      "se": 5.087929290171935,
+      "p_value": 0.9981453022733664
     },
     {
       "bandwidth_label": "h",
-      "bandwidth": 13.17919812616401,
-      "att": 1.6377714112896484,
-      "se": 3.406751524083073,
-      "p_value": 0.630699277914153
+      "bandwidth": 13.446295173915638,
+      "att": 1.0227302394097677,
+      "se": 3.5013455442373154,
+      "p_value": 0.7702129604259941
     },
     {
       "bandwidth_label": "2h",
-      "bandwidth": 26.35839625232802,
-      "att": -1.5124630584972607,
-      "se": 2.9132112390385356,
-      "p_value": 0.60363952160677
+      "bandwidth": 26.892590347831277,
+      "att": -2.057933531037804,
+      "se": 3.003522547021435,
+      "p_value": 0.493234554243024
     }
   ],
   "caveat": "No policy-assigned running variable exists. This RDD is a discontinuity-based sensitivity check \u2014 not a primary identification. Interpret magnitude with caution."

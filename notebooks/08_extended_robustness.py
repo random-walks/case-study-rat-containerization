@@ -36,7 +36,12 @@ sd = float(resid_approx.std(ddof=1))
 
 import json as _j
 rec = _j.loads(open("artifacts/reconciled_findings.json").read())
-n_treated = rec["panel"]["n_treated"]
+# Staggered schema: treated = both cohorts (the pre-staggered reconciled
+# JSON carried a flat n_treated key; this notebook was never updated).
+n_treated = (
+    rec["panel"]["cohort_1_pilot"]["n_units"]
+    + rec["panel"]["cohort_2_citywide"]["n_units"]
+)
 n_control = rec["panel"]["n_units"] - n_treated
 
 # Standard two-sample MDE approximation at α = .05 (two-sided), 80% power.

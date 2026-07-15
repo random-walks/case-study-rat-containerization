@@ -1,9 +1,9 @@
 {
-  "morans_I": -0.011089900920202438,
-  "expectation_under_null": -0.013888888888888888,
-  "permutation_p_value": 0.13013013013013014,
+  "morans_I": -0.010513778546309381,
+  "expectation_under_null": -0.0136986301369863,
+  "permutation_p_value": 0.1921921921921922,
   "n_permutations": 999,
-  "n_units": 73,
+  "n_units": 74,
   "distance_cutoff_km": 10.0,
   "weight_scheme": "inverse_distance_row_standardized",
   "interpretation": "Moran's *I* measures spatial autocorrelation of the post-minus-pre complaint-rate change across community-district centroids. A statistically significant positive *I* indicates clustered treatment responses (neighbors affected similarly)."

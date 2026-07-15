@@ -1,0 +1,8 @@
+{
+  "path": "data/rat_mitigation_events_2023.json",
+  "source": "Hand-curated from NYC DSNY press releases: 2023-06-15 (lower-Manhattan pilot, MN 01-09, effective 2023-07-01) and 2024-10-01 (citywide rollout, 16 RCNY Ch. 1, effective 2024-11-12); cross-referenced against the DSNY Residential Containerization page (nyc.gov/site/dsny/collection/containerization/residential-containerization.page)",
+  "derivation": "Manual curation — one event row per treated community district, kind/cohort per rollout phase; 59 events (9 pilot + 50 citywide)",
+  "n_events": 59,
+  "sha256_prefix": "79393ef09d05edda",
+  "regenerate": "Re-curate against the DSNY sources above — not automated; consumed by notebooks 01/02/05/09"
+}

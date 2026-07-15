@@ -1,93 +1,93 @@
 {
   "did_results_dohmh": {
     "twfe": {
-      "att": -3.413576574305819,
-      "se": 7.402618905052617,
-      "p_value": 0.6447265323648845,
-      "ci_95_low": -17.926272445204294,
-      "ci_95_high": 11.099119296592658,
-      "n": 4725,
+      "att": -3.4240072885162642,
+      "se": 7.098717044305805,
+      "p_value": 0.6295853430404399,
+      "ci_95_low": -17.3407661080202,
+      "ci_95_high": 10.492751530987672,
+      "n": 4914,
       "method": "twfe"
     },
     "cs": {
-      "att": -13.673807353388026,
-      "se": 5.066952564568117,
-      "p_value": 0.006962648153918893,
-      "ci_95_low": -23.604851891314397,
-      "ci_95_high": -3.7427628154616546,
-      "n": 4725,
+      "att": -15.04009680795395,
+      "se": 5.169238706672025,
+      "p_value": 0.0036196330077475913,
+      "ci_95_low": -25.171618500521525,
+      "ci_95_high": -4.9085751153863715,
+      "n": 4914,
       "method": "cs"
     },
     "sa": {
-      "att": -19.80689665011699,
-      "se": 2.910123024028936,
-      "p_value": 1.0020650975661738e-11,
-      "ci_95_low": -25.510737777213706,
-      "ci_95_high": -14.103055523020274,
-      "n": 4725,
+      "att": -21.571903117807075,
+      "se": 3.2273675280034637,
+      "p_value": 2.3241852886712877e-11,
+      "ci_95_low": -27.89754347269386,
+      "ci_95_high": -15.246262762920287,
+      "n": 4914,
       "method": "sa"
     },
     "bjs": {
-      "att": 0.15656556181341186,
-      "se": 1.3791926339416574,
-      "p_value": 0.9096185297321777,
-      "ci_95_low": -2.5466520007122364,
-      "ci_95_high": 2.85978312433906,
-      "n": 4725,
+      "att": -1.060396797944496,
+      "se": 1.3554994975993302,
+      "p_value": 0.4340428204354787,
+      "ci_95_low": -3.717175813239183,
+      "ci_95_high": 1.5963822173501911,
+      "n": 4914,
       "method": "bjs"
     }
   },
   "did_results_311": {
     "twfe": {
-      "att": -10.27111838124901,
-      "se": 1.775609687318204,
-      "p_value": 7.678779168074357e-09,
-      "ci_95_low": -13.752029488581275,
-      "ci_95_high": -6.790207273916747,
-      "n": 5550,
+      "att": -10.261379273843591,
+      "se": 1.7600129803294817,
+      "p_value": 5.841260586336716e-09,
+      "ci_95_low": -13.711684408078801,
+      "ci_95_high": -6.811074139608381,
+      "n": 5772,
       "method": "twfe"
     },
     "cs": {
-      "att": -4.873898511090853,
-      "se": 2.0105265327326167,
-      "p_value": 0.015342571936653338,
-      "ci_95_low": -8.814458105208972,
-      "ci_95_high": -0.9333389169727337,
-      "n": 5550,
+      "att": -4.771951857666143,
+      "se": 2.2195183985689932,
+      "p_value": 0.031555667366164775,
+      "ci_95_low": -9.122127981885388,
+      "ci_95_high": -0.421775733446899,
+      "n": 5772,
       "method": "cs"
     },
     "sa": {
-      "att": -12.847914169948066,
-      "se": 2.8148554539901784,
-      "p_value": 5.011048016978492e-06,
-      "ci_95_low": -18.365030859768815,
-      "ci_95_high": -7.330797480127316,
-      "n": 5550,
+      "att": -12.10290855827579,
+      "se": 2.609653204622392,
+      "p_value": 3.5222936607404165e-06,
+      "ci_95_low": -17.217828839335677,
+      "ci_95_high": -6.9879882772159005,
+      "n": 5772,
       "method": "sa"
     },
     "bjs": {
-      "att": -11.90471889249752,
-      "se": 0.7019909052465987,
+      "att": -11.926260353274838,
+      "se": 0.6453998173037618,
       "p_value": 0.0,
-      "ci_95_low": -13.280621066780853,
-      "ci_95_high": -10.528816718214188,
-      "n": 5550,
+      "ci_95_low": -13.191243995190211,
+      "ci_95_high": -10.661276711359465,
+      "n": 5772,
       "method": "bjs"
     }
   },
   "headline_comparison": {
     "nyc311_headline_bjs_att": {
       "pre_mean_treated": 40.7,
-      "bjs_att": -11.90471889249752,
-      "relative_effect_pct": -29.24992356878997
+      "bjs_att": -11.926260353274838,
+      "relative_effect_pct": -29.302850990847265
     },
     "dohmh_secondary_bjs_att": {
       "pre_mean_treated": 66.56613756613757,
-      "bjs_att": 0.15656556181341186,
-      "relative_effect_pct": 0.23520301393160192
+      "bjs_att": -1.060396797944496,
+      "relative_effect_pct": -1.5929973357563765
     },
-    "sign_agreement_bjs": false,
+    "sign_agreement_bjs": true,
     "magnitude_within_2x_on_relative_scale": false
   },
-  "interpretation": "311 headline BJS ATT is -11.90 complaints per CD-month (\u221229% relative to pre-mean 40.7). DOHMH BJS ATT is +0.157 rat-positive inspections per CD-month (+0.2% relative to DOHMH pre-mean). The two outcomes answer different questions \u2014 311 measures citizen-reported complaint volume, DOHMH measures inspector-confirmed rat presence \u2014 so we do not expect the absolute magnitudes to coincide. What matters is sign agreement on the BJS estimator and order-of-magnitude agreement on the relative-percent scale."
+  "interpretation": "311 headline BJS ATT is -11.90 complaints per CD-month (\u221229% relative to pre-mean 40.7). DOHMH BJS ATT is -1.060 rat-positive inspections per CD-month (-1.6% relative to DOHMH pre-mean). The two outcomes answer different questions \u2014 311 measures citizen-reported complaint volume, DOHMH measures inspector-confirmed rat presence \u2014 so we do not expect the absolute magnitudes to coincide. What matters is sign agreement on the BJS estimator and order-of-magnitude agreement on the relative-percent scale."
 }

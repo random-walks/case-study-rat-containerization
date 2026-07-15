@@ -14,7 +14,7 @@ history (2026-07). A jellycell/uv project: plain-text notebooks under
 committed results under `artifacts/`.
 
 - Stack: Python 3.12, uv (never pip), jellycell, factor-factory, nyc311.
-- Run: `uv sync && uv run jellycell run` (first run refetches ~60 MB of
+- Run: `uv sync`, then `uv run jellycell run notebooks/<nb>.py` in order (first run refetches ~60 MB of
   Socrata CSVs into `data/cache/`, ~10–15 min; needs network).
 - Render/lint/view: `uv run jellycell render|lint|view`.
 

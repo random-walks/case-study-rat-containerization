@@ -2,9 +2,9 @@
   "geography": "community_district",
   "frequency": "ME",
   "n_units": 74,
-  "n_periods": 75,
-  "n_observations": 5550,
-  "total_complaints": 224889,
+  "n_periods": 78,
+  "n_observations": 5772,
+  "total_complaints": 232447,
   "cohort_1_pilot": {
     "treatment_date": "2023-07-01",
     "n_units": 9,
@@ -97,5 +97,5 @@
     ]
   },
   "window_start": "2020-01",
-  "window_end": "2026-03"
+  "window_end": "2026-06"
 }
