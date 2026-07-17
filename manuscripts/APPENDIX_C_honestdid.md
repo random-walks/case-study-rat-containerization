@@ -18,12 +18,12 @@ $$
 In practice, $\hat\delta_t$ for $t < 0$ is not identically zero;
 the pre-period event-study coefficients $\{\hat\delta_t\}_{t<0}$
 carry the empirical signature of the parallel-trends violation.
-The [Rambachan & Roth (2023)](../../MANUSCRIPT.md#ref-rambachanroth2023)
+The [Rambachan & Roth (2023)](../../MANUSCRIPT.md#ref-rambachan2023)
 framework expresses the *bias* in the pooled post-period ATT as a
 function of the (unobservable) counterfactual trend $\delta_t^{CF}$
 at post-period lags, and bounds the bias under a restriction on
-how much $\delta_t^{CF}$ can deviate from the extrapolated pre-
-trend.
+how much $\delta_t^{CF}$ can deviate from the extrapolated
+pre-trend.
 
 The identified set for $\tau$ under restriction $R$ is
 
@@ -73,8 +73,8 @@ $$
 \bar M^* = \frac{|\hat\tau|}{D_\text{pre}}
 $$
 
-In our panel (per-unit event-study spec), $\hat\tau = -2.03$,
-$D_\text{pre} = 19.17$, so $\bar M^* = 0.106$. Reported as
+In our panel (per-unit event-study spec), $\hat\tau = -1.77$,
+$D_\text{pre} = 19.45$, so $\bar M^* = 0.091$. Reported as
 "breakdown at $\bar M = 0.5$" in the paper because we only sweep
 the grid $\{0, 0.5, 1.0, 1.5, 2.0\}$.
 
@@ -83,7 +83,7 @@ the grid $\{0, 0.5, 1.0, 1.5, 2.0\}$.
 The RM family is coarse: it bounds deviation in levels, not
 deviation from a clear trend signal. When the pre-period
 coefficients visibly trend (as ours do, with a fitted slope of
-$+0.48$ complaints per month), the relevant "counterfactual trend"
+$+0.49$ complaints per month), the relevant "counterfactual trend"
 is the *continuation* of that linear trend, not the absolute level.
 
 **Setup.** Fit an OLS line to the pre-period coefficients:
@@ -93,8 +93,8 @@ $$
 $$
 
 The extrapolated counterfactual trend at post-period lag $t \ge 0$
-is $\hat a + \hat b \cdot t$. Define the **maximum absolute pre-
-period residual** as
+is $\hat a + \hat b \cdot t$. Define the **maximum absolute
+pre-period residual** as
 
 $$
 R_\text{pre} = \max_{t < 0} |\hat e_t|
@@ -133,7 +133,7 @@ $$
 \bar M^* = \frac{|\tau_\text{adj}|}{R_\text{pre}}
 $$
 
-In our panel, $\tau_\text{adj} = -22.07$, $R_\text{pre} = 7.97$,
+In our panel, $\tau_\text{adj} = -22.12$, $R_\text{pre} = 8.00$,
 so $\bar M^* = 2.77$. Reported as "breakdown beyond $\bar M = 2.0$"
 because the sweep grid tops out at $2.0$.
 
@@ -166,16 +166,18 @@ identified set is still entirely negative.
 
 This is the concrete operational content of "the HonestDiD bounds
 say the parallel-trends rejection is not fatal." The pre-period
-trend was doing something — but whatever the counterfactual post-
-period trend was, within a reasonable bound on deviation from its
-linear extrapolation, the treatment effect is robustly negative.
+trend was doing something — but whatever the counterfactual
+post-period trend was, within a reasonable bound on deviation
+from its linear extrapolation, the treatment effect is robustly
+negative.
 
 ## C.6 Caveats and limitations of this implementation
 
 1. **Single-number summary of the pooled post-period ATT.** We
    report bounds on the pooled ATT rather than on individual
-   post-period event-study coefficients. The original Rambachan-
-   Roth construction is lag-by-lag; pooled bounds are a summary.
+   post-period event-study coefficients. The original
+   Rambachan-Roth construction is lag-by-lag; pooled bounds are a
+   summary.
 2. **Linear extrapolation assumption.** LT assumes the pre-period
    trend is well-approximated by OLS. In our panel the fit is
    good (R² ≈ 0.6 for the linear OLS on 23 pre-period points),
@@ -196,7 +198,7 @@ linear extrapolation, the treatment effect is robustly negative.
    own event study separately.
 
 The implementation lives in
-[`notebooks/11_honestdid_sensitivity.py`](https://github.com/random-walks/blaise-website/blob/main/packages/python-showcase/showcase-rat-containerization/notebooks/11_honestdid_sensitivity.py)
+[`notebooks/11_honestdid_sensitivity.py`](https://github.com/random-walks/case-study-rat-containerization/blob/main/notebooks/11_honestdid_sensitivity.py)
 and consumes the event-study CSV from `notebooks/04_diagnostics.py`.
 Regeneration is deterministic (same CSV → same bounds) and takes
 under a second on the cached artifacts.

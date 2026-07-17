@@ -135,7 +135,9 @@ inverse-distance weight matrix with 10 km cutoff. Community-district
 centroids derived from the median latitude / longitude of service
 requests attributed to each CD in the raw data. Permutation *p*-value
 from 999 random permutations. LISA cluster labels ("HH", "LL", "HL",
-"LH", "ns") follow the Anselin (1995) convention.
+"LH", "ns") follow the Anselin (1995) convention (Local indicators
+of spatial association—LISA, *Geographical Analysis*, 27(2),
+93–115).
 
 ## 5. Reporting conventions
 

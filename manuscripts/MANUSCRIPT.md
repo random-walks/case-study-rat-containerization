@@ -857,6 +857,10 @@ policy-stakeholder follow-ups specified in §5.4.
 
 ## References
 
+Abadie, A., Athey, S., Imbens, G. W., & Wooldridge, J. M. (2017).
+When should you adjust standard errors for clustering? (NBER Working
+Paper No. 24003). National Bureau of Economic Research.
+
 Abadie, A., Diamond, A., & Hainmueller, J. (2010).
 Synthetic control methods for comparative case studies: Estimating
 the effect of California's tobacco control program. *Journal of the

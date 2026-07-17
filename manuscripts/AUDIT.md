@@ -5,7 +5,7 @@ Bullet-list voice. Not paper voice.
 
 ## What ran cleanly
 
-- All 14 notebooks execute green (`pnpm showcase:run`)
+- All 14 notebooks execute green (`uv run jellycell run notebooks/<nb>.py`, in order)
 - `jellycell render` green; `jellycell lint` reports no violations
 - All four DiD estimators produce consistent negative point estimates
 - 10 figures committed (F1–F10), including SCM (F9) and DOHMH (F10)
@@ -107,10 +107,13 @@ the dependency footprint minimal.
   descriptor-split analysis is a candidate for v2.
 - **Placebo outcome** — the diagnostics-aggressive skill recommends
   rerunning the main spec on an unrelated outcome (e.g., "Noise"
-  complaints). Not implemented; the four robustness probes do the
+  complaints). Not implemented; the five robustness probes do the
   comparable work.
 
 ## Time-budget notes
+
+*These timings describe the original 60-month build; the 2026-07 re-run
+extended the panel to 78 months / 5,772 cells (see the addendum below).*
 
 - Single-session build against cached LEGACY data (2022–2024) + fresh
   2020–2021 Socrata fetch (~5 min over wifi). 5-year panel built

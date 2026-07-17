@@ -14,7 +14,7 @@ For this case study (all paths relative to the repo root):
 1. **Directory contract**: has `notebooks/`, `manuscripts/`, `artifacts/`, `data/`, `jellycell.toml`, `.gitignore` at the repo root. Flag if missing.
 
 2. **Committed tearsheets regenerate byte-identically**: run
-   `cp manuscripts/FINDINGS.md /tmp/before.md && uv run jellycell render && diff -u /tmp/before.md manuscripts/FINDINGS.md`.
+   `cp manuscripts/FINDINGS.md /tmp/before.md && uv run jellycell run notebooks/06_synthesis.py --force && diff -u /tmp/before.md manuscripts/FINDINGS.md`.
    Expected: empty diff. Any difference that isn't a timestamp is a failed invariant.
 
 3. **APA cadence in `MANUSCRIPT.md`** (if present): spot-check for
@@ -66,7 +66,7 @@ Partial:[…]
 
 ### 2. Tearsheet drift
 manuscripts/FINDINGS.md diffs on lines 42-48. Numeric shift from X to Y
-suggests stale artifact. Regenerate with `uv run jellycell render`.
+suggests stale artifact. Regenerate with `uv run jellycell run notebooks/06_synthesis.py --force`.
 
 ### 4. Engine-audit appendix missing
 MANUSCRIPT.md has §§ 1-5 but no Appendix D engine cross-check.

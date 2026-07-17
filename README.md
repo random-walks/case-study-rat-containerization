@@ -52,7 +52,7 @@ local cache.
 case-study-rat-containerization/
 ├── jellycell.toml
 ├── notebooks/
-│   ├── 01_load_and_preprocess.py       ← nyc311.bulk_fetch + build Panel
+│   ├── 01_load_and_preprocess.py       ← nyc311.pipeline.bulk_fetch + build Panel
 │   ├── 02_balance_and_pretrends.py
 │   ├── 03_main_effects.py              ← 4-estimator DiD
 │   ├── 04_diagnostics.py               ← event study + residuals
@@ -74,6 +74,9 @@ case-study-rat-containerization/
 ├── manuscripts/
 │   ├── MANUSCRIPT.md                   ← hand-authored paper
 │   ├── METHODOLOGY.md                  ← hand-authored; identification + pipeline
+│   ├── APPENDIX_A_methods.md           ← hand-authored; methods appendix
+│   ├── APPENDIX_B_data.md              ← hand-authored; data appendix
+│   ├── APPENDIX_C_honestdid.md         ← hand-authored; HonestDiD math
 │   ├── FINDINGS.md                     ← auto-generated, byte-stable
 │   ├── DIAGNOSTICS_CHECKLIST.md        ← auto-generated
 │   ├── AUDIT.md                        ← hand-authored self-critique
