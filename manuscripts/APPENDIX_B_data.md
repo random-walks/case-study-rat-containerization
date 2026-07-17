@@ -179,7 +179,7 @@ precursor).
 **Gitignored**: `data/cache/*.csv` (raw Socrata responses), the
 `.jellycell/cache/` directory (jellycell's manifest store), and
 `site/` (the jellycell-rendered HTML catalogue). The raw CSV cache
-would add ~85 MB to the repo and is trivially reconstructable via
+would add ~60 MB to the repo and is trivially reconstructable via
 the `nyc311.pipeline.bulk_fetch()` call in notebook 01's first cell.
 
 A reader attempting to reproduce the analysis starts from `uv sync`
