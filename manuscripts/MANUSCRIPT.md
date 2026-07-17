@@ -926,8 +926,9 @@ New York City Department of Sanitation [NYC DSNY]. (2023, June 15).
 *Mandatory containerization — lower Manhattan pilot* [Press release].
 
 New York City Department of Sanitation [NYC DSNY]. (2024, October 1).
-*Containerization expansion — commercial and residential corridors,
-16 RCNY Chapter 1, effective November 12, 2024* [Agency policy brief].
+*Containerization expansion — residential buildings with one to nine
+units, 16 RCNY Chapter 1, effective November 12, 2024* [Agency policy
+brief].
 
 Rambachan, A., & Roth, J. (2023).
 An honest approach to parallel trends. *Review of Economic Studies*,
