@@ -1,6 +1,6 @@
 # 10 — Paper tables (consolidated)
 
-> **Tearsheet** for [`notebooks/10_paper_tables.py`](../../notebooks/10_paper_tables.py) · [HTML report](../../site/10_paper_tables.html) · last run `2026-04-20T16:31:27+00:00`
+> **Tearsheet** for [`notebooks/10_paper_tables.py`](../../notebooks/10_paper_tables.py) · [HTML report](../../site/10_paper_tables.html) · last run `2026-07-15T19:14:26+00:00`
 
 Five tables (T1–T5) reconciled from artifacts produced in §01–§08,
 emitted as committed markdown at `artifacts/paper_tables.md` and
@@ -11,7 +11,7 @@ referenced by MANUSCRIPT.md.
 | field | value |
 | --- | --- |
 | `path` | artifacts/paper_tables.md |
-| `n_bytes` | `1779` |
+| `n_bytes` | `2076` |
 
 
 End of the analysis pipeline. See `manuscripts/MANUSCRIPT.md` for the

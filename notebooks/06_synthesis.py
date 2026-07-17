@@ -21,7 +21,7 @@ from pathlib import Path
 import jellycell.api as jc
 
 STABLE_OVERRIDES = {
-    "project": "showcase-rat-containerization",
+    "project": "case-study-rat-containerization",
     "generated_at": "stable",
     "hostname": "showcase-runner",
     "author": "Blaise Albis-Burdige",
@@ -280,7 +280,7 @@ lines = [
     "",
     "| # | Assumption | Status | Evidence |",
     "| :--- | :--- | :--- | :--- |",
-    f"| 1 | **Parallel trends** (flat pre-period leads) | **Violated** | Joint *F* = {dg['pre_trends_F_stat']:.2f}, *p* {_fmt(dg['pre_trends_F_p'])}. Treated CDs climb faster pre-treatment. Rambachan-Roth HonestDiD bounds (§4.6, Appendix C) report the identified set under smoothness restrictions. |",
+    f"| 1 | **Parallel trends** (flat pre-period leads) | **Violated** | Joint *F* = {dg['pre_trends_F_stat']:.2f}, *p* {_fmt(dg['pre_trends_F_p'])}. Treated CDs climb faster pre-treatment. Rambachan-Roth HonestDiD bounds (§4.6, Appendix C) report the identified set under relative-magnitudes (RM) and linear-trend (LT) restrictions. |",
     f"| 2 | **No anticipation** (null placebo at t₀-12mo) | **Check** | Placebo BJS ATT = {rob['placebo_att_bjs']:+.2f}, *p* {_fmt(rob['placebo_p_bjs'])}. |",
     f"| 3 | **Sign agreement across estimators** | **Pass** | All four (TWFE, CS, SA, BJS) agree on negative sign under staggered adoption. |",
     f"| 4 | **Cluster-robust SEs** | **Pass** | SEs clustered on `unit_id` (community district). |",
@@ -288,15 +288,18 @@ lines = [
     f"| 6 | **Log-outcome consistency** | **Partial** | Exp(coef)-1 = {rob['log_outcome_pct_change']:+.1f}%, *p* {_fmt(rob['log_outcome_p'])}. Same sign; magnitude more uncertain. |",
     f"| 7 | **COVID-sample restriction** | **Check** | Post-2022 subsample BJS ATT = {rob['post_covid_att_bjs']:+.2f}, *p* {_fmt(rob['post_covid_p_bjs'])}. |",
     f"| 8 | **Alternative control (MN-only)** | **Consistent** | Sign agreement; wide CI due to small control set. |",
-    f"| 9 | **Residual heteroskedasticity (BP)** | **Violated** | *p* {_fmt(dg['bp_p'])}. Mitigated by cluster-robust SE. |",
-    f"| 10 | **Residual normality** | **Violated** | Count data; we rely on large-sample inference. |",
+    f"| 9 | **Phase-in guard (pre-2025-06 cut)** | **Consistent** | BJS ATT = {rob['phase_in_guard_att_bjs']:+.2f}, *p* {_fmt(rob['phase_in_guard_p_bjs'])}, excluding the DSNY medium/large-building phase-in window. |",
+    f"| 10 | **Residual heteroskedasticity (BP)** | **Violated** | *p* {_fmt(dg['bp_p'])}. Mitigated by cluster-robust SE. |",
+    f"| 11 | **Residual normality** | **Violated** | Count data; we rely on large-sample inference. |",
     "",
     "## Practical takeaway",
     "",
     f"The {abs(h['att']):.1f}-complaint-per-CD-per-month reduction is "
     "robust across all four staggered-robust estimators, holds up under "
-    "four robustness probes, and — under Rambachan-Roth HonestDiD "
-    "bounds — survives the strictest smoothness restriction tested. "
+    "five robustness probes, and — under Rambachan-Roth HonestDiD "
+    "bounds — survives the linear-trend-extrapolation restriction "
+    "through the full tested sweep (M̄ up to 2.0), though the coarser "
+    "relative-magnitudes bound breaks down at M̄ = 0.5. "
     "The parallel-trends violation remains a legitimate concern, but "
     "the bounded-inference analysis puts the true effect at no less "
     "than roughly half the point estimate even under aggressive "

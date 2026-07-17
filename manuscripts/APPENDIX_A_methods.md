@@ -20,7 +20,7 @@ rather than average.
 [Roth, Sant'Anna, Bilinski & Callaway (2023)](../../MANUSCRIPT.md#ref-roth2023)
 synthesize the post-2020 DiD methodological literature and
 recommend reporting multiple heterogeneity-robust estimators for
-exactly this reason. [Baker, Larcker & Wang (2022)](../../MANUSCRIPT.md#ref-bakerlarcker2022)
+exactly this reason. [Baker, Larcker & Wang (2022)](../../MANUSCRIPT.md#ref-baker2022)
 survey empirical finance applications and find that TWFE
 estimates can be sign-flipped relative to the heterogeneity-robust
 triple in up to 25% of published staggered-DiD papers; reporting
@@ -66,7 +66,7 @@ simple aggregation pulls toward later-cohort / short-horizon ATTs,
 which in our panel means it down-weights the pilot (long post-
 window, larger effect accumulates) relative to the citywide cohort
 (short post-window, effect still building). This is why CS's point
-estimate ($-4.87$) is the smallest in magnitude.
+estimate ($-4.77$) is the smallest in magnitude.
 
 ### 3. Sun-Abraham (SA)
 
@@ -79,7 +79,7 @@ using sample-size weights.
 
 **Role**: the *event-study-native* heterogeneity-robust estimator.
 SA is the closest methodological cousin of our figure-2 event study
-plot. Its point estimate ($-12.85$) is on the larger-magnitude side
+plot. Its point estimate ($-12.10$) is on the larger-magnitude side
 of the range because the sample-weighted aggregation gives the
 pilot cohort (9 CDs × 33 post-months) substantial weight despite
 its smaller individual effect.
@@ -94,9 +94,9 @@ average imputation residual as the ATT. Asymptotically efficient
 under cohort homogeneity; still unbiased under heterogeneity.
 
 **Role**: the *efficient* heterogeneity-robust estimator, and our
-headline. BJS's standard error ($0.70$) is 2.5× tighter than CS's
-($2.01$) and 4× tighter than SA's ($2.81$) in our panel, which is
-why we quote BJS's $[-13.28, -10.53]$ CI as the leading number. The
+headline. BJS's standard error ($0.65$) is ~3.4× tighter than CS's
+($2.22$) and ~4× tighter than SA's ($2.61$) in our panel, which is
+why we quote BJS's $[-13.19, -10.66]$ CI as the leading number. The
 efficiency gain comes from pooling the never-treated and
 not-yet-treated counterfactual information rather than using only
 never-treated.
@@ -104,11 +104,11 @@ never-treated.
 ## How the cross-estimator spread should be read
 
 Under cohort homogeneity the four estimators coincide (up to
-efficiency); our observed spread — CS at $-4.87$, TWFE at $-10.27$,
-BJS at $-11.90$, SA at $-12.85$ — therefore **is** the empirical
+efficiency); our observed spread — CS at $-4.77$, TWFE at $-10.26$,
+BJS at $-11.93$, SA at $-12.10$ — therefore **is** the empirical
 signature of cohort heterogeneity. The §4.4 per-cohort
-decomposition isolates the source: pilot ATT is $-5.72$, citywide
-ATT is $-12.22$, and the four pooled estimators weight those two
+decomposition isolates the source: pilot ATT is $-6.60$, citywide
+ATT is $-12.01$, and the four pooled estimators weight those two
 cohorts differently. CS pulls toward the citywide cohort's earlier
 post-window (smaller accumulated effect); BJS and SA pull toward
 the treated-units-weighted average; TWFE pulls somewhere in the
@@ -125,7 +125,7 @@ disservice to the user of this research.
 Four criteria drove the choice:
 
 1. **Efficiency** — BJS has by far the smallest standard error in
-   our panel ($SE = 0.70$), which translates into the tightest
+   our panel ($SE = 0.65$), which translates into the tightest
    confidence interval for the pooled ATT.
 2. **Cohort robustness** — BJS is unbiased under treatment-effect
    heterogeneity, unlike TWFE.
@@ -136,7 +136,7 @@ Four criteria drove the choice:
 4. **Convention** — recent applied DiD papers in the
    post-[Goodman-Bacon (2021)](../../MANUSCRIPT.md#ref-goodmanbacon2021)
    era increasingly report BJS as the primary estimate with the
-   other three as robustness [(Baker et al., 2022)](../../MANUSCRIPT.md#ref-bakerlarcker2022).
+   other three as robustness [(Baker et al., 2022)](../../MANUSCRIPT.md#ref-baker2022).
 
 We note TWFE and CS as robustness checks in the main body and
 report SA in the cross-estimator table but do not lead with any
@@ -150,7 +150,7 @@ the panel's autocorrelation structure: observations within a
 community district across months are highly correlated (persistent
 rat-ecology, persistent DSNY enforcement capacity, persistent
 reporting propensity). Clustering on the treated unit is the
-standard prescription [(Abadie et al., 2017)](../../MANUSCRIPT.md).
+standard prescription (Abadie, Athey, Imbens & Wooldridge, 2017).
 The 74 clusters in our panel comfortably exceed the rule-of-thumb
 40-cluster minimum for cluster-robust asymptotics to be well-
 behaved.

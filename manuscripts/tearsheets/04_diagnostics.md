@@ -1,6 +1,6 @@
 # 04 — Diagnostics
 
-> **Tearsheet** for [`notebooks/04_diagnostics.py`](../../notebooks/04_diagnostics.py) · [HTML report](../../site/04_diagnostics.html) · last run `2026-04-20T16:24:03+00:00`
+> **Tearsheet** for [`notebooks/04_diagnostics.py`](../../notebooks/04_diagnostics.py) · [HTML report](../../site/04_diagnostics.html) · last run `2026-07-15T18:30:45+00:00`
 
 Event-study (leads + lags), pre-trend F-test, TWFE residual
 normality + heteroskedasticity checks. The event study is the
@@ -13,8 +13,8 @@ are the parallel-trends "smell test" on top of the visual in §02.
 | --- | --- |
 | `n_leads` | `23` |
 | `n_lags` | `19` |
-| `pre_trends_F_test.F_stat` | `7.903` |
-| `pre_trends_F_test.p_value` | `4.811e-12` |
+| `pre_trends_F_test.F_stat` | `4.256` |
+| `pre_trends_F_test.p_value` | `1.146e-06` |
 | `pre_trends_F_test.df_num` | `23` |
 | `pre_trends_F_test.df_denom` | `73` |
 | `pre_trends_F_test.interpretation` | reject_flat_pretrends |
@@ -28,22 +28,22 @@ are the parallel-trends "smell test" on top of the visual in §02.
 
 | field | value |
 | --- | --- |
-| `twfe_coef_treatment` | `-15.29` |
-| `twfe_se_treatment` | `7.42` |
-| `twfe_p_treatment` | `0.0393` |
-| `r_squared` | `0.8117` |
-| `n_obs` | `4440` |
-| `breusch_pagan.stat` | `1444` |
-| `breusch_pagan.p_value` | `8.144e-219` |
+| `twfe_coef_treatment` | `-10.26` |
+| `twfe_se_treatment` | `1.772` |
+| `twfe_p_treatment` | `6.986e-09` |
+| `r_squared` | `0.7992` |
+| `n_obs` | `5772` |
+| `breusch_pagan.stat` | `2003` |
+| `breusch_pagan.p_value` | `0` |
 | `breusch_pagan.interpretation` | heteroskedastic |
-| `shapiro_wilk_on_sampled_residuals.stat` | `0.8988` |
-| `shapiro_wilk_on_sampled_residuals.p_value` | `2.635e-47` |
-| `shapiro_wilk_on_sampled_residuals.sample_size` | `4440` |
+| `shapiro_wilk_on_sampled_residuals.stat` | `0.8915` |
+| `shapiro_wilk_on_sampled_residuals.p_value` | `1.355e-50` |
+| `shapiro_wilk_on_sampled_residuals.sample_size` | `5000` |
 | `shapiro_wilk_on_sampled_residuals.interpretation` | non_normal |
-| `residuals_summary.mean` | `-3.616e-14` |
-| `residuals_summary.std` | `35.13` |
-| `residuals_summary.min` | `-170.6` |
-| `residuals_summary.max` | `376.3` |
+| `residuals_summary.mean` | `-3.925e-14` |
+| `residuals_summary.std` | `17.58` |
+| `residuals_summary.min` | `-84.89` |
+| `residuals_summary.max` | `188.3` |
 
 
 ![fig3_residual_qq](../../artifacts/figures/figure-3-residual-diagnostics.png)

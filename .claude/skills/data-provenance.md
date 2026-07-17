@@ -28,7 +28,7 @@ unambiguous in machine- and human-readable form.
   "vintage": "2023 5-year estimates (survey period 2019-2023)",
   "spatial_resolution": "census tract, NYC (5 boroughs)",
   "row_count": 2317,
-  "derivation": "Fetched via nyc311.data.fetch_acs_tables(...) on 2026-04-09. Columns renamed per nyc311.data.acs.CANONICAL_COLUMNS. Merged with 2020 tract boundaries from nyc-geo-toolkit.",
+  "derivation": "Fetched directly from the Census API (see url above) — nyc311 has no ACS-fetching helper. Columns renamed by hand to this repo's convention. Merged with 2020 tract boundaries from nyc-geo-toolkit.",
   "regenerate": "uv run python scripts/refresh_demographics.py",
   "fetched_at": "2026-04-09",
   "checksum_sha256": "<optional — run shasum -a 256 on the file>",
@@ -43,19 +43,19 @@ the regenerate recipe lives in the notebook that fetches:
 
 ```python
 # %% tags=["jc.load", "name=rodent_raw"]
-import pandas as pd
 import jellycell.api as jc
-from nyc311.pipeline import Pipeline
+from nyc311.io import load_service_requests
+from nyc311.pipeline import bulk_fetch
 
-pipe = Pipeline.from_query(
+paths = bulk_fetch(
     complaint_types=("Rodent",),
-    start="2020-01-01",
-    end="2024-12-31",
-    cache_dir="data/cache/",  # content-addressed by query parameters
-)
-raw = pipe.fetch()  # network on first run; cache on subsequent
-jc.save(raw, "artifacts/rodent_raw_summary.json",
-        caption=f"Fetched {len(raw):,} rodent complaints 2020-2024")
+    start_date="2020-01-01",
+    end_date="2024-12-31",
+    cache_dir="data/cache/",  # per-borough CSVs; each gets a .meta.json sidecar
+)  # network on first run; skips boroughs already cached on subsequent runs
+records = [r for p in paths for r in load_service_requests(p)]
+jc.save({"n_records": len(records)}, "artifacts/rodent_raw_summary.json",
+        caption=f"Fetched {len(records):,} rodent complaints 2020-2024")
 ```
 
 ## When the file is *small enough* to vendor (< 5 MB, unlikely to change)

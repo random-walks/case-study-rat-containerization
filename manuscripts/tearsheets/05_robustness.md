@@ -1,43 +1,46 @@
 # 05 — Robustness
 
-> **Tearsheet** for [`notebooks/05_robustness.py`](../../notebooks/05_robustness.py) · [HTML report](../../site/05_robustness.html) · last run `2026-04-20T16:25:15+00:00`
+> **Tearsheet** for [`notebooks/05_robustness.py`](../../notebooks/05_robustness.py) · [HTML report](../../site/05_robustness.html) · last run `2026-07-15T18:30:59+00:00`
 
-Four robustness probes:
+Five robustness probes:
 1. **Placebo treatment date**: shift t_0 earlier by 12 months. Null effect
    is reassuring; a significant "effect" before the real rollout would
    argue for anticipation or shared trend.
 2. **Log-transformed outcome**: OLS on log(complaints+1). Addresses
    right-skewed count heteroskedasticity (§04 diagnostic).
-3. **Sample restriction — drop COVID period**: rerun on 2022-01 → 2024-12
-   only, to check that 2020 lockdown anomalies aren't driving the
+3. **Sample restriction — drop COVID period**: rerun on 2022-01 onward
+   only, to check that 2020 lockdown anomalies are not driving the
    headline.
-4. **Alternative control group — Manhattan-only controls**: run DiD
-   with just the non-pilot Manhattan CDs as controls (cleaner but
-   smaller N).
+4. **Alternative control group — Manhattan-only slice**: run DiD on
+   Manhattan units only, with the true per-cohort onsets (thin control
+   pool after 2024-11 — see MANUSCRIPT §4.5).
+5. **Phase-in guard**: truncate the panel before 2025-06-01 so DSNY's
+   2025–26 medium/large-building phase-ins (which partially treat the
+   control pool) cannot drive the headline.
 
 **Placebo DiD: pretend treatment is 2022-07-01 (12 months early). Null expected.**
 
 | field | value |
 | --- | --- |
-| `twfe.att` | `10.64` |
-| `twfe.se` | `6.383` |
-| `twfe.p_value` | `0.09566` |
-| `twfe.ci_95` | `[-1.8765012225766213, 23.15547558155083]` |
+| `twfe.att` | `9.966` |
+| `twfe.se` | `1.82` |
+| `twfe.p_value` | `4.677e-08` |
+| `twfe.ci_95` | `[6.398591517838993, 13.534101514176]` |
 | `twfe.n` | `3108` |
-| `cs.att` | `-24.42` |
-| `cs.se` | `16.54` |
-| `cs.p_value` | `0.1399` |
-| `cs.ci_95` | `[-56.840947761796365, 8.005050325898942]` |
+| `cs.att` | `-17.27` |
+| `cs.se` | `2.649` |
+| `cs.p_value` | `6.993e-11` |
+| `cs.ci_95` | `[-22.46252448418481, -12.080036721088263]` |
 | `cs.n` | `3108` |
-| `sa.att` | `-24.42` |
-| `sa.se` | `2.619` |
-| `sa.p_value` | `0` |
-| `sa.ci_95` | `[-29.550522030132125, -19.285375405765304]` |
+| `sa.att` | `-17.27` |
+| `sa.se` | `3.251` |
+| `sa.p_value` | `1.077e-07` |
+| `sa.ci_95` | `[-23.642527431975306, -10.90003377329776]` |
 | `sa.n` | `3108` |
-| `bjs.att` | `10.64` |
-| `bjs.se` | `3.266` |
-| `bjs.p_value` | `0.001124` |
-| `bjs.ci_95` | `[4.237624356899378, 17.04135000207475]` |
+| `bjs.att` | `9.966` |
+| `bjs.se` | `0.824` |
+| `bjs.p_value` | `0` |
+| `bjs.ci_95` | `[8.351292551467582, 11.581400480547403]` |
 | `bjs.n` | `3108` |
 
 
@@ -45,12 +48,12 @@ Four robustness probes:
 
 | field | value |
 | --- | --- |
-| `coef_treatment_log` | `-0.07168` |
-| `se` | `0.07296` |
-| `p_value` | `0.3259` |
-| `ci_95` | `[-0.21469167542191198, 0.07132353670367512]` |
-| `r_squared` | `0.9425` |
-| `pct_change_point_est` | `-6.918` |
+| `coef_treatment_log` | `0.1873` |
+| `se` | `0.1203` |
+| `p_value` | `0.1193` |
+| `ci_95` | `[-0.04839810417613544, 0.42303436149532114]` |
+| `r_squared` | `0.9401` |
+| `pct_change_point_est` | `20.6` |
 | `interpretation` | exp(coef) - 1 is the fractional change in expected complaints per CD per month. |
 
 
@@ -58,52 +61,78 @@ Four robustness probes:
 
 | field | value |
 | --- | --- |
-| `twfe.att` | `-23.04` |
-| `twfe.se` | `8.726` |
-| `twfe.p_value` | `0.008324` |
-| `twfe.ci_95` | `[-40.153904380379444, -5.9321295702371195]` |
-| `twfe.n` | `2628` |
-| `cs.att` | `-12.06` |
-| `cs.se` | `7.022` |
-| `cs.p_value` | `0.08591` |
-| `cs.ci_95` | `[-25.82421376594803, 1.703457593108519]` |
-| `cs.n` | `2628` |
-| `sa.att` | `-12.06` |
-| `sa.se` | `3.617` |
-| `sa.p_value` | `0.0008537` |
-| `sa.ci_95` | `[-19.148803159427366, -4.971953013412145]` |
-| `sa.n` | `2628` |
-| `bjs.att` | `-23.04` |
-| `bjs.se` | `2.682` |
+| `twfe.att` | `-14.31` |
+| `twfe.se` | `2.226` |
+| `twfe.p_value` | `1.431e-10` |
+| `twfe.ci_95` | `[-18.67477109252235, -9.947791235982503]` |
+| `twfe.n` | `3942` |
+| `cs.att` | `-4.786` |
+| `cs.se` | `2.221` |
+| `cs.p_value` | `0.03117` |
+| `cs.ci_95` | `[-9.138386321017986, -0.43289858030518413]` |
+| `cs.n` | `3942` |
+| `sa.att` | `-12.12` |
+| `sa.se` | `2.609` |
+| `sa.p_value` | `3.433e-06` |
+| `sa.ci_95` | `[-17.230620604189816, -7.001436311482918]` |
+| `sa.n` | `3942` |
+| `bjs.att` | `-17.43` |
+| `bjs.se` | `0.7074` |
 | `bjs.p_value` | `0` |
-| `bjs.ci_95` | `[-28.299291956051142, -17.78674199456698]` |
-| `bjs.n` | `2628` |
+| `bjs.ci_95` | `[-18.820429457624297, -16.047567050241472]` |
+| `bjs.n` | `3942` |
 
 
-**Control group restricted to non-pilot Manhattan CDs (6 CDs).**
+**Manhattan-only probe (kept for continuity; thin control pool under staggering — see MANUSCRIPT §4.5).**
 
 | field | value |
 | --- | --- |
-| `twfe.att` | `-44.35` |
-| `twfe.se` | `42.22` |
-| `twfe.p_value` | `0.2938` |
-| `twfe.ci_95` | `[-127.22764168841714, 38.525701653143855]` |
-| `twfe.n` | `900` |
-| `cs.att` | `-54.83` |
-| `cs.se` | `25.32` |
-| `cs.p_value` | `0.03037` |
-| `cs.ci_95` | `[-104.4568298744024, -5.197491113251957]` |
-| `cs.n` | `900` |
-| `sa.att` | `-54.83` |
-| `sa.se` | `5.833` |
+| `twfe.att` | `-20.69` |
+| `twfe.se` | `13.02` |
+| `twfe.p_value` | `0.1124` |
+| `twfe.ci_95` | `[-46.24762744759595, 4.864795939080139]` |
+| `twfe.n` | `1170` |
+| `cs.att` | `-25.98` |
+| `cs.se` | `8.595` |
+| `cs.p_value` | `0.002509` |
+| `cs.ci_95` | `[-42.81999393163233, -9.130137301963472]` |
+| `cs.n` | `1170` |
+| `sa.att` | `-19.41` |
+| `sa.se` | `2.289` |
 | `sa.p_value` | `0` |
-| `sa.ci_95` | `[-66.26052056265198, -43.39380042500235]` |
-| `sa.n` | `900` |
-| `bjs.att` | `-44.35` |
-| `bjs.se` | `2.783` |
+| `sa.ci_95` | `[-23.894571747290705, -14.923329487277186]` |
+| `sa.n` | `1170` |
+| `bjs.att` | `-20.2` |
+| `bjs.se` | `1.38` |
 | `bjs.p_value` | `0` |
-| `bjs.ci_95` | `[-49.8049267651008, -38.89701327016891]` |
-| `bjs.n` | `900` |
+| `bjs.ci_95` | `[-22.90638071097396, -17.496890913970812]` |
+| `bjs.n` | `1170` |
+
+
+**Phase-in guard: panel truncated before 2025-06-01 (pre-dates the medium/large-building phase-ins).**
+
+| field | value |
+| --- | --- |
+| `twfe.att` | `-7.979` |
+| `twfe.se` | `2.009` |
+| `twfe.p_value` | `7.258e-05` |
+| `twfe.ci_95` | `[-11.91727804400216, -4.039755673286386]` |
+| `twfe.n` | `4810` |
+| `cs.att` | `-2.841` |
+| `cs.se` | `1.831` |
+| `cs.p_value` | `0.1208` |
+| `cs.ci_95` | `[-6.430207371713675, 0.748156089662392]` |
+| `cs.n` | `4810` |
+| `sa.att` | `-11.46` |
+| `sa.se` | `2.312` |
+| `sa.p_value` | `7.18e-07` |
+| `sa.ci_95` | `[-15.989150246880723, -6.927021046003909]` |
+| `sa.n` | `4810` |
+| `bjs.att` | `-8.838` |
+| `bjs.se` | `0.8411` |
+| `bjs.p_value` | `0` |
+| `bjs.ci_95` | `[-10.48601549198309, -7.18898677650052]` |
+| `bjs.n` | `4810` |
 
 
 **Next:** `06_synthesis.py` — reconcile the above, emit the findings

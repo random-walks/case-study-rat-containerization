@@ -1,4 +1,4 @@
-# Findings — showcase-rat-containerization
+# Findings — case-study-rat-containerization
 
 *July 2026 · v4.0.0*
 

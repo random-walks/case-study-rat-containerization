@@ -1,6 +1,6 @@
 # 08 — Extended robustness
 
-> **Tearsheet** for [`notebooks/08_extended_robustness.py`](../../notebooks/08_extended_robustness.py) · [HTML report](../../site/08_extended_robustness.html) · last run `2026-04-20T16:29:50+00:00`
+> **Tearsheet** for [`notebooks/08_extended_robustness.py`](../../notebooks/08_extended_robustness.py) · [HTML report](../../site/08_extended_robustness.html) · last run `2026-07-15T18:33:29+00:00`
 
 Two probes:
 1. **Minimum detectable effect (MDE)** at α = .05, power = .80 for the
@@ -15,17 +15,17 @@ Two probes:
 
 | field | value |
 | --- | --- |
-| `within_residual_sd` | `35.2` |
-| `n_treated_units` | `9` |
-| `n_control_units` | `65` |
+| `within_residual_sd` | `17.71` |
+| `n_treated_units` | `59` |
+| `n_control_units` | `15` |
 | `alpha` | `0.05` |
 | `power` | `0.8` |
-| `mde_cohens_d` | `0.9964` |
-| `mde_natural_units` | `35.08` |
-| `observed_att_bjs` | `-15.29` |
-| `observed_abs_att_bjs` | `15.29` |
+| `mde_cohens_d` | `0.8101` |
+| `mde_natural_units` | `14.35` |
+| `observed_att_bjs` | `-11.93` |
+| `observed_abs_att_bjs` | `11.93` |
 | `observed_exceeds_mde` | `false` |
-| `interpretation` | At α = .05 and 80% power, the smallest detectable ATT is 35.08 complaints per… |
+| `interpretation` | At α = .05 and 80% power, the smallest detectable ATT is 14.35 complaints per… |
 
 
 **Benjamini-Hochberg correction across the full reported test set.**
@@ -36,7 +36,7 @@ Two probes:
 | `alpha` | `0.05` |
 | `n_tests` | `13` |
 | `results` | `[13 items]` |
-| `n_surviving_bh` | `6` |
+| `n_surviving_bh` | `10` |
 
 
 ![fig5_power_curve](../../artifacts/figures/figure-5-power-curve.png)

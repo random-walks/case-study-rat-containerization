@@ -1,6 +1,6 @@
 # 02 — Balance and parallel trends
 
-> **Tearsheet** for [`notebooks/02_balance_and_pretrends.py`](../../notebooks/02_balance_and_pretrends.py) · [HTML report](../../site/02_balance_and_pretrends.html) · last run `2026-04-20T16:22:18+00:00`
+> **Tearsheet** for [`notebooks/02_balance_and_pretrends.py`](../../notebooks/02_balance_and_pretrends.py) · [HTML report](../../site/02_balance_and_pretrends.html) · last run `2026-07-15T18:30:34+00:00`
 
 Pre-treatment covariate balance (treated vs. control community
 districts) and a parallel-trends visual for the headline monthly
@@ -13,13 +13,13 @@ headline in notebook 03.
 
 | field | value |
 | --- | --- |
-| `group_means` | `[{'group': 'control', 'n_cells': 2730, 'mean_complaints': 78.473, 'sd_complaints': 75.334, 'median_complaints': 64.0}, {'group': 'treated', 'n_cells': 378, 'mean_complaints': 108.619, 'sd_complaints': 82.15, 'median_complaints': 90.0}]` |
-| `welch_t.t_stat` | `6.752` |
-| `welch_t.p_value` | `4.312e-11` |
+| `group_means` | `[{'group': 'control', 'n_cells': 630, 'mean_complaints': 1.617, 'sd_complaints': 4.022, 'median_complaints': 0.0}, {'group': 'treated', 'n_cells': 2478, 'mean_complaints': 51.1, 'sd_complaints': 36.739, 'median_complaints': 41.0}]` |
+| `welch_t.t_stat` | `65.52` |
+| `welch_t.p_value` | `0` |
 | `welch_t.df_welch_approx` | `3106` |
-| `welch_t.cohens_d` | `0.3825` |
-| `welch_t.n_treated_cells` | `378` |
-| `welch_t.n_control_cells` | `2730` |
+| `welch_t.cohens_d` | `1.893` |
+| `welch_t.n_treated_cells` | `2478` |
+| `welch_t.n_control_cells` | `630` |
 
 
 ![fig1_pretrends](../../artifacts/figures/figure-1-pretrends.png)

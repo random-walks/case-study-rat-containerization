@@ -1,6 +1,6 @@
 # 09 — Paper figures (consolidated)
 
-> **Tearsheet** for [`notebooks/09_paper_figures.py`](../../notebooks/09_paper_figures.py) · [HTML report](../../site/09_paper_figures.html) · last run `2026-04-20T16:31:25+00:00`
+> **Tearsheet** for [`notebooks/09_paper_figures.py`](../../notebooks/09_paper_figures.py) · [HTML report](../../site/09_paper_figures.html) · last run `2026-07-15T19:12:36+00:00`
 
 Re-renders the five paper figures (F1–F5) from §02, §04, §07, §08
 plus an additional Figure 6 (treatment-group attribution heatmap) so

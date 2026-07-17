@@ -32,19 +32,19 @@ analysis would give sharper identification; we note the trade-off
 in §5.3 of the main manuscript and flag building-level replication
 (via DOB permit + DOF valuation data) as future work.
 
-## B.2 Time window: 2020-01-01 through 2026-03-31
+## B.2 Time window: 2020-01-01 through 2026-06-30
 
 **Choice of start date.** 2020-01-01 captures roughly three years
 of pre-pilot data (2020-01 through 2023-06), which is the maximum
-reasonable pre-period to balance against the 33-month post-window
+reasonable pre-period to balance against the 36-month post-window
 for the pilot cohort. Going further back (2018–2019) would
 introduce pre-COVID level differences that the CD × month fixed
 effects can absorb but which make the pre-trend visual in Figure 1
 harder to interpret.
 
-**Choice of end date.** 2026-03-31 is the most recent quarter
+**Choice of end date.** 2026-06-30 is the most recent quarter
 available at the time of manuscript finalization. The citywide
-cohort needs as much post-window as we can give it; the 16.5-month
+cohort needs as much post-window as we can give it; the 20-month
 post-window in the current panel is thin but workable. A follow-up
 paper with two more years of data would substantially tighten the
 citywide-cohort CIs.
@@ -64,8 +64,8 @@ notebook 01 pipeline concatenates both slices, deduplicates on
 **Why monthly.** The containerization rule's enforcement is monthly
 (DSNY cites, processes, and follows up on a monthly cycle; the
 compliance KPIs DSNY publishes are monthly aggregates). Monthly
-aggregation also keeps the panel size manageable (5,550 cells) and
-the CD-level monthly complaint mean large enough (30.3 complaints
+aggregation also keeps the panel size manageable (5,772 cells) and
+the CD-level monthly complaint mean large enough (51.1 complaints
 per CD-month averaged across pre-treatment treated units, and
 meaningful variance even in the lowest-volume CDs) to support
 large-sample inference.
@@ -96,10 +96,11 @@ applied to larger building categories but are either outside our
 panel window or partially covered at the margin.
 
 **Never-treated — 15 "irregular" CDs**. Airports (JFK = QN 82,
-LGA = QN 81), parks (Floyd Bennett Field = QN 84, Randall's Island
-= MN 64, Prall's Island = SI 95), cemeteries (Green-Wood = BK 55),
-BoE-only districts (BX 26–28), and Unspecified geocoding-failure
-rows (five per borough). These CDs are irregular by construction —
+LGA = QN 81), parks and islands (Floyd Bennett Field = QN 84,
+Rikers Island, Randall's Island = MN 64, Prall's Island = SI 95),
+cemeteries (Green-Wood = BK 55), BoE-only districts (BX 26–28), and
+Unspecified geocoding-failure rows (one per borough, five total).
+These CDs are irregular by construction —
 the rule is not applicable to non-residential / non-commercial land
 use. Treating them as never-treated is defensible rather than
 arbitrary.
@@ -140,10 +141,10 @@ residents feel the city is responsive and they file more
 complaints, that's a negative bias against finding an effect. We
 discuss this in §5.3 of the main manuscript.
 
-## B.7 The 377,950 → 224,889 sample-size correction
+## B.7 The 377,950 → 232,447 sample-size correction
 
 An earlier draft of this paper reported 377,950 total Rodent
-complaints; this draft reports 224,889. The discrepancy is a cache-
+complaints; this draft reports 232,447. The discrepancy is a cache-
 loading bug that crept into notebook 01 across two iterations:
 
 1. The `bulk_fetch` utility caches Socrata fetches by
@@ -155,7 +156,7 @@ loading bug that crept into notebook 01 across two iterations:
    and concatenated everything, double-counting the overlapping
    2020–2021 period.
 3. The result was a sample size inflated by roughly the
-   2020–2021 contribution — 377,950 observed vs. the true 224,889.
+   2020–2021 contribution — 377,950 observed vs. the true 232,447.
 
 The fix was to purge the stale 2020–2021 cache files (they're
 redundant given the 2020–2024 superset) and to add a deduplication
@@ -181,8 +182,9 @@ precursor).
 would add ~85 MB to the repo and is trivially reconstructable via
 the `nyc311.pipeline.bulk_fetch()` call in notebook 01's first cell.
 
-A reader attempting to reproduce the analysis starts from
-`pnpm showcase:run showcase-rat-containerization`, which runs all
-10 notebooks in order and fetches the underlying data from NYC
-Open Data on first pass (~15 minutes over Socrata) and from the
-local cache on subsequent runs (~30 seconds).
+A reader attempting to reproduce the analysis starts from `uv sync`
+followed by `for nb in notebooks/[0-9]*.py; do uv run jellycell run
+"$nb"; done`, which runs all 14 notebooks in order and fetches the
+underlying data from NYC Open Data on first pass (~10–15 minutes
+over Socrata) and from the local cache on subsequent runs (~30
+seconds).

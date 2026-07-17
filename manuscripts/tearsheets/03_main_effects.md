@@ -1,46 +1,46 @@
 # 03 — Main effects (four-estimator DiD)
 
-> **Tearsheet** for [`notebooks/03_main_effects.py`](../../notebooks/03_main_effects.py) · [HTML report](../../site/03_main_effects.html) · last run `2026-04-20T16:22:54+00:00`
+> **Tearsheet** for [`notebooks/03_main_effects.py`](../../notebooks/03_main_effects.py) · [HTML report](../../site/03_main_effects.html) · last run `2026-07-15T18:30:43+00:00`
 
 Runs TWFE, Callaway-Sant'Anna (CS), Sun-Abraham (SA), and
 Borusyak-Jaravel-Spiess (BJS) on the community-district × month panel.
-Staggered-robust estimators (CS / SA / BJS) should agree with TWFE when
-adoption is a single cohort (which ours is: all nine treated CDs flip
-on 2023-07-01). Cross-estimator sign agreement is the primary
-invariant; magnitude within ±20% across methods is the secondary
-invariant.
+Adoption is STAGGERED (2023-07-01 pilot + 2024-11-12 citywide, built as
+two TreatmentEvents in notebook 01), so TWFE and the robust triple are
+expected to diverge under cohort heterogeneity. Cross-estimator sign
+agreement is the primary invariant; the spread across methods is itself
+diagnostic evidence about heterogeneity, not a bug.
 
-**Four-estimator DiD on NYC rat-containerization pilot (2023-07-01, 9 treated CDs).**
+**Four-estimator staggered DiD on NYC rat containerization (2023 pilot + 2024 citywide cohorts).**
 
 | field | value |
 | --- | --- |
-| `twfe.att` | `-15.29` |
-| `twfe.se` | `7.37` |
-| `twfe.p_value` | `0.03805` |
-| `twfe.ci_95_low` | `-29.74` |
-| `twfe.ci_95_high` | `-0.8432` |
-| `twfe.n` | `4440` |
+| `twfe.att` | `-10.26` |
+| `twfe.se` | `1.76` |
+| `twfe.p_value` | `5.841e-09` |
+| `twfe.ci_95_low` | `-13.71` |
+| `twfe.ci_95_high` | `-6.811` |
+| `twfe.n` | `5772` |
 | `twfe.method` | twfe |
-| `cs.att` | `-12.2` |
-| `cs.se` | `6.979` |
-| `cs.p_value` | `0.08047` |
-| `cs.ci_95_low` | `-25.88` |
-| `cs.ci_95_high` | `1.48` |
-| `cs.n` | `4440` |
+| `cs.att` | `-4.772` |
+| `cs.se` | `2.22` |
+| `cs.p_value` | `0.03156` |
+| `cs.ci_95_low` | `-9.122` |
+| `cs.ci_95_high` | `-0.4218` |
+| `cs.n` | `5772` |
 | `cs.method` | cs |
-| `sa.att` | `-12.2` |
-| `sa.se` | `3.609` |
-| `sa.p_value` | `0.0007244` |
-| `sa.ci_95_low` | `-19.27` |
-| `sa.ci_95_high` | `-5.125` |
-| `sa.n` | `4440` |
+| `sa.att` | `-12.1` |
+| `sa.se` | `2.61` |
+| `sa.p_value` | `3.522e-06` |
+| `sa.ci_95_low` | `-17.22` |
+| `sa.ci_95_high` | `-6.988` |
+| `sa.n` | `5772` |
 | `sa.method` | sa |
-| `bjs.att` | `-15.29` |
-| `bjs.se` | `2.351` |
-| `bjs.p_value` | `7.725e-11` |
-| `bjs.ci_95_low` | `-19.9` |
-| `bjs.ci_95_high` | `-10.69` |
-| `bjs.n` | `4440` |
+| `bjs.att` | `-11.93` |
+| `bjs.se` | `0.6454` |
+| `bjs.p_value` | `0` |
+| `bjs.ci_95_low` | `-13.19` |
+| `bjs.ci_95_high` | `-10.66` |
+| `bjs.n` | `5772` |
 | `bjs.method` | bjs |
 
 
@@ -48,19 +48,19 @@ invariant.
 
 | field | value |
 | --- | --- |
-| `atts.twfe` | `-15.29` |
-| `atts.cs` | `-12.2` |
-| `atts.sa` | `-12.2` |
-| `atts.bjs` | `-15.29` |
+| `atts.twfe` | `-10.26` |
+| `atts.cs` | `-4.772` |
+| `atts.sa` | `-12.1` |
+| `atts.bjs` | `-11.93` |
 | `signs.twfe` | `false` |
 | `signs.cs` | `false` |
 | `signs.sa` | `false` |
 | `signs.bjs` | `false` |
 | `same_sign` | `true` |
 | `spread_pct_vs_twfe.twfe` | `0` |
-| `spread_pct_vs_twfe.cs` | `20.23` |
-| `spread_pct_vs_twfe.sa` | `20.23` |
-| `spread_pct_vs_twfe.bjs` | `5.157e-12` |
+| `spread_pct_vs_twfe.cs` | `53.5` |
+| `spread_pct_vs_twfe.sa` | `-17.95` |
+| `spread_pct_vs_twfe.bjs` | `-16.22` |
 | `invariant_sign_agreement` | `true` |
 | `invariant_magnitude_within_20pct_of_twfe` | `false` |
 

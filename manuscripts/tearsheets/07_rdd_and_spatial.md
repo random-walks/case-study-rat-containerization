@@ -1,6 +1,6 @@
 # 07 — RDD and spatial
 
-> **Tearsheet** for [`notebooks/07_rdd_and_spatial.py`](../../notebooks/07_rdd_and_spatial.py) · [HTML report](../../site/07_rdd_and_spatial.html) · last run `2026-04-20T16:28:59+00:00`
+> **Tearsheet** for [`notebooks/07_rdd_and_spatial.py`](../../notebooks/07_rdd_and_spatial.py) · [HTML report](../../site/07_rdd_and_spatial.html) · last run `2026-07-15T18:31:06+00:00`
 
 Two auxiliary analyses:
 
@@ -23,17 +23,17 @@ Two auxiliary analyses:
 | field | value |
 | --- | --- |
 | `running_variable` | pre_mean_complaint_rate |
-| `cutoff` | `70.29` |
+| `cutoff` | `35.14` |
 | `design` | sharp |
-| `optimal_bandwidth_mserd` | `26.97` |
-| `att_conventional` | `7.609` |
-| `se` | `7.102` |
-| `p_value` | `0.284` |
-| `ci_95_low` | `-6.312` |
-| `ci_95_high` | `21.53` |
+| `optimal_bandwidth_mserd` | `13.45` |
+| `att_conventional` | `1.023` |
+| `se` | `3.501` |
+| `p_value` | `0.7702` |
+| `ci_95_low` | `-5.84` |
+| `ci_95_high` | `7.885` |
 | `n_effective_left` | `17` |
 | `n_effective_right` | `13` |
-| `bandwidth_sensitivity` | `[{'bandwidth_label': 'h/2', 'bandwidth': 13.486729622591511, 'att': 6.475945424374856, 'se': 9.793289510565424, 'p_value': 0.508443310263354}, {'bandwidth_label': 'h', 'bandwidth': 26.973459245183022, 'att': 7.608706961556294, 'se': 7.102363071131863, 'p_value': 0.2840380151483527}, {'bandwidth_label': '2h', 'bandwidth': 53.946918490366045, 'att': 2.5431966374827226, 'se': 6.7722955171491295, 'p_value': 0.7072667235110948}]` |
+| `bandwidth_sensitivity` | `[{'bandwidth_label': 'h/2', 'bandwidth': 6.723147586957819, 'att': -0.011826998352390206, 'se': 5.087929290171935, 'p_value': 0.9981453022733664}, {'bandwidth_label': 'h', 'bandwidth': 13.446295173915638, 'att': 1.0227302394097677, 'se': 3.5013455442373154, 'p_value': 0.7702129604259941}, {'bandwidth_label': '2h', 'bandwidth': 26.892590347831277, 'att': -2.057933531037804, 'se': 3.003522547021435, 'p_value': 0.493234554243024}]` |
 | `caveat` | No policy-assigned running variable exists. This RDD is a discontinuity-based… |
 
 
@@ -41,11 +41,11 @@ Two auxiliary analyses:
 
 | field | value |
 | --- | --- |
-| `morans_I` | `-0.005348` |
-| `expectation_under_null` | `-0.01389` |
-| `permutation_p_value` | `0.5435` |
+| `morans_I` | `-0.01051` |
+| `expectation_under_null` | `-0.0137` |
+| `permutation_p_value` | `0.1922` |
 | `n_permutations` | `999` |
-| `n_units` | `73` |
+| `n_units` | `74` |
 | `distance_cutoff_km` | `10` |
 | `weight_scheme` | inverse_distance_row_standardized |
 | `interpretation` | Moran's *I* measures spatial autocorrelation of the post-minus-pre complaint-… |
@@ -57,10 +57,12 @@ Two auxiliary analyses:
 | --- | --- |
 | `cluster_counts_all.ns` | `70` |
 | `cluster_counts_all.LH` | `2` |
-| `cluster_counts_all.HH` | `1` |
-| `cluster_counts_treated.ns` | `9` |
-| `n_units` | `73` |
-| `n_treated` | `9` |
+| `cluster_counts_all.HL` | `2` |
+| `cluster_counts_treated.ns` | `55` |
+| `cluster_counts_treated.LH` | `2` |
+| `cluster_counts_treated.HL` | `2` |
+| `n_units` | `74` |
+| `n_treated` | `59` |
 
 
 ![fig4_spatial_effect](../../artifacts/figures/figure-4-spatial-clusters.png)

@@ -1,71 +1,81 @@
 # 06 — Synthesis and findings tearsheet
 
-> **Tearsheet** for [`notebooks/06_synthesis.py`](../../notebooks/06_synthesis.py) · [HTML report](../../site/06_synthesis.html) · last run `2026-04-20T16:26:53+00:00`
+> **Tearsheet** for [`notebooks/06_synthesis.py`](../../notebooks/06_synthesis.py) · [HTML report](../../site/06_synthesis.html) · last run `2026-07-17T14:23:51+00:00`
 
 Collates the headline numbers from §03–§05 into a single
 `FINDINGS.md` + `DIAGNOSTICS_CHECKLIST.md`. Uses stable template
 overrides so regen is byte-identical when numbers don't change.
 
+**v2.0**: updated for the two-cohort staggered design (2023 pilot +
+2024 citywide rollout) — cross-estimator commentary no longer claims
+TWFE and BJS coincide "because adoption is a single cohort".
+
 **Reconciled findings payload — input to FINDINGS.md emission.**
 
 | field | value |
 | --- | --- |
-| `meta.project` | showcase-rat-containerization |
+| `meta.project` | case-study-rat-containerization |
 | `meta.generated_at` | stable |
 | `meta.hostname` | showcase-runner |
 | `meta.author` | Blaise Albis-Burdige |
 | `meta.author_url` | https://blaiseab.com |
-| `meta.month_year` | April 2026 |
-| `meta.version` | 2.0.0 |
+| `meta.month_year` | July 2026 |
+| `meta.version` | 4.0.0 |
 | `panel.n_units` | `74` |
-| `panel.n_periods` | `60` |
-| `panel.n_observations` | `4440` |
-| `panel.window` | 2020-01 → 2024-12 |
-| `panel.treated_units` | `[9 items]` |
-| `panel.n_treated` | `9` |
-| `panel.treatment_date` | 2023-07-01 |
-| `panel.total_complaints` | `377950` |
+| `panel.n_periods` | `78` |
+| `panel.n_observations` | `5772` |
+| `panel.window` | 2020-01 → 2026-06 |
+| `panel.cohort_1_pilot.treatment_date` | 2023-07-01 |
+| `panel.cohort_1_pilot.n_units` | `9` |
+| `panel.cohort_1_pilot.units` | `[9 items]` |
+| `panel.cohort_2_citywide.treatment_date` | 2024-11-12 |
+| `panel.cohort_2_citywide.n_units` | `50` |
+| `panel.cohort_2_citywide.units` | `[50 items]` |
+| `panel.never_treated_n` | `15` |
+| `panel.total_complaints` | `232447` |
 | `headline_att.method` | bjs |
-| `headline_att.att` | `-15.29` |
-| `headline_att.se` | `2.351` |
-| `headline_att.p_value` | `7.725e-11` |
-| `headline_att.ci_95_low` | `-19.9` |
-| `headline_att.ci_95_high` | `-10.69` |
-| `headline_att.n` | `4440` |
-| `headline_att.interpretation` | BJS DiD: treated CDs experienced a reduction of 15.3 rodent complaints per co… |
-| `cross_estimator.twfe.att` | `-15.29` |
-| `cross_estimator.twfe.se` | `7.37` |
-| `cross_estimator.twfe.p_value` | `0.03805` |
-| `cross_estimator.cs.att` | `-12.2` |
-| `cross_estimator.cs.se` | `6.979` |
-| `cross_estimator.cs.p_value` | `0.08047` |
-| `cross_estimator.sa.att` | `-12.2` |
-| `cross_estimator.sa.se` | `3.609` |
-| `cross_estimator.sa.p_value` | `0.0007244` |
-| `cross_estimator.bjs.att` | `-15.29` |
-| `cross_estimator.bjs.se` | `2.351` |
-| `cross_estimator.bjs.p_value` | `7.725e-11` |
-| `robustness.placebo_att_bjs` | `10.64` |
-| `robustness.placebo_p_bjs` | `0.001124` |
-| `robustness.log_outcome_coef` | `-0.07168` |
-| `robustness.log_outcome_pct_change` | `-6.918` |
-| `robustness.log_outcome_p` | `0.3259` |
-| `robustness.post_covid_att_bjs` | `-23.04` |
+| `headline_att.att` | `-11.93` |
+| `headline_att.se` | `0.6454` |
+| `headline_att.p_value` | `0` |
+| `headline_att.ci_95_low` | `-13.19` |
+| `headline_att.ci_95_high` | `-10.66` |
+| `headline_att.n` | `5772` |
+| `headline_att.interpretation` | BJS staggered-DiD: across both cohorts (2023 pilot + 2024 citywide rollout), … |
+| `cross_estimator.twfe.att` | `-10.26` |
+| `cross_estimator.twfe.se` | `1.76` |
+| `cross_estimator.twfe.p_value` | `5.841e-09` |
+| `cross_estimator.cs.att` | `-4.772` |
+| `cross_estimator.cs.se` | `2.22` |
+| `cross_estimator.cs.p_value` | `0.03156` |
+| `cross_estimator.sa.att` | `-12.1` |
+| `cross_estimator.sa.se` | `2.61` |
+| `cross_estimator.sa.p_value` | `3.522e-06` |
+| `cross_estimator.bjs.att` | `-11.93` |
+| `cross_estimator.bjs.se` | `0.6454` |
+| `cross_estimator.bjs.p_value` | `0` |
+| `robustness.placebo_att_bjs` | `9.966` |
+| `robustness.placebo_p_bjs` | `0` |
+| `robustness.log_outcome_coef` | `0.1873` |
+| `robustness.log_outcome_pct_change` | `20.6` |
+| `robustness.log_outcome_p` | `0.1193` |
+| `robustness.post_covid_att_bjs` | `-17.43` |
 | `robustness.post_covid_p_bjs` | `0` |
-| `robustness.manhattan_only_att_bjs` | `-44.35` |
+| `robustness.manhattan_only_att_bjs` | `-20.2` |
 | `robustness.manhattan_only_p_bjs` | `0` |
+| `robustness.phase_in_guard_att_bjs` | `-8.838` |
+| `robustness.phase_in_guard_p_bjs` | `0` |
 | `diagnostics.pre_trends_F_reject` | reject_flat_pretrends |
-| `diagnostics.pre_trends_F_stat` | `7.903` |
-| `diagnostics.pre_trends_F_p` | `4.811e-12` |
+| `diagnostics.pre_trends_F_stat` | `4.256` |
+| `diagnostics.pre_trends_F_p` | `1.146e-06` |
 | `diagnostics.bp_heteroskedastic` | heteroskedastic |
-| `diagnostics.bp_p` | `8.144e-219` |
+| `diagnostics.bp_p` | `0` |
 | `diagnostics.shapiro_normal` | non_normal |
-| `diagnostics.r_squared` | `0.8117` |
-| `balance_pretreatment.welch_t` | `6.752` |
-| `balance_pretreatment.welch_p` | `4.312e-11` |
-| `balance_pretreatment.cohens_d` | `0.3825` |
-| `balance_pretreatment.pre_treated_mean` | `108.6` |
-| `balance_pretreatment.pre_control_mean` | `78.47` |
+| `diagnostics.r_squared` | `0.7992` |
+| `balance_pretreatment.welch_t` | `65.52` |
+| `balance_pretreatment.welch_p` | `0` |
+| `balance_pretreatment.cohens_d` | `1.893` |
+| `balance_pretreatment.pre_treated_mean` | `51.1` |
+| `balance_pretreatment.pre_control_mean` | `1.617` |
 
 
 **FINDINGS.md emitted from reconciled payload.**
@@ -73,7 +83,7 @@ overrides so regen is byte-identical when numbers don't change.
 | field | value |
 | --- | --- |
 | `path` | manuscripts/FINDINGS.md |
-| `n_lines` | `59` |
+| `n_lines` | `61` |
 
 
 **Diagnostics checklist emitted.**

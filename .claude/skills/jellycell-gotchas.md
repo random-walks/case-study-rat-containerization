@@ -55,13 +55,13 @@ from IPython.display import Image
 Image("artifacts/figures/figure-3-event-study.png")
 ```
 
-## 3. `pyarrow` missing from default deps ([#12](https://github.com/random-walks/jellycell/issues/12))
+## 3. `pyarrow` missing from default deps ([#13](https://github.com/random-walks/jellycell/issues/13))
 
 **Symptom**: `ImportError: pyarrow is required for parquet support`.
 
 **Workaround**: we pin `pyarrow>=18` in `[project.dependencies]` (not optional). Installed by default.
 
-## 4. `jc.table` on mixed-dtype column crashes ([#13](https://github.com/random-walks/jellycell/issues/13))
+## 4. `jc.table` on mixed-dtype column crashes ([#14](https://github.com/random-walks/jellycell/issues/14))
 
 **Symptom**: `ArrowTypeError: Expected bytes, got a 'float' object` when passing a DataFrame with a column like `["<.001", 0.034, 0.21]`.
 
@@ -103,7 +103,7 @@ Use one `deps=` tag per dependency (nbformat enforces `^[^,]+$` on each tag):
 
 1.4.0 ships a `deps-no-comma` lint rule that catches this automatically.
 
-## 6. Nested `jellycell.toml` override not applied ([#15](https://github.com/random-walks/jellycell/issues/15))
+## 7. Nested `jellycell.toml` override not applied (no upstream issue on file)
 
 **Symptom**: setting `project = "foo"` in a nested `jellycell.toml` doesn't override a parent config's `[tool.jellycell] project`.
 
@@ -144,15 +144,10 @@ Use one `deps=` tag per dependency (nbformat enforces `^[^,]+$` on each tag):
 # # N — Descriptive title
 
 # %% tags=["jc.load", "name=panel"]
-import pandas as pd
 import jellycell.api as jc
 from factor_factory.tidy import Panel
 
-panel = Panel.from_dataframe(
-    pd.read_parquet("data/cache/panel.parquet"),
-    unit_col="tract_id",
-    time_col="year",
-)
+panel = Panel.from_parquet("data/cache/panel.parquet")
 jc.save(panel, "artifacts/panel.parquet", caption="Analysis panel")
 
 # %% tags=["jc.step", "name=twfe_result", "deps=panel"]
@@ -168,9 +163,9 @@ import pandas as pd
 import jellycell.api as jc
 
 summary = pd.DataFrame([
-    (m, r.atte, r.se, r.ci_low, r.ci_high, str(r.pvalue))
-    for m, r in result.items()
+    (r.method, r.att, r.se, r.ci_95[0], r.ci_95[1], str(r.p_value))
+    for r in result
 ], columns=["method", "ATT", "SE", "CI_low", "CI_high", "p"])
-summary["p"] = summary["p"].astype(str)  # #13 workaround
+summary["p"] = summary["p"].astype(str)  # #14 workaround
 jc.table(summary, name="main_results", caption="Four DiD estimators agree on sign; magnitudes within 5%")
 ```

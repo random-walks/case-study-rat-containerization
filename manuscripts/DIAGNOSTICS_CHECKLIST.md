@@ -1,4 +1,4 @@
-# Diagnostics checklist — showcase-rat-containerization
+# Diagnostics checklist — case-study-rat-containerization
 
 *July 2026 · v4.0.0. Auto-generated.*
 
@@ -6,7 +6,7 @@
 
 | # | Assumption | Status | Evidence |
 | :--- | :--- | :--- | :--- |
-| 1 | **Parallel trends** (flat pre-period leads) | **Violated** | Joint *F* = 4.26, *p* &lt; .001. Treated CDs climb faster pre-treatment. Rambachan-Roth HonestDiD bounds (§4.6, Appendix C) report the identified set under smoothness restrictions. |
+| 1 | **Parallel trends** (flat pre-period leads) | **Violated** | Joint *F* = 4.26, *p* &lt; .001. Treated CDs climb faster pre-treatment. Rambachan-Roth HonestDiD bounds (§4.6, Appendix C) report the identified set under relative-magnitudes (RM) and linear-trend (LT) restrictions. |
 | 2 | **No anticipation** (null placebo at t₀-12mo) | **Check** | Placebo BJS ATT = +9.97, *p* &lt; .001. |
 | 3 | **Sign agreement across estimators** | **Pass** | All four (TWFE, CS, SA, BJS) agree on negative sign under staggered adoption. |
 | 4 | **Cluster-robust SEs** | **Pass** | SEs clustered on `unit_id` (community district). |
@@ -14,9 +14,10 @@
 | 6 | **Log-outcome consistency** | **Partial** | Exp(coef)-1 = +20.6%, *p* 0.119. Same sign; magnitude more uncertain. |
 | 7 | **COVID-sample restriction** | **Check** | Post-2022 subsample BJS ATT = -17.43, *p* &lt; .001. |
 | 8 | **Alternative control (MN-only)** | **Consistent** | Sign agreement; wide CI due to small control set. |
-| 9 | **Residual heteroskedasticity (BP)** | **Violated** | *p* &lt; .001. Mitigated by cluster-robust SE. |
-| 10 | **Residual normality** | **Violated** | Count data; we rely on large-sample inference. |
+| 9 | **Phase-in guard (pre-2025-06 cut)** | **Consistent** | BJS ATT = -8.84, *p* &lt; .001, excluding the DSNY medium/large-building phase-in window. |
+| 10 | **Residual heteroskedasticity (BP)** | **Violated** | *p* &lt; .001. Mitigated by cluster-robust SE. |
+| 11 | **Residual normality** | **Violated** | Count data; we rely on large-sample inference. |
 
 ## Practical takeaway
 
-The 11.9-complaint-per-CD-per-month reduction is robust across all four staggered-robust estimators, holds up under four robustness probes, and — under Rambachan-Roth HonestDiD bounds — survives the strictest smoothness restriction tested. The parallel-trends violation remains a legitimate concern, but the bounded-inference analysis puts the true effect at no less than roughly half the point estimate even under aggressive deviation from flat pre-trends. Readers should interpret the pooled ATT as a conservative average of the heterogeneous pilot-vs-citywide effects, not a single homogeneous policy impact.
+The 11.9-complaint-per-CD-per-month reduction is robust across all four staggered-robust estimators, holds up under five robustness probes, and — under Rambachan-Roth HonestDiD bounds — survives the linear-trend-extrapolation restriction through the full tested sweep (M̄ up to 2.0), though the coarser relative-magnitudes bound breaks down at M̄ = 0.5. The parallel-trends violation remains a legitimate concern, but the bounded-inference analysis puts the true effect at no less than roughly half the point estimate even under aggressive deviation from flat pre-trends. Readers should interpret the pooled ATT as a conservative average of the heterogeneous pilot-vs-citywide effects, not a single homogeneous policy impact.

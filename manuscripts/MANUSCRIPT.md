@@ -219,7 +219,7 @@ alongside the raw CSV cache.
 
 **Treatment schedule.** `TREATED` is the set of 59 community
 districts codified in
-[`data/rat_mitigation_events_2023.json`](https://github.com/random-walks/blaise-website/blob/main/packages/python-showcase/showcase-rat-containerization/data/rat_mitigation_events_2023.json).
+[`data/rat_mitigation_events_2023.json`](https://github.com/random-walks/case-study-rat-containerization/blob/main/data/rat_mitigation_events_2023.json).
 Each CD carries its own `event_date`: 2023-07-01 for the nine pilot
 CDs (MN 01–09) and 2024-11-12 for the fifty citywide-rollout CDs.
 15 irregular CDs (airports, parks, cemeteries, Unspecified
@@ -406,8 +406,8 @@ rather than homoskedastic ones. The within-panel $R^2 = .799$.
 ### 4.4 Cohort and borough heterogeneity
 
 The pooled BJS estimate of $-11.93$ averages over two meaningfully
-different cohorts. Table 4.4 reports the per-cohort TWFE fit with
-the shared never-treated pool:
+different cohorts. The table below reports the per-cohort TWFE fit
+with the shared never-treated pool:
 
 | Cohort | $N$ treated CDs | $N$ observations | ATT | $SE$ | 95% CI | $p$ |
 | :--- | ---: | ---: | ---: | ---: | :---: | ---: |
@@ -435,7 +435,7 @@ with the current panel:
    neighborhoods where baseline rat-control infrastructure is
    thinner.
 
-A per-borough TWFE decomposition (Figure 8, right panel) further
+A per-borough TWFE decomposition (Figure 4, right panel) further
 reveals that **Brooklyn absorbs the largest effect** ($\text{ATT} =
 -16.91$, $SE = 3.41$, $p < .001$, $N_{\text{treated}} = 18$ CDs) —
 roughly 40% larger in magnitude than the pooled estimate and
@@ -447,7 +447,7 @@ Staten Island has the smallest $N$ (3 treated CDs); Manhattan, with
 the largest cluster-robust standard error ($SE = 4.31$), carries the
 widest confidence interval.
 
-![Figure 8 — Heterogeneous treatment effects across cohorts (left) and boroughs (right), TWFE, cluster-robust 95% CIs.](../artifacts/figures/figure-8-heterogeneity.png)
+![Figure 4 — Heterogeneous treatment effects across cohorts (left) and boroughs (right), TWFE, cluster-robust 95% CIs.](../artifacts/figures/figure-8-heterogeneity.png)
 
 ### 4.5 Robustness
 
@@ -511,12 +511,12 @@ artifact, and the placebo's reversal is the diagnostic we expect
 given the pre-trend. This is a stronger and more coherent robustness
 picture than the 2023-only version reported.
 
-![Figure 6 — Per-borough decomposition of the post-minus-pre complaint change, treated CDs vs. borough-level control pools.](../artifacts/figures/figure-6-att-by-borough.png)
+![Figure 5 — Per-borough decomposition of the post-minus-pre complaint change, treated CDs vs. borough-level control pools.](../artifacts/figures/figure-6-att-by-borough.png)
 
 ### 4.6 HonestDiD sensitivity bounds
 
 The pre-trend rejection in §4.3 prompts the Rambachan-Roth
-sensitivity analysis described in §3.5. Figure 7 reports the
+sensitivity analysis described in §3.5. Figure 6 reports the
 identified sets under two restriction families.
 
 Under the **linear-trend-extrapolation** family LT-$\bar M$, the
@@ -542,7 +542,7 @@ because the pre-period coefficients visibly trend (rather than
 jitter around zero), making the linear extrapolation the more
 natural reference.
 
-![Figure 7 — HonestDiD (Rambachan-Roth 2023) bounds on the pooled post-period ATT under two identifying restrictions. Breakdown points: RM at M̄ = 0.5, LT past M̄ = 2.0.](../artifacts/figures/figure-7-honestdid.png)
+![Figure 6 — HonestDiD (Rambachan-Roth 2023) bounds on the pooled post-period ATT under two identifying restrictions. Breakdown points: RM at M̄ = 0.5, LT past M̄ = 2.0.](../artifacts/figures/figure-7-honestdid.png)
 
 The HonestDiD analysis does *not* make the parallel-trends violation
 disappear. It tells the reader under what restrictions on the
@@ -564,7 +564,7 @@ which we interpret as evidence that the policy's effect is
 *unit-local* — it operates at the CD level rather than diffusing
 through block-by-block adjacency.
 
-![Figure 4 — Per-CD post-minus-pre complaint change plotted on the NYC community-district boundaries. The diffuse pattern matches the null Moran's I.](../artifacts/figures/figure-4-spatial-clusters.png)
+![Figure 7 — Per-CD post-minus-pre complaint change plotted on the NYC community-district boundaries. The diffuse pattern matches the null Moran's I.](../artifacts/figures/figure-4-spatial-clusters.png)
 
 The sharp RDD on the pre-period complaint rate (cutoff $= 35.1$
 complaints per CD-month) recovers non-significant effects at every
@@ -618,7 +618,7 @@ Abadie et al. (2010) interpret as evidence that
 the post-treatment gap is unlikely to be driven by pre-existing
 differential noise alone.
 
-![Figure 9 — Synthetic control on the 2023 pilot aggregate. Left: treated vs. synthetic trajectories, with vertical line at 2023-07-01 treatment. Middle: gap series with shaded post-period ATT. Right: placebo permutation of the 65-donor pool — the treated ATT sits in the lower tail of the placebo distribution.](../artifacts/figures/figure-9-synthetic-control.png)
+![Figure 8 — Synthetic control on the 2023 pilot aggregate. Left: treated vs. synthetic trajectories, with vertical line at 2023-07-01 treatment. Middle: gap series with shaded post-period ATT. Right: placebo permutation of the 65-donor pool — the treated ATT sits in the lower tail of the placebo distribution.](../artifacts/figures/figure-9-synthetic-control.png)
 
 **Placebo permutation inference.** Following
 Abadie et al. (2010) §V.B, we rotate each of the
@@ -701,7 +701,7 @@ reporting-propensity artifact is therefore *partially* addressed:
 corroborated by the heterogeneity-robust estimators, not by the
 pooled-panel ones. We fold this into the limitations in §5.3.
 
-![Figure 10 — DOHMH rat-positive inspections as a secondary outcome: four-estimator ATTs with cluster-robust 95% CIs, alongside the 311 headline for scale comparison.](../artifacts/figures/figure-10-dohmh-secondary.png)
+![Figure 9 — DOHMH rat-positive inspections as a secondary outcome: four-estimator ATTs with cluster-robust 95% CIs, alongside the 311 headline for scale comparison.](../artifacts/figures/figure-10-dohmh-secondary.png)
 
 ## 5. Discussion
 
@@ -794,13 +794,13 @@ weight.
 7. **Modest unconditional power.** At $\alpha = .05$ and 80% power,
    the minimum detectable effect is roughly 14.35 complaints per
    CD-month (Cohen's *d* $\approx 0.81$), which the observed
-   $|\text{ATT}_{\text{BJS}}| = 11.93$ does not exceed (Figure 5).
+   $|\text{ATT}_{\text{BJS}}| = 11.93$ does not exceed (Figure 10).
    Significance is recovered through cluster-robust standard errors
    that exploit within-CD serial structure rather than through
    unconditional power; a design with more never-treated units would
    tighten this.
 
-![Figure 5 — Power curve for the headline DiD specification (α = .05). The observed |ATT| sits just below the 80%-power minimum detectable effect, so significance rests on cluster-robust inference.](../artifacts/figures/figure-5-power-curve.png)
+![Figure 10 — Power curve for the headline DiD specification (α = .05). The observed |ATT| sits just below the 80%-power minimum detectable effect, so significance rests on cluster-robust inference.](../artifacts/figures/figure-5-power-curve.png)
 
 ### 5.4 Policy reading
 
@@ -890,16 +890,16 @@ Goodman-Bacon, A. (2021).
 Difference-in-differences with variation in treatment timing.
 *Journal of Econometrics*, 225(2), 254–277.
 
+Himsworth, C. G., Jardine, C. M., Parsons, K. L., Feng, A. Y. T., & Patrick, D. M. (2014).
+The characteristics of wild rat (*Rattus* spp.) populations from an
+inner-city neighborhood with a focus on factors critical to the
+understanding of rat-associated zoonoses. *PLoS ONE*, 9(3), e91654.
+
 Himsworth, C. G., Parsons, K. L., Jardine, C., & Patrick, D. M. (2013).
 Rats, cities, people, and pathogens: A systematic review and
 narrative synthesis of literature regarding the ecology of
 rat-associated zoonoses in urban centers. *Vector-Borne and Zoonotic
 Diseases*, 13(6), 349–359.
-
-Himsworth, C. G., Jardine, C. M., Parsons, K. L., Feng, A. Y. T., & Patrick, D. M. (2014).
-The characteristics of wild rat (*Rattus* spp.) populations from an
-inner-city neighborhood with a focus on factors critical to the
-understanding of rat-associated zoonoses. *PLoS ONE*, 9(3), e91654.
 
 Kontokosta, C. E., & Hong, B. (2021).
 Modeling postdisaster urban recovery using 311 service-request data.
