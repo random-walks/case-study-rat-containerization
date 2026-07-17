@@ -106,6 +106,19 @@ Reran and rerendered the study. Numeric shift in the ATT
 Not one commit per regenerated file. If the bump touches 40 files,
 `git add -A` is fine IF you've reviewed the diff.
 
+## After the bump lands — refresh the live post
+
+If the bump changed anything under `manuscripts/` or `artifacts/`, the
+published post at blaiseoss.com is now STALE — it never updates on its
+own. From the workspace root:
+
+```bash
+./scripts/sync-case-study.sh rat    # regenerate + commit the site post
+./scripts/sync-case-study.sh --check    # verify nothing else drifted
+```
+
+Then push this repo and blaise-website (Vercel deploys on push).
+
 ## When to invoke this skill
 
 - User says "bump factor-factory" / "jellycell just released X" / "nyc311 shipped 1.1".

@@ -28,6 +28,10 @@ is GENERATED — never edit it there. To publish a revision:
 2. From the workspace root: `./scripts/sync-case-study.sh rat`
    (two cross-referenced commits: this repo first, then blaise-website).
 
+The live post NEVER updates on its own — until step 2 runs, blaiseoss.com
+serves the previous revision. `./scripts/sync-case-study.sh --check` (from
+the workspace root) reports drift for all three posts.
+
 Write citations as plain APA text — the sync script is the only linker
 (anchors `#ref-lastname<year>`, no hyphen) and validates every anchor.
 Don't hard-wrap hyphenated words across lines (renders with a stray
